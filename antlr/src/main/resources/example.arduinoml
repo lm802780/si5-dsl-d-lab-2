@@ -1,0 +1,19 @@
+description: Ce_notebook_a_pour_vocation_de
+
+selection:
+    source: mydataset
+    split:
+        train is 60
+        test is 20
+        validation is 20
+
+pre_processing:
+    nan int
+
+transformation:
+    reshape train 40, 48
+    normalization train
+
+data_mining:
+validation:
+knowledge:
