@@ -21,7 +21,7 @@ transformation  :    'transformation' ':' reshape* normalization;
         // TODO: implement the array of int.
         // See: https://stackoverflow.com/questions/49586618/antlr4-array-implementation-getting-values-of-elements
         array_int : NUMBER ( ',' NUMBER )*;
-    normalization   :  'normalization' ('train' | 'test' | 'validation');
+    normalization   :  'normalization' type=TYPE;
 
 data_mining       :   'data_mining' ':';
 
@@ -33,9 +33,9 @@ knowledge       :   'knowledge' ':';
  *****************/
 
 PROCESSING  : ('int' | 'str' | 'DROP');
-STRING      :   [a-zA-Z_][a-zA-Z0-9_]* ;
-NUMBER       :   [0-9]+;
 TYPE        : ('train' | 'test' | 'validation');
+STRING      :   [a-zA-Z_][a-zA-Z0-9_]* ;
+NUMBER      :   [0-9]+;
 
 /*************
  ** Helpers **
