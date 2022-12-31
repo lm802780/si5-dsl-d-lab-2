@@ -1,5 +1,7 @@
 description: Ce_notebook_a_pour_vocation_de
 
+framework: pytorch
+
 selection:
     source: mydataset
     split:

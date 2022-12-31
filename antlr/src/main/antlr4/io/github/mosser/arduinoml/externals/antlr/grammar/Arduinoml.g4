@@ -5,9 +5,11 @@ grammar Arduinoml;
  ** Parser rules **
  ******************/
 
-root            :   description selection pre_processing transformation data_mining validation knowledge EOF;
+root            :   description framework? selection pre_processing transformation data_mining validation knowledge EOF;
 
-description     :   'description' ':' detail=STRING;
+description     :   'description' ':' detail=STRING; // TODO: accept spaces
+
+framework     :   'framework' ':' frameworkType=FRAMEWORK;
 
 selection       :   'selection' ':' source split;
     source      :   'source' ':'    sourceId=STRING; // TODO: csv or URL instead of basic STRING
@@ -33,6 +35,7 @@ knowledge       :   'knowledge' ':';
  *****************/
 
 PROCESSING  : ('int' | 'str' | 'DROP');
+FRAMEWORK   : ('pytorch' | 'tensorflow');
 TYPE        : ('train' | 'test' | 'validation');
 STRING      :   [a-zA-Z_][a-zA-Z0-9_]* ;
 NUMBER      :   [0-9]+;
