@@ -1,4 +1,4 @@
-package io.github.d.lab2.kernel.categories.description;
+package io.github.d.lab2.kernel.mandatory;
 
 import io.github.d.lab2.kernel.generator.Visitable;
 import io.github.d.lab2.kernel.generator.Visitor;

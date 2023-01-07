@@ -1,7 +1,7 @@
 import io.github.d.lab2.externals.antlr.ModelBuilder;
 import io.github.d.lab2.externals.antlr.StopErrorListener;
-import io.github.d.lab2.externals.antlr.grammar.ArduinomlLexer;
-import io.github.d.lab2.externals.antlr.grammar.ArduinomlParser;
+import io.github.d.lab2.externals.antlr.grammar.NotebookmlLexer;
+import io.github.d.lab2.externals.antlr.grammar.NotebookmlParser;
 import io.github.d.lab2.kernel.App;
 import io.github.d.lab2.kernel.generator.ToWiring;
 import io.github.d.lab2.kernel.generator.Visitor;
@@ -21,7 +21,7 @@ import java.nio.file.Paths;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        System.out.println("\n\nRunning the ANTLR compiler for ArduinoML");
+        System.out.println("\n\nRunning the ANTLR compiler for Notebookml");
 
         CharStream stream = getCharStream(args);
         App theApp = buildModel(stream);
@@ -38,11 +38,11 @@ public class Main {
     }
 
     private static App buildModel(CharStream stream) {
-        ArduinomlLexer lexer = new ArduinomlLexer(stream);
+        NotebookmlLexer lexer = new NotebookmlLexer(stream);
         lexer.removeErrorListeners();
         lexer.addErrorListener(new StopErrorListener());
 
-        ArduinomlParser parser = new ArduinomlParser(new CommonTokenStream(lexer));
+        NotebookmlParser parser = new NotebookmlParser(new CommonTokenStream(lexer));
         parser.removeErrorListeners();
         parser.addErrorListener(new StopErrorListener());
 

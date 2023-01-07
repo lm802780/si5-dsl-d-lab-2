@@ -2,7 +2,7 @@ package io.github.d.lab2.kernel.generator;
 
 import io.github.d.lab2.kernel.App;
 import io.github.d.lab2.kernel.categories.datamining.DataMining;
-import io.github.d.lab2.kernel.categories.description.Description;
+import io.github.d.lab2.kernel.mandatory.Description;
 import io.github.d.lab2.kernel.categories.knowledge.Knowledge;
 import io.github.d.lab2.kernel.categories.preprocessing.Preprocessing;
 import io.github.d.lab2.kernel.categories.selection.Selection;
