@@ -1,11 +1,20 @@
 package io.github.d.lab2.externals.antlr;
 
-import io.github.d.lab2.externals.antlr.grammar.ArduinomlParser;
-import io.github.d.lab2.externals.antlr.grammar.ArduinomlBaseListener;
+import io.github.d.lab2.externals.antlr.grammar.NotebookmlParser;
+import io.github.d.lab2.externals.antlr.grammar.NotebookmlBaseListener;
 import io.github.d.lab2.kernel.App;
-import io.github.d.lab2.kernel.categories.description.Description;
+import io.github.d.lab2.kernel.categories.selection.Selection;
+import io.github.d.lab2.kernel.categories.selection.Source;
+import io.github.d.lab2.kernel.categories.selection.Split;
+import io.github.d.lab2.kernel.enums.FrameworkEnum;
+import io.github.d.lab2.kernel.enums.TypeEnum;
+import io.github.d.lab2.kernel.mandatory.Description;
+import io.github.d.lab2.kernel.mandatory.Framework;
 
-public class ModelBuilder extends ArduinomlBaseListener {
+import java.util.ArrayList;
+import java.util.List;
+
+public class ModelBuilder extends NotebookmlBaseListener {
 
     /********************
      ** Business Logic **
@@ -31,14 +40,14 @@ public class ModelBuilder extends ArduinomlBaseListener {
      **************************/
 
     @Override
-    public void enterRoot(ArduinomlParser.RootContext ctx) {
+    public void enterRoot(NotebookmlParser.RootContext ctx) {
         built = false;
         theApp = new App();
     }
 
 
     @Override
-    public void enterDescription(ArduinomlParser.DescriptionContext ctx) {
+    public void enterDescription(NotebookmlParser.DescriptionContext ctx) {
         Description description = new Description();
         description.setDetail(ctx.detail.getText());
         theApp.setDescription(description);
@@ -46,7 +55,36 @@ public class ModelBuilder extends ArduinomlBaseListener {
 
 
     @Override
-    public void exitRoot(ArduinomlParser.RootContext ctx) {
+    public void enterFramework(NotebookmlParser.FrameworkContext ctx) {
+        Framework framework = new Framework();
+        framework.setFramework(FrameworkEnum.valueOf(ctx.frameworkType.getText()));
+    }
+
+    @Override
+    public void enterWorkflow(NotebookmlParser.WorkflowContext ctx) {
+    }
+
+    @Override
+    public void enterSelection(NotebookmlParser.SelectionContext ctx) {
+        Selection selection = new Selection();
+        Source source = new Source();
+        source.setSourceId(ctx.source().sourceId.getText());
+        selection.setSource(source);
+
+        List<Split> splits = new ArrayList<>();
+        ctx.split().split_list().forEach(split_listContext -> {
+            Split split = new Split();
+            split.setType(TypeEnum.valueOf(split_listContext.type.getText()));
+            split.setPercentage(Integer.parseInt(split_listContext.percentage.getText()));
+            splits.add(split);
+        });
+        selection.setSplit(splits);
+    }
+
+
+
+    @Override
+    public void exitRoot(NotebookmlParser.RootContext ctx) {
         // Resolving states in transitions
         // TODO: to complete
         this.built = true;

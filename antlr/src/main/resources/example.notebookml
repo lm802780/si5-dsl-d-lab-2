@@ -1,0 +1,11 @@
+description: Ce document est un exemple
+
+framework: PYTORCH
+
+selection:
+    source: mydataset
+    split:
+        TRAIN: 60
+        TEST: 20
+        VALIDATION: 20
+
