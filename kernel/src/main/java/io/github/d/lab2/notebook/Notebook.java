@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -82,18 +83,31 @@ public class Notebook {
         // Create the JSON object.
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode root = JsonNodeFactory.instance.objectNode();
+
+        // Header data
+        root.set("metadata", JsonNodeFactory.instance.objectNode());
+        root.set("nbformat", JsonNodeFactory.instance.numberNode(4));
+        root.set("nbformat_minor", JsonNodeFactory.instance.numberNode(5));
+
+        // Cells
         ArrayNode cellsNode = JsonNodeFactory.instance.arrayNode();
         root.set("cells", cellsNode);
 
         for (Cell cell : cells) {
             ObjectNode cellNode = cellsNode.addObject();
             cellNode.set("cell_type", JsonNodeFactory.instance.textNode(cell.getType().getName()));
+            cellNode.set("metadata", JsonNodeFactory.instance.objectNode());
             cellNode.set("source", JsonNodeFactory.instance.textNode(cell.getContent().toString()));
         }
 
         // Write the notebook in a file.
         try {
-            mapper.writeValue(Files.newOutputStream(Paths.get(filename)), root);
+            mapper.writerWithDefaultPrettyPrinter()
+                    .writeValue(Files.newOutputStream(Paths.get(filename),
+                                    StandardOpenOption.WRITE,
+                                    StandardOpenOption.CREATE,
+                                    StandardOpenOption.TRUNCATE_EXISTING),
+                            root);
         } catch (IOException e) {
             e.printStackTrace();
         }
