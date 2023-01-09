@@ -39,8 +39,10 @@ public class ToWiring extends Visitor<Notebook> {
     public void visit(App app) {
         // Initialize global variables
         context.put("pass", Pass.ONE);
+
         app.getDescription().accept(this);
         app.getSelection().accept(this);
+
         //app.getPreprocessing().accept(this);
         //app.getTransformation().accept(this);
         //app.getDataMining().accept(this);
@@ -63,6 +65,12 @@ public class ToWiring extends Visitor<Notebook> {
 
     @Override
     public void visit(Selection selection) {
+        notebook.addCellCode();
+        notebook.appendCode("import pandas as pd\n");
+        notebook.appendCode("import matplotlib.pyplot as plt\n");
+        notebook.appendCode("import numpy as np\n");
+        notebook.appendCode("from sklearn.model_selection import train_test_split");
+
         notebook.addCellCode("## Selection step");
         if (context.get("pass") == Pass.ONE) {
             notebook.appendCode("# setting\n");
@@ -74,6 +82,12 @@ public class ToWiring extends Visitor<Notebook> {
 
             // TODO: customize the label name (put it in the Selection object).
             notebook.appendCode(String.format("label_colname = '%s'", "label"));
+
+            notebook.addCellCode();
+            notebook.appendCode("data = pd.read_csv(source, encoding='utf_8', parse_dates=True)");
+
+            notebook.addCellCode();
+            notebook.appendCode("data.head()");
         }
     }
 
