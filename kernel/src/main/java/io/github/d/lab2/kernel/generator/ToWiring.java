@@ -122,9 +122,29 @@ public class ToWiring extends Visitor<Notebook> {
 
     @Override
     public void visit(Validation validation) {
-        notebook.addCellCode("## Validation step");
+        notebook.addCellMarkdown();
+        notebook.appendMarkdown("## Validation step");
         if (context.get("pass") == Pass.ONE) {
-            notebook.appendCode(String.format("# Validation: %s", validation.toString()));
+            // TODO: print this code only if "diagram: loss_epoch_evolution".
+            notebook.addCellCode();
+            notebook.appendCode("fig, ax = plt.subplots()");
+            // FIXME: tensorflow version does not use the variable "items".
+            notebook.appendCode("x = np.arange(len(items))\n");
+            notebook.appendCode("ax.plot(x, items)\n");
+            notebook.appendCode("ax.set(xlabel='number of epochs', ylabel='loss', title='Evolution')\n");
+            notebook.appendCode("plt.show()");
+
+            // TODO: print this code only if "diagram: prediction  (\n)    size: 50"
+            notebook.addCellCode();
+            notebook.appendCode("ax = plt.gca()\n");
+            // TODO: parametrized the size from ANTLR.
+            int size = 50;
+            notebook.appendCode(String.format("plt.plot(np.arange(y_train.values[:%d].size), " +
+                    "y_train.values[:%d], '-', label='True data', color='b')%n", size, size));
+            notebook.appendCode(String.format("np.arange(output.detach().numpy()[:%d].size), " +
+                    "output.detach().numpy()[:%d], '--', label='Predictions', color='r')%n", size, size));
+            notebook.appendCode("plt.gcf().autofmt_xdate()");
+            notebook.appendCode("plt.show()");
         }
     }
 
