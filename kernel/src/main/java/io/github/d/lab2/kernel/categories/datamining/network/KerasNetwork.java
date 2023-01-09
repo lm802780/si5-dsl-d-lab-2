@@ -9,12 +9,8 @@ import java.util.List;
 @Getter
 @Setter
 public class KerasNetwork extends Network {
-    private int batchSize;
-    private int epochs;
-
 
     public KerasNetwork(){
         super();
-
     }
 }
