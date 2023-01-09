@@ -47,7 +47,7 @@ public class ModelBuilder extends NotebookmlBaseListener {
     @Override
     public void enterDescription(NotebookmlParser.DescriptionContext ctx) {
         Description description = new Description();
-        description.setDetail(ctx.getText());
+        description.setDetail(ctx.detail.getText());
         theApp.setDescription(description);
     }
 

@@ -28,7 +28,7 @@ workflow: selection preProcessing;
 PROCESSING  : ('int' | 'str' | 'drop');
 FRAMEWORK   : 'PYTORCH' | 'TENSORFLOW';
 TYPE        : 'TRAIN' | 'TEST' | 'VALIDATION';
-STRINGS      :   '#' ~( '\r' | '\n' )*;
+STRINGS      :   'description:' ~( '\r' | '\n' )*;
 NUMBER      :   [0-9]+;
 VALID_CSV      :   [a-zA-Z_/][a-zA-Z0-9/_ ]*'.csv';
 VALID_URL      :   ([A-Za-z]+':')?'/'?('/'?[-_.A-Za-z0-9%]+)+;
