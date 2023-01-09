@@ -134,9 +134,13 @@ public class ToWiring extends AbstractStepVisitor {
         // TODO: print this code only if "diagram: loss_epoch_evolution".
         notebook.addCellCode();
         notebook.appendCode("fig, ax = plt.subplots()");
-        // FIXME: tensorflow version does not use the variable "items".
-        notebook.appendCode("x = np.arange(len(items))\n");
-        notebook.appendCode("ax.plot(x, items)\n");
+        String items = switch (this.framework) {
+            case PYTORCH -> "items";
+            case KERAS -> "history.history['loss']";
+            default -> "";
+        };
+        notebook.appendCode("x = np.arange(len("+items+"))\n");
+        notebook.appendCode("ax.plot(x, "+items+")\n");
         notebook.appendCode("ax.set(xlabel='number of epochs', ylabel='loss', title='Evolution')\n");
         notebook.appendCode("plt.show()");
 

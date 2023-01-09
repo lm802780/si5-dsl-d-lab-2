@@ -34,22 +34,22 @@ public class PyTorchStrategy extends DefaultStrategy {
 
     @Override
     public void visit(LinearLayer linearLayer){
-        notebook.appendCode("    nn.Linear("+linearLayer.getInFeatures()+","+linearLayer.getOutFeatures()+",");
+        notebook.appendCode("    nn.Linear("+linearLayer.getInFeatures()+","+linearLayer.getOutFeatures()+",\n");
     }
     @Override
     public void visit(TanhLayer tanhLayer){
-        notebook.appendCode("    nn.Tanh(),");
+        notebook.appendCode("    nn.Tanh(),\n");
     }
 
     @Override
     public void visit(SoftmaxLayer softmaxLayer){
-        notebook.appendCode("    nn.Softmax(),");
+        notebook.appendCode("    nn.Softmax(),\n");
     }
 
     @Override
     public void visit(Training training){
         notebook.addCellMarkdown();
-        notebook.appendMarkdown("#### Loss/optimizers catalog");
+        notebook.appendMarkdown("#### Loss/optimizers catalog\n");
         notebook.addCellCode();
         String loss = switch (training.getLoss()) {
             case MSE -> "nn.MSELoss";
@@ -62,13 +62,13 @@ public class PyTorchStrategy extends DefaultStrategy {
             default -> throw new IllegalStateException("Unexpected value: " + training.getOptimizer());
         };
         //Hyper parameters
-        notebook.appendCode("selected_loss_function =" + loss);
-        notebook.appendCode("selected_optimizer =" + optimizer);
-        notebook.appendCode("learning_rate = "+training.getLearningRate());
-        notebook.appendCode("nbEpochs = "+training.getEpochs());
-        notebook.appendCode("batch_size = "+training.getBatchSize());
-        notebook.appendCode("criterion = selected_loss_function()");
-        notebook.appendCode("optimizer = selected_optimizer(neuralNetwork.parameters(), lr=learning_rate)");
+        notebook.appendCode("selected_loss_function =" + loss+"\n");
+        notebook.appendCode("selected_optimizer =" + optimizer+"\n");
+        notebook.appendCode("learning_rate = "+training.getLearningRate()+"\n");
+        notebook.appendCode("nbEpochs = "+training.getEpochs()+"\n");
+        notebook.appendCode("batch_size = "+training.getBatchSize()+"\n");
+        notebook.appendCode("criterion = selected_loss_function()\n");
+        notebook.appendCode("optimizer = selected_optimizer(neuralNetwork.parameters(), lr=learning_rate)\n");
 
         notebook.addCellCode();
         notebook.appendCode("""
@@ -76,7 +76,7 @@ public class PyTorchStrategy extends DefaultStrategy {
                 dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=False)
                 items = []
                 """);
-        notebook.addCellCode("# launching iterations");
+        notebook.addCellCode("# launching iterations\n");
         notebook.appendCode("""
                 for epoch in range(nbEpochs):
                     for id_batch, (batch_X_train, batch_y_train) in enumerate(dataloader):

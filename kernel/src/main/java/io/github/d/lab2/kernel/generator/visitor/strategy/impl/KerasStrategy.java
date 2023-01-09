@@ -14,32 +14,32 @@ public class KerasStrategy extends DefaultStrategy {
 
     @Override
     public void visit(Network network){
-        notebook.addCellCode("## define network");
-        notebook.appendCode("def Network(nbIn, nbOut):");
-        notebook.appendCode("  model = Sequential()");
+        notebook.addCellCode("## define network\n");
+        notebook.appendCode("def Network(nbIn, nbOut):\n");
+        notebook.appendCode("  model = Sequential()\n");
         network.getLayers().forEach(layer -> layer.accept(this));
-        notebook.appendCode("  return model");
+        notebook.appendCode("  return model\n");
 
-        notebook.addCellCode("## create network");
-        notebook.appendCode("nbIn = X_train.shape[1]");
-        notebook.appendCode("nbOut = 1");
-        notebook.appendCode("model = Network(nbIn, nbOut)");
-        notebook.appendCode("neuralNetwork.summary()");
+        notebook.addCellCode("## create network\n");
+        notebook.appendCode("nbIn = X_train.shape[1]\n");
+        notebook.appendCode("nbOut = 1\n");
+        notebook.appendCode("model = Network(nbIn, nbOut)\n");
+        notebook.appendCode("neuralNetwork.summary()\n");
     }
 
     @Override
     public void visit(DenseLayer denseLayer){
-        notebook.appendCode("  model.add(Dense(units=" + denseLayer.getUnits() + ", activation='" + denseLayer.getActivation() + "'))");
+        notebook.appendCode("  model.add(Dense(units=" + denseLayer.getUnits() + ", activation='" + denseLayer.getActivation() + "'))\n");
     }
     @Override
     public void visit(DropoutLayer dropoutLayer){
-        notebook.appendCode("  model.add(Dropout(" + dropoutLayer.getRate() + "))");
+        notebook.appendCode("  model.add(Dropout(" + dropoutLayer.getRate() + "))\n");
     }
 
     @Override
     public void visit(Training training){
         notebook.addCellMarkdown();
-        notebook.appendMarkdown("#### Loss/optimizers catalog");
+        notebook.appendMarkdown("#### Loss/optimizers catalog\n");
         notebook.addCellCode();
         String loss = switch (training.getLoss()) {
             case MSE -> "'mse'";
@@ -52,11 +52,11 @@ public class KerasStrategy extends DefaultStrategy {
             default -> throw new IllegalStateException("Unexpected value: " + training.getOptimizer());
         };
         //Hyper parameters
-        notebook.appendCode("selected_loss_function =" + loss);
-        notebook.appendCode("selected_optimizer =" + optimizer);
-        notebook.appendCode("learning_rate = "+training.getLearningRate());
-        notebook.appendCode("nbEpochs = "+training.getEpochs());
-        notebook.appendCode("batch_size = "+training.getBatchSize());
+        notebook.appendCode("selected_loss_function =" + loss+"\n");
+        notebook.appendCode("selected_optimizer =" + optimizer+"\n");
+        notebook.appendCode("learning_rate = "+training.getLearningRate()+"\n");
+        notebook.appendCode("nbEpochs = "+training.getEpochs()+"\n");
+        notebook.appendCode("batch_size = "+training.getBatchSize()+"\n");
 
         notebook.addCellCode();
         notebook.appendCode("""
@@ -71,5 +71,6 @@ public class KerasStrategy extends DefaultStrategy {
                                             epochs=nbEpochs,
                                             verbose=1)""");
     }
+
 
 }
