@@ -1,4 +1,4 @@
-package io.github.d.lab2.kernel.categories.datamining.predict;
+package io.github.d.lab2.kernel.categories.validation.predict;
 
 import io.github.d.lab2.kernel.generator.Visitor;
 import io.github.d.lab2.notebook.Notebook;

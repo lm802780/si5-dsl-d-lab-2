@@ -4,8 +4,10 @@ import io.github.d.lab2.kernel.App;
 import io.github.d.lab2.kernel.categories.datamining.DataMining;
 import io.github.d.lab2.kernel.categories.datamining.network.KerasNetwork;
 import io.github.d.lab2.kernel.categories.datamining.network.PytorchNetwork;
-import io.github.d.lab2.kernel.categories.datamining.predict.KerasPredict;
-import io.github.d.lab2.kernel.categories.datamining.predict.PytorchPredict;
+import io.github.d.lab2.kernel.categories.validation.MSEFunction;
+import io.github.d.lab2.kernel.categories.validation.R2Function;
+import io.github.d.lab2.kernel.categories.validation.predict.KerasPredict;
+import io.github.d.lab2.kernel.categories.validation.predict.PytorchPredict;
 import io.github.d.lab2.kernel.categories.datamining.training.KerasTraining;
 import io.github.d.lab2.kernel.categories.datamining.training.PytorchTraining;
 import io.github.d.lab2.kernel.categories.preprocessing.DropNa;
@@ -60,6 +62,9 @@ public abstract class Visitor<T> {
 
     public abstract void visit(Normalization normalization);
 
+    public abstract void visit(MSEFunction mseFunction);
+
+    public abstract void visit(R2Function r2Function);
 
     /***********************
      ** Helper mechanisms **
