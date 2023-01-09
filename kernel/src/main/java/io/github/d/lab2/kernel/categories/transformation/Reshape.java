@@ -6,12 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
 public class Reshape extends TransformationElement {
     private TypeEnum type;
-    // TODO: how to get an array of integer?
+    private List<Double> reshapeValues;
     @Override
     public void accept(IElementVisitor visitor) {
         visitor.visit(this);

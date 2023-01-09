@@ -134,18 +134,29 @@ public class ModelBuilder extends NotebookmlBaseListener {
         ctx.reshape().forEach(reshapeContext -> {
             Reshape reshape = new Reshape();
             reshape.setType(TypeEnum.valueOf(reshapeContext.type.getText()));
-            //TODO: array int
+            List<Double> doubles = new ArrayList<>();
+            reshapeContext.reshape_values().forEach(reshapeValuesContext -> doubles.add(Double.valueOf(reshapeValuesContext.reshape_value.getText())));
+            reshape.setReshapeValues(doubles);
             elementList.add(reshape);
         });
         ctx.normalization().forEach(normalizationContext -> {
             Normalization normalization = new Normalization();
             EnumMap<TypeEnum, Double> enumMap = new EnumMap<>(TypeEnum.class);
-            normalizationContext.normalization_elem().forEach(normalization_elemContext -> enumMap.put(TypeEnum.valueOf(normalization_elemContext.type.getText()), Double.parseDouble(normalization_elemContext.size.getText())));
+            normalizationContext.normalization_elem().forEach(normalizationElemContext -> enumMap.put(TypeEnum.valueOf(normalizationElemContext.type.getText()), Double.parseDouble(normalizationElemContext.size.getText())));
             normalization.setNormalizationElem(enumMap);
             elementList.add(normalization);
         });
         transformation.setElements(elementList);
         theApp.setTransformation(transformation);
+    }
+
+    /**************************
+     ** data_mining **
+     **************************/
+
+    @Override
+    public void enterData_mining(NotebookmlParser.Data_miningContext ctx) {
+
     }
 
     @Override

@@ -20,8 +20,8 @@ workflow: selection (preProcessing?) transformation data_mining validation;
         nan         :    'nan' (nan_processing=PROCESSING);
 
     transformation  :    'transformation' ':' (reshape|normalization)*;
-            reshape         :   'reshape' type=TYPE array_int;
-                array_int : NUMBER ( ',' NUMBER )*;
+            reshape         :   'reshape' type=TYPE '[' reshape_values* (',' reshape_values)* ']';
+                reshape_values : reshape_value=NUMBER;
             normalization   :  'normalization:' normalization_elem+;
                 normalization_elem: type=TYPE size=NUMBER;
 

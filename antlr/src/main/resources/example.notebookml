@@ -13,7 +13,7 @@ pre_processing:
     nan int
 
 transformation:
-    reshape TRAIN 40, 48
+    reshape TRAIN [40, 48]
     normalization:
         TRAIN 255
         TEST 255
