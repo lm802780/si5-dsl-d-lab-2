@@ -2,33 +2,25 @@ package io.github.d.lab2.kernel.generator;
 
 import io.github.d.lab2.kernel.App;
 import io.github.d.lab2.kernel.categories.datamining.DataMining;
-import io.github.d.lab2.kernel.categories.datamining.network.KerasNetwork;
-import io.github.d.lab2.kernel.categories.datamining.network.PytorchNetwork;
-import io.github.d.lab2.kernel.categories.validation.MSEFunction;
-import io.github.d.lab2.kernel.categories.validation.R2Function;
-import io.github.d.lab2.kernel.categories.validation.predict.KerasPredict;
-import io.github.d.lab2.kernel.categories.validation.predict.PytorchPredict;
-import io.github.d.lab2.kernel.categories.datamining.training.KerasTraining;
-import io.github.d.lab2.kernel.categories.datamining.training.PytorchTraining;
 import io.github.d.lab2.kernel.categories.knowledge.Knowledge;
-import io.github.d.lab2.kernel.categories.preprocessing.DropNa;
 import io.github.d.lab2.kernel.categories.preprocessing.Preprocessing;
-import io.github.d.lab2.kernel.categories.preprocessing.ReplaceBy;
 import io.github.d.lab2.kernel.categories.selection.Selection;
-import io.github.d.lab2.kernel.categories.transformation.Normalization;
-import io.github.d.lab2.kernel.categories.transformation.Reshape;
 import io.github.d.lab2.kernel.categories.transformation.Transformation;
 import io.github.d.lab2.kernel.categories.validation.Validation;
 import io.github.d.lab2.kernel.enums.TypeEnum;
+import io.github.d.lab2.kernel.generator.visitor.AbstractStepVisitor;
+import io.github.d.lab2.kernel.generator.visitor.strategy.impl.DefaultStrategy;
+import io.github.d.lab2.kernel.generator.visitor.strategy.factory.StrategyFactory;
 import io.github.d.lab2.kernel.mandatory.Description;
 import io.github.d.lab2.notebook.Notebook;
 
 /**
  * Quick and dirty visitor to support the generation of Wiring code
  */
-public class ToWiring extends Visitor<Notebook> {
+public class ToWiring extends AbstractStepVisitor<Notebook> {
+
     public ToWiring() {
-        this.notebook = new Notebook();
+        super(new Notebook(), new DefaultStrategy());
     }
 
     private String tab(int number) {
@@ -39,13 +31,13 @@ public class ToWiring extends Visitor<Notebook> {
     public void visit(App app) {
         // Initialize global variables
         context.put("pass", Pass.ONE);
-
+        setFrameworkStrategy(new StrategyFactory().createStrategy("TODO")); // TODO
         app.getDescription().accept(this);
         app.getSelection().accept(this);
 
-        //app.getPreprocessing().accept(this);
-        //app.getTransformation().accept(this);
-        //app.getDataMining().accept(this);
+        app.getPreprocessing().accept(this);
+        app.getTransformation().accept(this);
+        app.getDataMining().accept(this);
         //app.getValidation().accept(this);
         //app.getKnowledge().accept(this);
 
@@ -96,7 +88,7 @@ public class ToWiring extends Visitor<Notebook> {
         notebook.addCellCode("## Preprocessing step");
         if (context.get("pass") == Pass.ONE) {
             preprocessing.getElements().forEach(element -> element.accept(this));
-            notebook.appendCode((String.format("# Preprocessing: %s", preprocessing.toString())));
+            notebook.appendCode("# TODO: Preprocessing");
         }
     }
 
@@ -105,7 +97,7 @@ public class ToWiring extends Visitor<Notebook> {
         notebook.addCellCode("## Transformation step");
         if (context.get("pass") == Pass.ONE) {
             transformation.getElements().forEach(element -> element.accept(this));
-            notebook.appendCode(String.format("# Transformation: %s", transformation.toString()));
+            notebook.appendCode("# TODO: Transformation");
         }
     }
 
@@ -113,7 +105,7 @@ public class ToWiring extends Visitor<Notebook> {
     public void visit(DataMining dataMining) {
         notebook.addCellCode("## Data mining step");
         if (context.get("pass") == Pass.ONE) {
-            notebook.appendCode(String.format("# DataMining: %s", dataMining.toString()));
+            dataMining.getElements().forEach((e) -> e.accept(this));
         }
     }
 
@@ -131,65 +123,5 @@ public class ToWiring extends Visitor<Notebook> {
         if (context.get("pass") == Pass.ONE) {
             notebook.appendCode(String.format("# nKnowledge: %s", knowledge.toString()));
         }
-    }
-
-    @Override
-    public void visit(DropNa dropNa) {
-
-    }
-
-    @Override
-    public void visit(ReplaceBy replaceBy) {
-
-    }
-
-    @Override
-    public void visit(KerasNetwork kerasNetwork) {
-
-    }
-
-    @Override
-    public void visit(PytorchNetwork pytorchNetwork) {
-
-    }
-
-    @Override
-    public void visit(PytorchPredict pytorchPredict) {
-
-    }
-
-    @Override
-    public void visit(KerasPredict kerasPredict) {
-
-    }
-
-    @Override
-    public void visit(PytorchTraining pytorchTraining) {
-
-    }
-
-    @Override
-    public void visit(KerasTraining kerasTraining) {
-
-    }
-
-    @Override
-    public void visit(Reshape reshape) {
-
-    }
-
-    @Override
-    public void visit(Normalization normalization) {
-
-    }
-
-    @Override
-    public void visit(MSEFunction mseFunction) {
-
-    }
-
-    @Override
-    public void visit(R2Function r2Function) {
-
     }
 }

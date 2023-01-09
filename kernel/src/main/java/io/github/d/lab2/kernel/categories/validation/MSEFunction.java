@@ -1,6 +1,6 @@
 package io.github.d.lab2.kernel.categories.validation;
 
-import io.github.d.lab2.kernel.generator.Visitor;
+import io.github.d.lab2.kernel.generator.visitor.AbstractStepVisitor;
 import io.github.d.lab2.notebook.Notebook;
 import lombok.NoArgsConstructor;
 
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 public class MSEFunction extends ValidationElement {
 
     @Override
-    public void accept(Visitor<Notebook> visitor) {
+    public void accept(AbstractStepVisitor<Notebook> visitor) {
         visitor.visit(this);
     }
 }

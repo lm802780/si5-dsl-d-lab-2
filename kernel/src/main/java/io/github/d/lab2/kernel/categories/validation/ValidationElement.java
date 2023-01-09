@@ -1,6 +1,6 @@
 package io.github.d.lab2.kernel.categories.validation;
 
-import io.github.d.lab2.kernel.generator.Visitable;
+import io.github.d.lab2.kernel.generator.visitor.Visitable;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
