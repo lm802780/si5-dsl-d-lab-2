@@ -13,6 +13,7 @@ public class Validation extends Step {
 
     private Predict predict;
 
+    // TODO: use List?
     private ValidationElement validationElement;
 
     public Validation() {
