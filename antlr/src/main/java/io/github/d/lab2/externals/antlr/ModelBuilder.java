@@ -78,6 +78,13 @@ public class ModelBuilder extends NotebookmlBaseListener {
             double percentage = Double.parseDouble(splitContext.percentage.getText());
             splits.put(type, percentage);
         });
+
+        // Assert that all the percentages are equal to 100.
+        if (splits.values().stream().reduce(0.0, Double::sum) != 100) {
+            String message = String.format("The total value of percentages should be equals to 100 (%s).", splits);
+            ExceptionHandler.exit(message);
+        }
+
         selection.setSplit(splits);
         theApp.setSelection(selection);
     }
@@ -85,9 +92,7 @@ public class ModelBuilder extends NotebookmlBaseListener {
     @Override
     public void enterPreProcessing(NotebookmlParser.PreProcessingContext ctx) {
         Preprocessing preprocessing = new Preprocessing();
-        ctx.nan().forEach(nanContext -> {
-            preprocessing.setProcessing(ProcessingEnum.valueOf(nanContext.processing.getText()));
-        });
+        ctx.nan().forEach(nanContext -> preprocessing.setProcessing(ProcessingEnum.valueOf(nanContext.processing.getText())));
         theApp.setPreprocessing(preprocessing);
     }
 
