@@ -25,11 +25,12 @@ data_mining:
             tanh
             linear: in out
             softmax
-    loss: mse
-    optimizers: adam
-    learningRate: 0.003
-    nbEpochs: 100
-    batch_size: 128
+    params:
+        loss: mse
+        optimizers: adam
+        learningRate: 0.003
+        nbEpochs: 100
+        batchSize: 128
 
 validation:
     diagram: loss_epoch_evolution

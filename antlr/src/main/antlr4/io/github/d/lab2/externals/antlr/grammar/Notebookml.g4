@@ -17,7 +17,7 @@ workflow: selection (preProcessing?) transformation data_mining validation;
         split       :   'split' ':'     (split_list)+;
             split_list: type=TYPE 'is' percentage=NUMBER;
     preProcessing   :   'pre_processing' ':' nan;
-        nan         :    'nan' (test=PROCESSING);
+        nan         :    'nan' (nan_processing=PROCESSING);
 
     transformation  :    'transformation' ':' reshape* normalization*;
             reshape         :   'reshape' type=TYPE array_int;
@@ -32,24 +32,28 @@ workflow: selection (preProcessing?) transformation data_mining validation;
                 tanh: 'tanh';
                 softmax: 'softmax';
         params: 'params:' (loss|optimizers|learningRate|nbEpochs|batchSize)+;
-            loss: 'loss' loss_type=STRINGS;
-            optimizers: 'optimizers' optimizers_type=STRINGS;
-            learningRate: 'learningRate' learningRate_nb=NUMBER;
-            nbEpochs: 'nbEpochs' nbEpochs_nb=NUMBER;
-            batchSize: 'batchSize' batchSize_nb=NUMBER;
-    validation       :   'validation' ':' diagram;
-        diagram: 'diagram:' diagram_name=STRINGS diagram_size?;
-            diagram_size: NUMBER;
+            loss: 'loss:' loss_type=LOSS;
+            optimizers: 'optimizers:' optimizers_type=OPTIMIZERS;
+            learningRate: 'learningRate:' learningRate_nb=DOUBLE;
+            nbEpochs: 'nbEpochs:' nbEpochs_nb=NUMBER;
+            batchSize: 'batchSize:' batchSize_nb=NUMBER;
+    validation       :   'validation:' diagram+;
+        diagram: 'diagram:' diagram_name=DIAGRAMS diagram_size?;
+            diagram_size: 'size:' NUMBER;
 
 /*****************
  ** Lexer rules **
  *****************/
 
 PROCESSING  : ('int' | 'str' | 'drop');
+LOSS  : ('mse');
+OPTIMIZERS  : ('adam');
+DIAGRAMS  : ('loss_epoch_evolution'|'prediction');
 FRAMEWORK   : 'PYTORCH' | 'TENSORFLOW';
 TYPE        : 'TRAIN' | 'TEST' | 'VALIDATION';
 STRINGS      :   'description:' ~( '\r' | '\n' )*;
 NUMBER      :   [0-9]+;
+DOUBLE      :   [0-9.]+;
 VALID_CSV      :   [a-zA-Z_/][a-zA-Z0-9/_ ]*'.csv';
 VALID_URL      :   ([A-Za-z]+':')?'/'?('/'?[-_.A-Za-z0-9%]+)+;
 
