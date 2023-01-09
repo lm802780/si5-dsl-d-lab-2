@@ -1,4 +1,4 @@
-package io.github.d.lab2.kernel.categories.datamining.Predict;
+package io.github.d.lab2.kernel.categories.datamining.predict;
 
 import lombok.NoArgsConstructor;
 

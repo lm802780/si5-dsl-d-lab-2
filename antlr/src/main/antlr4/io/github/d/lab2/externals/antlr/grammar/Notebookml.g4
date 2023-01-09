@@ -13,11 +13,11 @@ framework     :   'framework' ':' frameworkType=FRAMEWORK;
 
 workflow: (selection);
     selection       :   'selection' ':' source split;
-        source      :   'source' ':'    sourceId=STRING; // TODO: csv or URL instead of basic STRING
+        source      :   'source' ':'    sourceId=(VALID_CSV|VALID_URL);
         split       :   'split' ':'     (split_list)+;
             split_list: type=TYPE ':' percentage=NUMBER;
 
-    pre_processing       :   'pre_processing' ':' (nan)*;
+    preProcessing       :   'pre_processing' ':' (nan)*;
         nan         :   'nan' processing=PROCESSING;
 
     transformation  :    'transformation' ':' reshape* normalization;
@@ -39,8 +39,11 @@ workflow: (selection);
 PROCESSING  : 'int' | 'str' | 'DROP';
 FRAMEWORK   : 'PYTORCH' | 'TENSORFLOW';
 TYPE        : 'TRAIN' | 'TEST' | 'VALIDATION';
-STRING      :   [a-zA-Z_][a-zA-Z0-9_ ]* ;
+STRING      :   [a-zA-Z_][a-zA-Z0-9_ ]*;
 NUMBER      :   [0-9]+;
+
+VALID_CSV      :   [a-zA-Z_/][a-zA-Z0-9/_ ]*'.csv';
+VALID_URL      :   ([A-Za-z]+':')?'/'?('/'?[-_.A-Za-z0-9%]+)+;
 
 /*************
  ** Helpers **

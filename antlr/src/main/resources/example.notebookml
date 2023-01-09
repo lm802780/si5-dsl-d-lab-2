@@ -3,7 +3,7 @@ description: Ce document est un exemple
 framework: PYTORCH
 
 selection:
-    source: mydataset
+    source: test/mydataset.csv
     split:
         TRAIN: 60
         TEST: 20

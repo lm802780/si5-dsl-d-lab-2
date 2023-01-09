@@ -30,7 +30,7 @@ public class ToWiring extends Visitor<StringBuffer> {
         // Initialize global variables
         context.put("pass", Pass.ONE);
         app.getDescription().accept(this);
-        //app.getSelection().accept(this);
+        app.getSelection().accept(this);
         //app.getPreprocessing().accept(this);
         //app.getTransformation().accept(this);
         //app.getDataMining().accept(this);
