@@ -2,8 +2,7 @@ package io.github.d.lab2.kernel.categories.validation;
 
 import io.github.d.lab2.kernel.categories.Step;
 import io.github.d.lab2.kernel.categories.validation.predict.Predict;
-import io.github.d.lab2.kernel.generator.Visitor;
-import io.github.d.lab2.notebook.Notebook;
+import io.github.d.lab2.kernel.generator.visitor.IStepVisitor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +13,7 @@ public class Validation extends Step {
 
     private Predict predict;
 
+    // TODO: use List?
     private ValidationElement validationElement;
 
     public Validation() {
@@ -21,7 +21,7 @@ public class Validation extends Step {
     }
 
     @Override
-    public void accept(Visitor<Notebook> visitor) {
+    public void accept(IStepVisitor visitor) {
         visitor.visit(this);
     }
 }

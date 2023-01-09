@@ -11,15 +11,35 @@ description     :   detail=STRINGS;
 
 framework     :   'framework' ':' frameworkType=FRAMEWORK;
 
-workflow: selection preProcessing;
+workflow: selection (preProcessing?) transformation data_mining validation;
     selection       :   'selection' ':' source split;
         source      :   'source' ':'    sourceId=(VALID_CSV|VALID_URL);
         split       :   'split' ':'     (split_list)+;
-            split_list: type=TYPE ':' percentage=NUMBER;
+            split_list: type=TYPE 'is' percentage=NUMBER;
     preProcessing   :   'pre_processing' ':' nan;
         nan         :    'nan' (test=PROCESSING);
 
+    transformation  :    'transformation' ':' reshape* normalization*;
+            reshape         :   'reshape' type=TYPE array_int;
+                array_int : NUMBER ( ',' NUMBER )*;
+            normalization   :  'normalization:' normalization_elem+;
+                normalization_elem: type=TYPE size=NUMBER;
 
+    data_mining       :   'data_mining' ':' network params;
+        network: 'network:' sequential+;
+            sequential: 'sequential:' (linear|tanh|softmax)+;
+                linear: 'linear:' 'in' 'out';
+                tanh: 'tanh';
+                softmax: 'softmax';
+        params: 'params:' (loss|optimizers|learningRate|nbEpochs|batchSize)+;
+            loss: 'loss' loss_type=STRINGS;
+            optimizers: 'optimizers' optimizers_type=STRINGS;
+            learningRate: 'learningRate' learningRate_nb=NUMBER;
+            nbEpochs: 'nbEpochs' nbEpochs_nb=NUMBER;
+            batchSize: 'batchSize' batchSize_nb=NUMBER;
+    validation       :   'validation' ':' diagram;
+        diagram: 'diagram:' diagram_name=STRINGS diagram_size?;
+            diagram_size: NUMBER;
 
 /*****************
  ** Lexer rules **

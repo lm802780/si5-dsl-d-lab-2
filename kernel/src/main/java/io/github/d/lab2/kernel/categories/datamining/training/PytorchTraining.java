@@ -1,13 +1,12 @@
 package io.github.d.lab2.kernel.categories.datamining.training;
 
-import io.github.d.lab2.kernel.generator.Visitor;
-import io.github.d.lab2.notebook.Notebook;
+import io.github.d.lab2.kernel.generator.visitor.IElementVisitor;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class PytorchTraining extends Training{
+public class PytorchTraining extends Training {
     @Override
-    public void accept(Visitor<Notebook> visitor) {
+    public void accept(IElementVisitor visitor) {
         visitor.visit(this);
     }
 }

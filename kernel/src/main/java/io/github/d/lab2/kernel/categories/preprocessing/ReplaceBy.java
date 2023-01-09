@@ -1,7 +1,6 @@
 package io.github.d.lab2.kernel.categories.preprocessing;
 
-import io.github.d.lab2.kernel.generator.Visitor;
-import io.github.d.lab2.notebook.Notebook;
+import io.github.d.lab2.kernel.generator.visitor.IElementVisitor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +13,7 @@ public class ReplaceBy extends PreprocessingElement {
     private String value;
 
     @Override
-    public void accept(Visitor<Notebook> visitor) {
+    public void accept(IElementVisitor visitor) {
         visitor.visit(this);
     }
 }

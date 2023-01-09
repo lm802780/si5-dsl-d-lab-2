@@ -1,13 +1,37 @@
-description: C'est un commentaire de test
+description: Ce notebook a pour vocation de
 
 framework: PYTORCH
 
 selection:
-    source: test/mydataset.csv
+    source: mydataset
     split:
-        TRAIN: 60
-        TEST: 20
-        VALIDATION: 20
+        TRAIN is 60
+        TEST is 20
+        VALIDATION is 20
 
 pre_processing:
     nan int
+
+transformation:
+    reshape TRAIN 40, 48
+    normalization:
+        TRAIN 255
+        TEST 255
+
+data_mining:
+    network:
+        sequential:
+            linear: in out
+            tanh
+            linear: in out
+            softmax
+    loss: mse
+    optimizers: adam
+    learningRate: 0.003
+    nbEpochs: 100
+    batch_size: 128
+
+validation:
+    diagram: loss_epoch_evolution
+    diagram: prediction
+        size: 50

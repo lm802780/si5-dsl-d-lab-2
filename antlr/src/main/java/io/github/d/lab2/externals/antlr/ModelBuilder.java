@@ -3,9 +3,11 @@ package io.github.d.lab2.externals.antlr;
 import io.github.d.lab2.externals.antlr.grammar.NotebookmlBaseListener;
 import io.github.d.lab2.externals.antlr.grammar.NotebookmlParser;
 import io.github.d.lab2.kernel.App;
+import io.github.d.lab2.kernel.categories.preprocessing.Preprocessing;
 import io.github.d.lab2.kernel.categories.selection.Selection;
 import io.github.d.lab2.kernel.categories.selection.Source;
 import io.github.d.lab2.kernel.enums.FrameworkEnum;
+import io.github.d.lab2.kernel.enums.ProcessingEnum;
 import io.github.d.lab2.kernel.enums.TypeEnum;
 import io.github.d.lab2.kernel.mandatory.Description;
 import io.github.d.lab2.kernel.mandatory.Framework;
@@ -76,17 +78,22 @@ public class ModelBuilder extends NotebookmlBaseListener {
             double percentage = Double.parseDouble(splitContext.percentage.getText());
             splits.put(type, percentage);
         });
+
+        // Assert that all the percentages are equal to 100.
+        if (splits.values().stream().reduce(0.0, Double::sum) != 100) {
+            String message = String.format("The total value of percentages should be equals to 100 (%s).", splits);
+            ExceptionHandler.exit(message);
+        }
+
         selection.setSplit(splits);
         theApp.setSelection(selection);
     }
 
     @Override
     public void enterPreProcessing(NotebookmlParser.PreProcessingContext ctx) {
-        //Preprocessing preprocessing = new Preprocessing();
-        //ctx.nan().forEach(nanContext -> {
-        //    preprocessing.setProcessing(ProcessingEnum.valueOf(nanContext.processing.getText().toLowerCase()));
-        // });
-        //theApp.setPreprocessing(preprocessing);
+        Preprocessing preprocessing = new Preprocessing();
+        ctx.nan().forEach(nanContext -> preprocessing.setProcessing(ProcessingEnum.valueOf(nanContext.processing.getText())));
+        theApp.setPreprocessing(preprocessing);
     }
 
 

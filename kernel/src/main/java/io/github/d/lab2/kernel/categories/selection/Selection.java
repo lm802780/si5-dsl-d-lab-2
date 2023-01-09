@@ -2,8 +2,7 @@ package io.github.d.lab2.kernel.categories.selection;
 
 import io.github.d.lab2.kernel.categories.Step;
 import io.github.d.lab2.kernel.enums.TypeEnum;
-import io.github.d.lab2.kernel.generator.Visitor;
-import io.github.d.lab2.notebook.Notebook;
+import io.github.d.lab2.kernel.generator.visitor.IStepVisitor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,7 +24,7 @@ public class Selection extends Step {
     }
 
     @Override
-    public void accept(Visitor<Notebook> visitor) {
+    public void accept(IStepVisitor visitor) {
         visitor.visit(this);
     }
 }
