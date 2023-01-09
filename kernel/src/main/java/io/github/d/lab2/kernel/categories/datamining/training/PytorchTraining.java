@@ -1,4 +1,4 @@
-package io.github.d.lab2.kernel.categories.datamining.Training;
+package io.github.d.lab2.kernel.categories.datamining.training;
 
 import lombok.NoArgsConstructor;
 

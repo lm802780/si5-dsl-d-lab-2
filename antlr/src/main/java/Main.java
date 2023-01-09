@@ -5,14 +5,12 @@ import io.github.d.lab2.externals.antlr.grammar.NotebookmlParser;
 import io.github.d.lab2.kernel.App;
 import io.github.d.lab2.kernel.generator.ToWiring;
 import io.github.d.lab2.kernel.generator.Visitor;
+import io.github.d.lab2.notebook.Notebook;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
-import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -56,14 +54,9 @@ public class Main {
     }
 
     private static void exportToCode(App theApp) {
-        Visitor<StringBuffer> codeGenerator = new ToWiring();
+        Visitor<Notebook> codeGenerator = new ToWiring();
         theApp.accept(codeGenerator);
-        System.out.println(codeGenerator.getResult());
-
-        // Copy the code in the clipboard.
-        StringSelection selection = new StringSelection(codeGenerator.getResult().toString());
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        clipboard.setContents(selection, selection);
+        System.out.println("Notebook saved in 'result.ipynb'");
     }
 
 }

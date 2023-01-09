@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 @NoArgsConstructor
 public class Notebook {
@@ -18,20 +18,61 @@ public class Notebook {
     /**
      * Cells of the notebook.
      */
-    private final List<Cell> cells = new ArrayList<>();
+    private final LinkedList<Cell> cells = new LinkedList<>();
+
+    private void append(CellTypeEnum cellTypeEnum, String string) {
+        for (Iterator<Cell> it = cells.descendingIterator(); it.hasNext(); ) {
+            Cell cell = it.next();
+            if (cellTypeEnum == cell.getType()) {
+                cell.getContent().append(string);
+                return;
+            }
+        }
+        throw new CellNotFoundException(cellTypeEnum);
+    }
+
+    private Cell addCell(CellTypeEnum cellTypeEnum) {
+        Cell cell;
+
+        if (CellTypeEnum.CODE == cellTypeEnum) {
+            cell = new Cell(cellTypeEnum, new StringBuilder(128));
+        } else {
+            // For markdown.
+            cell = new Cell(cellTypeEnum, new StringBuilder(64));
+        }
+        cells.add(cell);
+        return cell;
+    }
+
+    public void appendCode(String string) {
+        append(CellTypeEnum.CODE, string);
+    }
+
+    public void appendMarkdown(String string) {
+        append(CellTypeEnum.MARKDOWN, string);
+    }
 
     /**
      * Add a cell code in the notebook.
      */
-    public void addCode(StringBuilder s) {
-        cells.add(new Cell(CellTypeEnum.CODE, s));
+    public Cell addCellCode() {
+        return addCell(CellTypeEnum.CODE);
+    }
+
+    /**
+     * Add a cell code in the notebook. In addition, add just before the cell code a cell markdown to describe the code.
+     */
+    public Cell addCellCode(String description) {
+        addCell(CellTypeEnum.MARKDOWN);
+        appendMarkdown(description);
+        return addCell(CellTypeEnum.CODE);
     }
 
     /**
      * Add a markdown cell in the notebook.
      */
-    public void addMarkdown(StringBuilder s) {
-        cells.add(new Cell(CellTypeEnum.MARKDOWN, s));
+    public Cell addCellMarkdown() {
+        return addCell(CellTypeEnum.MARKDOWN);
     }
 
     /**
@@ -46,7 +87,7 @@ public class Notebook {
 
         for (Cell cell : cells) {
             ObjectNode cellNode = cellsNode.addObject();
-            cellNode.set("cell_type", JsonNodeFactory.instance.textNode(cell.getType()));
+            cellNode.set("cell_type", JsonNodeFactory.instance.textNode(cell.getType().getName()));
             cellNode.set("source", JsonNodeFactory.instance.textNode(cell.getContent().toString()));
         }
 

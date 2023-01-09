@@ -36,10 +36,10 @@ public abstract class Visitor<T> {
 
     protected Map<String, Object> context = new HashMap<>();
 
-    protected T result;
+    protected T notebook;
 
-    public T getResult() {
-        return result;
+    public T getNotebook() {
+        return notebook;
     }
 
 }
