@@ -2,6 +2,18 @@ package io.github.d.lab2.kernel.generator;
 
 import io.github.d.lab2.kernel.App;
 import io.github.d.lab2.kernel.categories.datamining.DataMining;
+import io.github.d.lab2.kernel.categories.datamining.network.KerasNetwork;
+import io.github.d.lab2.kernel.categories.datamining.network.PytorchNetwork;
+import io.github.d.lab2.kernel.categories.validation.MSEFunction;
+import io.github.d.lab2.kernel.categories.validation.R2Function;
+import io.github.d.lab2.kernel.categories.validation.predict.KerasPredict;
+import io.github.d.lab2.kernel.categories.validation.predict.PytorchPredict;
+import io.github.d.lab2.kernel.categories.datamining.training.KerasTraining;
+import io.github.d.lab2.kernel.categories.datamining.training.PytorchTraining;
+import io.github.d.lab2.kernel.categories.preprocessing.DropNa;
+import io.github.d.lab2.kernel.categories.preprocessing.ReplaceBy;
+import io.github.d.lab2.kernel.categories.transformation.Normalization;
+import io.github.d.lab2.kernel.categories.transformation.Reshape;
 import io.github.d.lab2.kernel.mandatory.Description;
 import io.github.d.lab2.kernel.categories.knowledge.Knowledge;
 import io.github.d.lab2.kernel.categories.preprocessing.Preprocessing;
@@ -29,6 +41,30 @@ public abstract class Visitor<T> {
     public abstract void visit(Validation validation);
 
     public abstract void visit(Knowledge knowledge);
+
+    public abstract void visit(DropNa dropNa);
+
+    public abstract void visit(ReplaceBy replaceBy);
+
+    public abstract void visit(KerasNetwork kerasNetwork);
+
+    public abstract void visit(PytorchNetwork pytorchNetwork);
+
+    public abstract void visit(PytorchPredict pytorchPredict);
+
+    public abstract void visit(KerasPredict kerasPredict);
+
+    public abstract void visit(PytorchTraining pytorchTraining);
+
+    public abstract void visit(KerasTraining kerasTraining);
+
+    public abstract void visit(Reshape reshape);
+
+    public abstract void visit(Normalization normalization);
+
+    public abstract void visit(MSEFunction mseFunction);
+
+    public abstract void visit(R2Function r2Function);
 
     /***********************
      ** Helper mechanisms **

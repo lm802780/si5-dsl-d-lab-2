@@ -1,11 +1,11 @@
-package io.github.d.lab2.kernel.categories.preprocessing;
+package io.github.d.lab2.kernel.categories.validation.predict;
 
 import io.github.d.lab2.kernel.generator.Visitor;
 import io.github.d.lab2.notebook.Notebook;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class DropNa extends PreprocessingElement {
+public class KerasPredict extends Predict {
 
     @Override
     public void accept(Visitor<Notebook> visitor) {

@@ -6,16 +6,18 @@ import io.github.d.lab2.notebook.Notebook;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 public class Transformation extends Step {
-    private List<Reshape> reshape;
-    private Normalization normalization;
+    private List<TransformationElement> elements;
+
 
     public Transformation() {
         super("Transformation");
+        elements = new ArrayList<>();
     }
 
     @Override
