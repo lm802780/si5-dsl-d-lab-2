@@ -1,20 +1,18 @@
 package io.github.d.lab2.externals.antlr;
 
-import io.github.d.lab2.externals.antlr.grammar.NotebookmlParser;
 import io.github.d.lab2.externals.antlr.grammar.NotebookmlBaseListener;
+import io.github.d.lab2.externals.antlr.grammar.NotebookmlParser;
 import io.github.d.lab2.kernel.App;
 import io.github.d.lab2.kernel.categories.preprocessing.Preprocessing;
 import io.github.d.lab2.kernel.categories.selection.Selection;
 import io.github.d.lab2.kernel.categories.selection.Source;
-import io.github.d.lab2.kernel.categories.selection.Split;
 import io.github.d.lab2.kernel.enums.FrameworkEnum;
 import io.github.d.lab2.kernel.enums.ProcessingEnum;
 import io.github.d.lab2.kernel.enums.TypeEnum;
 import io.github.d.lab2.kernel.mandatory.Description;
 import io.github.d.lab2.kernel.mandatory.Framework;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.EnumMap;
 
 public class ModelBuilder extends NotebookmlBaseListener {
 
@@ -73,13 +71,12 @@ public class ModelBuilder extends NotebookmlBaseListener {
         source.setSourceId(ctx.source().sourceId.getText());
         selection.setSource(source);
 
-        List<Split> splits = new ArrayList<>();
+        EnumMap<TypeEnum, Double> splits = new EnumMap<>(TypeEnum.class);
 
-        ctx.split().split_list().forEach(split_listContext -> {
-            Split split = new Split();
-            split.setType(TypeEnum.valueOf(split_listContext.type.getText()));
-            split.setPercentage(Integer.parseInt(split_listContext.percentage.getText()));
-            splits.add(split);
+        ctx.split().split_list().forEach(splitContext -> {
+            TypeEnum type = TypeEnum.valueOf(splitContext.type.getText());
+            double percentage = Double.parseDouble(splitContext.percentage.getText());
+            splits.put(type, percentage);
         });
         selection.setSplit(splits);
         theApp.setSelection(selection);
@@ -93,8 +90,6 @@ public class ModelBuilder extends NotebookmlBaseListener {
         });
         theApp.setPreprocessing(preprocessing);
     }
-
-
 
 
     @Override
