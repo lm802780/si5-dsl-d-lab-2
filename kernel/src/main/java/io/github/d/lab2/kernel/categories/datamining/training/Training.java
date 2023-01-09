@@ -9,6 +9,10 @@ import lombok.Setter;
 @Setter
 @Getter
 public abstract class Training extends DataMiningElement {
-    private Optimizer optimizer;
-    private Loss loss;
+    private int batchSize;
+    private int epochs;
+    private double learningRate;
+    private OptimizerEnum optimizer;
+    private LossEnum loss;
+
 }
