@@ -4,10 +4,6 @@ import io.github.d.lab2.kernel.App;
 import io.github.d.lab2.kernel.categories.datamining.DataMining;
 import io.github.d.lab2.kernel.categories.datamining.network.KerasNetwork;
 import io.github.d.lab2.kernel.categories.datamining.network.PytorchNetwork;
-import io.github.d.lab2.kernel.categories.validation.MSEFunction;
-import io.github.d.lab2.kernel.categories.validation.R2Function;
-import io.github.d.lab2.kernel.categories.validation.predict.KerasPredict;
-import io.github.d.lab2.kernel.categories.validation.predict.PytorchPredict;
 import io.github.d.lab2.kernel.categories.datamining.training.KerasTraining;
 import io.github.d.lab2.kernel.categories.datamining.training.PytorchTraining;
 import io.github.d.lab2.kernel.categories.knowledge.Knowledge;
@@ -18,10 +14,16 @@ import io.github.d.lab2.kernel.categories.selection.Selection;
 import io.github.d.lab2.kernel.categories.transformation.Normalization;
 import io.github.d.lab2.kernel.categories.transformation.Reshape;
 import io.github.d.lab2.kernel.categories.transformation.Transformation;
+import io.github.d.lab2.kernel.categories.validation.MSEFunction;
+import io.github.d.lab2.kernel.categories.validation.R2Function;
 import io.github.d.lab2.kernel.categories.validation.Validation;
+import io.github.d.lab2.kernel.categories.validation.predict.KerasPredict;
+import io.github.d.lab2.kernel.categories.validation.predict.PytorchPredict;
 import io.github.d.lab2.kernel.enums.TypeEnum;
 import io.github.d.lab2.kernel.mandatory.Description;
 import io.github.d.lab2.notebook.Notebook;
+
+import java.util.Locale;
 
 /**
  * Quick and dirty visitor to support the generation of Wiring code
@@ -76,7 +78,8 @@ public class ToWiring extends Visitor<Notebook> {
             notebook.appendCode("# setting\n");
             notebook.appendCode(String.format("source = '%s'%n", selection.getSource().getSourceId()));
 
-            notebook.appendCode(String.format("split_train, split_test, split_validation = %.2f, %.2f, %.2f%n",
+            // Locale.US in order to print dot instead of comma for digit decimal.
+            notebook.appendCode(String.format(Locale.US, "split_train, split_test, split_validation = %.2f, %.2f, %.2f%n",
                     selection.getSplit().get(TypeEnum.TRAIN), selection.getSplit().get(TypeEnum.TEST),
                     selection.getSplit().get(TypeEnum.VALIDATION)));
 
