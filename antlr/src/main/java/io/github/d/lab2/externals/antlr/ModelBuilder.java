@@ -6,13 +6,19 @@ import io.github.d.lab2.kernel.App;
 import io.github.d.lab2.kernel.categories.preprocessing.Preprocessing;
 import io.github.d.lab2.kernel.categories.selection.Selection;
 import io.github.d.lab2.kernel.categories.selection.Source;
+import io.github.d.lab2.kernel.categories.transformation.Normalization;
+import io.github.d.lab2.kernel.categories.transformation.Reshape;
+import io.github.d.lab2.kernel.categories.transformation.Transformation;
+import io.github.d.lab2.kernel.categories.transformation.TransformationElement;
 import io.github.d.lab2.kernel.enums.FrameworkEnum;
 import io.github.d.lab2.kernel.enums.ProcessingEnum;
 import io.github.d.lab2.kernel.enums.TypeEnum;
 import io.github.d.lab2.kernel.mandatory.Description;
 import io.github.d.lab2.kernel.mandatory.Framework;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.List;
 
 public class ModelBuilder extends NotebookmlBaseListener {
 
@@ -45,7 +51,9 @@ public class ModelBuilder extends NotebookmlBaseListener {
         theApp = new App();
     }
 
-
+    /**************************
+     ** description **
+     **************************/
     @Override
     public void enterDescription(NotebookmlParser.DescriptionContext ctx) {
         Description description = new Description();
@@ -53,17 +61,28 @@ public class ModelBuilder extends NotebookmlBaseListener {
         theApp.setDescription(description);
     }
 
+    /**************************
+     ** framework **
+     **************************/
 
     @Override
     public void enterFramework(NotebookmlParser.FrameworkContext ctx) {
         Framework framework = new Framework();
         framework.setFramework(FrameworkEnum.valueOf(ctx.frameworkType.getText()));
+        theApp.setFramework(framework);
     }
+
+    /**************************
+     ** workflow **
+     **************************/
 
     @Override
     public void enterWorkflow(NotebookmlParser.WorkflowContext ctx) {
     }
 
+    /**************************
+     ** selection **
+     **************************/
     @Override
     public void enterSelection(NotebookmlParser.SelectionContext ctx) {
         Selection selection = new Selection();
@@ -89,6 +108,10 @@ public class ModelBuilder extends NotebookmlBaseListener {
         theApp.setSelection(selection);
     }
 
+    /**************************
+     ** preProcessing **
+     **************************/
+
     @Override
     public void enterPreProcessing(NotebookmlParser.PreProcessingContext ctx) {
         Preprocessing preprocessing = new Preprocessing();
@@ -96,6 +119,34 @@ public class ModelBuilder extends NotebookmlBaseListener {
         theApp.setPreprocessing(preprocessing);
     }
 
+
+
+    /**************************
+     ** transformation **
+     **************************/
+
+    @Override
+    public void enterTransformation(NotebookmlParser.TransformationContext ctx) {
+        Transformation transformation = new Transformation();
+
+        List<TransformationElement> elementList = new ArrayList<>();
+
+        ctx.reshape().forEach(reshapeContext -> {
+            Reshape reshape = new Reshape();
+            reshape.setType(TypeEnum.valueOf(reshapeContext.type.getText()));
+            //TODO: array int
+            elementList.add(reshape);
+        });
+        ctx.normalization().forEach(normalizationContext -> {
+            Normalization normalization = new Normalization();
+            EnumMap<TypeEnum, Double> enumMap = new EnumMap<>(TypeEnum.class);
+            normalizationContext.normalization_elem().forEach(normalization_elemContext -> enumMap.put(TypeEnum.valueOf(normalization_elemContext.type.getText()), Double.parseDouble(normalization_elemContext.size.getText())));
+            normalization.setNormalizationElem(enumMap);
+            elementList.add(normalization);
+        });
+        transformation.setElements(elementList);
+        theApp.setTransformation(transformation);
+    }
 
     @Override
     public void exitRoot(NotebookmlParser.RootContext ctx) {

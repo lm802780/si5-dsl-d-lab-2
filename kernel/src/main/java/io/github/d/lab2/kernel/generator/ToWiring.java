@@ -35,6 +35,7 @@ public class ToWiring extends AbstractStepVisitor {
         app.getSelection().accept(this);
 
         app.getPreprocessing().accept(this);
+
         //app.getTransformation().accept(this);
         //app.getDataMining().accept(this);
         //app.getValidation().accept(this);
