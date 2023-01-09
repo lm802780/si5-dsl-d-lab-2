@@ -9,6 +9,7 @@ import io.github.d.lab2.kernel.categories.validation.Validation;
 import io.github.d.lab2.kernel.categories.transformation.Transformation;
 import io.github.d.lab2.kernel.generator.Visitable;
 import io.github.d.lab2.kernel.generator.Visitor;
+import io.github.d.lab2.notebook.Notebook;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,7 +26,7 @@ public class App implements Visitable {
     private Knowledge knowledge;
 
     @Override
-    public void accept(Visitor<StringBuffer> visitor) {
+    public void accept(Visitor<Notebook> visitor) {
         visitor.visit(this);
     }
 }

@@ -7,13 +7,11 @@ public class Main {
     public static void main(String[] args) {
         Notebook notebook = new Notebook();
 
-        StringBuilder markdown = new StringBuilder();
-        markdown.append("This is a markdown cell!");
-        notebook.addMarkdown(markdown);
+        notebook.addCellMarkdown();
+        notebook.appendMarkdown("This is a markdown cell!");
 
-        StringBuilder code = new StringBuilder();
-        code.append("print('Hello world!')");
-        notebook.addCode(code);
+        notebook.addCellCode();
+        notebook.appendCode("print('Hello world!')");
 
         notebook.save("myNotebook.ipynb");
     }

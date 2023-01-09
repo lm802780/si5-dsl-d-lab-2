@@ -9,5 +9,5 @@ public enum CellTypeEnum {
     CODE("code"),
     MARKDOWN("markdown");
 
-    private final String type;
+    private final String name;
 }
