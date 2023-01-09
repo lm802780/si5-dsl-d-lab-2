@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -18,6 +19,7 @@ public class DataMining extends Step {
 
     public DataMining() {
         super("Data Mining");
+        elements = new ArrayList<>();
     }
 
     @Override

@@ -16,8 +16,7 @@ public class Selection extends Step {
     private Source source;
     private Map<TypeEnum, Double> split;
 
-    // See https://datascience.stackexchange.com/questions/15135/train-test-validation-set-splitting-in-sklearn for calculation of percentage
-    public Selection() {
+    public Selection(){
         super("Selection");
         this.split = new EnumMap<>(TypeEnum.class);
         split.put(TypeEnum.TRAIN, 0.0);
