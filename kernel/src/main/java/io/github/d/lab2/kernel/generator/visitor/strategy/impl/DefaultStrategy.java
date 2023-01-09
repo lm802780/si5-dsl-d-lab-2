@@ -1,9 +1,12 @@
 package io.github.d.lab2.kernel.generator.visitor.strategy.impl;
 
-import io.github.d.lab2.kernel.categories.datamining.network.KerasNetwork;
-import io.github.d.lab2.kernel.categories.datamining.network.PytorchNetwork;
-import io.github.d.lab2.kernel.categories.datamining.training.KerasTraining;
-import io.github.d.lab2.kernel.categories.datamining.training.PytorchTraining;
+import io.github.d.lab2.kernel.categories.datamining.network.Network;
+import io.github.d.lab2.kernel.categories.datamining.network.layer.keras.DenseLayer;
+import io.github.d.lab2.kernel.categories.datamining.network.layer.keras.DropoutLayer;
+import io.github.d.lab2.kernel.categories.datamining.network.layer.pytorch.LinearLayer;
+import io.github.d.lab2.kernel.categories.datamining.network.layer.pytorch.SoftmaxLayer;
+import io.github.d.lab2.kernel.categories.datamining.network.layer.pytorch.TanhLayer;
+import io.github.d.lab2.kernel.categories.datamining.training.Training;
 import io.github.d.lab2.kernel.categories.preprocessing.DropNa;
 import io.github.d.lab2.kernel.categories.preprocessing.ReplaceBy;
 import io.github.d.lab2.kernel.categories.transformation.Normalization;
@@ -13,11 +16,17 @@ import io.github.d.lab2.kernel.categories.validation.R2Function;
 import io.github.d.lab2.kernel.categories.validation.predict.KerasPredict;
 import io.github.d.lab2.kernel.categories.validation.predict.PytorchPredict;
 import io.github.d.lab2.kernel.generator.visitor.strategy.IFrameworkStrategy;
+import io.github.d.lab2.notebook.Notebook;
 
 public class DefaultStrategy implements IFrameworkStrategy {
 
+    protected Notebook notebook;
+    public DefaultStrategy(Notebook notebook) {
+        this.notebook = notebook;
+    }
     @Override
     public void visit(DropNa dropNa) {
+
 
     }
 
@@ -25,14 +34,38 @@ public class DefaultStrategy implements IFrameworkStrategy {
     public void visit(ReplaceBy replaceBy) {
 
     }
-
     @Override
-    public void visit(KerasNetwork kerasNetwork) {
+    public void visit(Network network){
 
     }
 
     @Override
-    public void visit(PytorchNetwork pytorchNetwork) {
+    public void visit(DenseLayer denseLayer) {
+
+    }
+
+    @Override
+    public void visit(DropoutLayer dropoutLayer) {
+
+    }
+
+    @Override
+    public void visit(LinearLayer linearLayer) {
+
+    }
+
+    @Override
+    public void visit(TanhLayer tanhLayer) {
+
+    }
+
+    @Override
+    public void visit(SoftmaxLayer softmaxLayer) {
+
+    }
+
+    @Override
+    public void visit(Training training) {
 
     }
 
@@ -47,23 +80,14 @@ public class DefaultStrategy implements IFrameworkStrategy {
     }
 
     @Override
-    public void visit(PytorchTraining pytorchTraining) {
-
-    }
-
-    @Override
-    public void visit(KerasTraining kerasTraining) {
-
-    }
-
-    @Override
     public void visit(Reshape reshape) {
 
     }
 
     @Override
     public void visit(Normalization normalization) {
-
+        notebook.appendCode("X_train = X_train / 255" );
+        notebook.appendCode("X_test = X_test / 255" );
     }
 
     @Override

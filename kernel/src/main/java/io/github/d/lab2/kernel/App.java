@@ -9,6 +9,7 @@ import io.github.d.lab2.kernel.categories.preprocessing.Preprocessing;
 import io.github.d.lab2.kernel.categories.selection.Selection;
 import io.github.d.lab2.kernel.categories.validation.Validation;
 import io.github.d.lab2.kernel.categories.transformation.Transformation;
+import io.github.d.lab2.kernel.mandatory.Framework;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +17,7 @@ import lombok.Setter;
 @Setter
 public class App implements StepVisitable {
 
+    private Framework framework;
     private Description description;
     private Selection selection;
     private Preprocessing preprocessing;

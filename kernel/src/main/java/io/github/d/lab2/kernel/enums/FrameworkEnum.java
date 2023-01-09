@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public enum FrameworkEnum {
     PYTORCH("pytorch"),
-    TENSORFLOW("tensorflow");
+    KERAS("keras");
 
     private final String framework;
 }

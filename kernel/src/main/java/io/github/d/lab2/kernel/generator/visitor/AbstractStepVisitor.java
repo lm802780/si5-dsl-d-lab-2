@@ -1,6 +1,10 @@
 package io.github.d.lab2.kernel.generator.visitor;
 
+import io.github.d.lab2.kernel.enums.FrameworkEnum;
 import io.github.d.lab2.kernel.generator.visitor.strategy.IFrameworkStrategy;
+import io.github.d.lab2.kernel.generator.visitor.strategy.factory.StrategyFactory;
+import io.github.d.lab2.kernel.generator.visitor.strategy.impl.DefaultStrategy;
+import io.github.d.lab2.notebook.Notebook;
 import lombok.AccessLevel;
 import lombok.Setter;
 import lombok.experimental.Delegate;
@@ -8,25 +12,26 @@ import lombok.experimental.Delegate;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbstractStepVisitor<T> implements IStepVisitor {
+public abstract class AbstractStepVisitor implements IStepVisitor {
 
     /***********************
      ** Helper mechanisms **
      ***********************/
+    @Setter
+    protected FrameworkEnum framework;
+//    protected Map<String, Object> context = new HashMap<>();
 
-    protected Map<String, Object> context = new HashMap<>();
-
-    protected T notebook;
+    protected Notebook notebook;
     @Delegate
     @Setter(AccessLevel.PROTECTED)
     protected IFrameworkStrategy frameworkStrategy;
 
-    protected AbstractStepVisitor(T notebook, final IFrameworkStrategy frameworkStrategy) {
+    protected AbstractStepVisitor(Notebook notebook) {
         this.notebook = notebook;
-        this.frameworkStrategy = frameworkStrategy;
+        this.frameworkStrategy = new StrategyFactory().createStrategy("default", notebook);
     }
 
-    public T getNotebook() {
+    public Notebook getNotebook() {
         return notebook;
     }
 }

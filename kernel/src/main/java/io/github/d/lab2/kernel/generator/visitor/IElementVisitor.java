@@ -1,9 +1,12 @@
 package io.github.d.lab2.kernel.generator.visitor;
 
-import io.github.d.lab2.kernel.categories.datamining.network.KerasNetwork;
-import io.github.d.lab2.kernel.categories.datamining.network.PytorchNetwork;
-import io.github.d.lab2.kernel.categories.datamining.training.KerasTraining;
-import io.github.d.lab2.kernel.categories.datamining.training.PytorchTraining;
+import io.github.d.lab2.kernel.categories.datamining.network.Network;
+import io.github.d.lab2.kernel.categories.datamining.network.layer.keras.DenseLayer;
+import io.github.d.lab2.kernel.categories.datamining.network.layer.keras.DropoutLayer;
+import io.github.d.lab2.kernel.categories.datamining.network.layer.pytorch.LinearLayer;
+import io.github.d.lab2.kernel.categories.datamining.network.layer.pytorch.SoftmaxLayer;
+import io.github.d.lab2.kernel.categories.datamining.network.layer.pytorch.TanhLayer;
+import io.github.d.lab2.kernel.categories.datamining.training.Training;
 import io.github.d.lab2.kernel.categories.preprocessing.DropNa;
 import io.github.d.lab2.kernel.categories.preprocessing.ReplaceBy;
 import io.github.d.lab2.kernel.categories.transformation.Normalization;
@@ -19,17 +22,10 @@ public interface IElementVisitor {
 
     void visit(ReplaceBy replaceBy);
 
-    void visit(KerasNetwork kerasNetwork);
-
-    void visit(PytorchNetwork pytorchNetwork);
-
     void visit(PytorchPredict pytorchPredict);
 
     void visit(KerasPredict kerasPredict);
 
-    void visit(PytorchTraining pytorchTraining);
-
-    void visit(KerasTraining kerasTraining);
 
     void visit(Reshape reshape);
 
@@ -38,4 +34,18 @@ public interface IElementVisitor {
     void visit(MSEFunction mseFunction);
 
     void visit(R2Function r2Function);
+
+    void visit(Network network);
+
+    void visit(DenseLayer denseLayer);
+
+    void visit(DropoutLayer dropoutLayer);
+
+    void visit(LinearLayer linearLayer);
+
+    void visit(TanhLayer tanhLayer);
+
+    void visit(SoftmaxLayer softmaxLayer);
+
+    void visit(Training training);
 }
