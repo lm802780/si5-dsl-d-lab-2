@@ -2,6 +2,7 @@ package io.github.d.lab2.kernel.categories.datamining.network;
 
 import io.github.d.lab2.kernel.categories.datamining.network.layer.Layer;
 import io.github.d.lab2.kernel.generator.Visitor;
+import io.github.d.lab2.notebook.Notebook;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +17,7 @@ public class KerasNetwork extends Network {
     }
 
     @Override
-    public void accept(Visitor<StringBuffer> visitor) {
+    public void accept(Visitor<Notebook> visitor) {
         visitor.visit(this);
     }
 }

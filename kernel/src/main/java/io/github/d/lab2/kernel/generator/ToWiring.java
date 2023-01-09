@@ -2,9 +2,19 @@ package io.github.d.lab2.kernel.generator;
 
 import io.github.d.lab2.kernel.App;
 import io.github.d.lab2.kernel.categories.datamining.DataMining;
+import io.github.d.lab2.kernel.categories.datamining.network.KerasNetwork;
+import io.github.d.lab2.kernel.categories.datamining.network.PytorchNetwork;
+import io.github.d.lab2.kernel.categories.datamining.predict.KerasPredict;
+import io.github.d.lab2.kernel.categories.datamining.predict.PytorchPredict;
+import io.github.d.lab2.kernel.categories.datamining.training.KerasTraining;
+import io.github.d.lab2.kernel.categories.datamining.training.PytorchTraining;
 import io.github.d.lab2.kernel.categories.knowledge.Knowledge;
+import io.github.d.lab2.kernel.categories.preprocessing.DropNa;
 import io.github.d.lab2.kernel.categories.preprocessing.Preprocessing;
+import io.github.d.lab2.kernel.categories.preprocessing.ReplaceBy;
 import io.github.d.lab2.kernel.categories.selection.Selection;
+import io.github.d.lab2.kernel.categories.transformation.Normalization;
+import io.github.d.lab2.kernel.categories.transformation.Reshape;
 import io.github.d.lab2.kernel.categories.transformation.Transformation;
 import io.github.d.lab2.kernel.categories.validation.Validation;
 import io.github.d.lab2.kernel.enums.TypeEnum;
@@ -69,6 +79,7 @@ public class ToWiring extends Visitor<Notebook> {
     public void visit(Preprocessing preprocessing) {
         notebook.addCellCode("## Preprocessing step");
         if (context.get("pass") == Pass.ONE) {
+            preprocessing.getElements().forEach(element -> element.accept(this));
             notebook.appendCode((String.format("# Preprocessing: %s", preprocessing.toString())));
         }
     }
@@ -77,6 +88,7 @@ public class ToWiring extends Visitor<Notebook> {
     public void visit(Transformation transformation) {
         notebook.addCellCode("## Transformation step");
         if (context.get("pass") == Pass.ONE) {
+            transformation.getElements().forEach(element -> element.accept(this));
             notebook.appendCode(String.format("# Transformation: %s", transformation.toString()));
         }
     }
@@ -103,5 +115,55 @@ public class ToWiring extends Visitor<Notebook> {
         if (context.get("pass") == Pass.ONE) {
             notebook.appendCode(String.format("# nKnowledge: %s", knowledge.toString()));
         }
+    }
+
+    @Override
+    public void visit(DropNa dropNa) {
+
+    }
+
+    @Override
+    public void visit(ReplaceBy replaceBy) {
+
+    }
+
+    @Override
+    public void visit(KerasNetwork kerasNetwork) {
+
+    }
+
+    @Override
+    public void visit(PytorchNetwork pytorchNetwork) {
+
+    }
+
+    @Override
+    public void visit(PytorchPredict pytorchPredict) {
+
+    }
+
+    @Override
+    public void visit(KerasPredict kerasPredict) {
+
+    }
+
+    @Override
+    public void visit(PytorchTraining pytorchTraining) {
+
+    }
+
+    @Override
+    public void visit(KerasTraining kerasTraining) {
+
+    }
+
+    @Override
+    public void visit(Reshape reshape) {
+
+    }
+
+    @Override
+    public void visit(Normalization normalization) {
+
     }
 }
