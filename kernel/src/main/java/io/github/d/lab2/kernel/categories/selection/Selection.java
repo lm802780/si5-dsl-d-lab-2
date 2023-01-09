@@ -16,7 +16,6 @@ public class Selection extends Step {
     private Source source;
     private List<Split> split;
 
-    // See https://datascience.stackexchange.com/questions/15135/train-test-validation-set-splitting-in-sklearn for calculation of percentage
     public Selection(){
         super("Selection");
         this.split = new ArrayList<>();
