@@ -1,4 +1,4 @@
-description: Ce document est un exemple
+# tec cecec
 
 framework: PYTORCH
 
@@ -9,3 +9,5 @@ selection:
         TEST: 20
         VALIDATION: 20
 
+pre_processing:
+    nan int
