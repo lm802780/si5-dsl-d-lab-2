@@ -3,10 +3,12 @@ package io.github.d.lab2.externals.antlr;
 import io.github.d.lab2.externals.antlr.grammar.NotebookmlParser;
 import io.github.d.lab2.externals.antlr.grammar.NotebookmlBaseListener;
 import io.github.d.lab2.kernel.App;
+import io.github.d.lab2.kernel.categories.preprocessing.Preprocessing;
 import io.github.d.lab2.kernel.categories.selection.Selection;
 import io.github.d.lab2.kernel.categories.selection.Source;
 import io.github.d.lab2.kernel.categories.selection.Split;
 import io.github.d.lab2.kernel.enums.FrameworkEnum;
+import io.github.d.lab2.kernel.enums.ProcessingEnum;
 import io.github.d.lab2.kernel.enums.TypeEnum;
 import io.github.d.lab2.kernel.mandatory.Description;
 import io.github.d.lab2.kernel.mandatory.Framework;
@@ -79,7 +81,18 @@ public class ModelBuilder extends NotebookmlBaseListener {
             splits.add(split);
         });
         selection.setSplit(splits);
+        theApp.setSelection(selection);
     }
+
+    @Override
+    public void enterPreProcessing(NotebookmlParser.PreProcessingContext ctx) {
+        Preprocessing preprocessing = new Preprocessing();
+        ctx.nan().forEach(nanContext -> {
+            preprocessing.setProcessing(ProcessingEnum.valueOf(nanContext.processing.getText()));
+        });
+        theApp.setPreprocessing(preprocessing);
+    }
+
 
 
 
