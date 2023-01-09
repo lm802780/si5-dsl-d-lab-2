@@ -74,6 +74,7 @@ public class ModelBuilder extends NotebookmlBaseListener {
         selection.setSource(source);
 
         List<Split> splits = new ArrayList<>();
+
         ctx.split().split_list().forEach(split_listContext -> {
             Split split = new Split();
             split.setType(TypeEnum.valueOf(split_listContext.type.getText()));
