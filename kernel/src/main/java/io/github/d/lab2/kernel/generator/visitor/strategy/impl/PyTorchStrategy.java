@@ -1,9 +1,9 @@
 package io.github.d.lab2.kernel.generator.visitor.strategy.impl;
 
 import io.github.d.lab2.kernel.categories.datamining.network.Network;
-import io.github.d.lab2.kernel.categories.datamining.network.layer.pytorch.LinearLayer;
-import io.github.d.lab2.kernel.categories.datamining.network.layer.pytorch.SoftmaxLayer;
-import io.github.d.lab2.kernel.categories.datamining.network.layer.pytorch.TanhLayer;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.LinearLayer;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.SoftmaxLayer;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.TanhLayer;
 import io.github.d.lab2.kernel.categories.datamining.training.Training;
 import io.github.d.lab2.notebook.Notebook;
 

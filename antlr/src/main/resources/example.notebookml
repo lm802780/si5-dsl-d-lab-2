@@ -21,9 +21,9 @@ transformation:
 data_mining:
     network:
         sequential:
-            linear: in out
+            linear: 1 1
             tanh
-            linear: in out
+            linear: 1 1
             softmax
     params:
         loss: mse

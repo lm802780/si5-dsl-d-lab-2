@@ -1,7 +1,6 @@
 package io.github.d.lab2.kernel.categories.datamining.network;
 
 import io.github.d.lab2.kernel.categories.datamining.DataMiningElement;
-import io.github.d.lab2.kernel.categories.datamining.network.layer.Layer;
 import io.github.d.lab2.kernel.generator.visitor.IElementVisitor;
 import lombok.Getter;
 import lombok.Setter;

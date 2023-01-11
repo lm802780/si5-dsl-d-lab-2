@@ -28,7 +28,7 @@ workflow: selection (preProcessing?) transformation data_mining validation;
     data_mining       :   'data_mining' ':' network params;
         network: 'network:' sequential+;
             sequential: 'sequential:' (linear|tanh|softmax)+;
-                linear: 'linear:' 'in' 'out';
+                linear: 'linear:' linear_in=NUMBER linear_out=NUMBER;
                 tanh: 'tanh';
                 softmax: 'softmax';
         params: 'params:' (loss|optimizers|learningRate|nbEpochs|batchSize)+;

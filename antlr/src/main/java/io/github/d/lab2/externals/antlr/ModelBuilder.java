@@ -3,6 +3,9 @@ package io.github.d.lab2.externals.antlr;
 import io.github.d.lab2.externals.antlr.grammar.NotebookmlBaseListener;
 import io.github.d.lab2.externals.antlr.grammar.NotebookmlParser;
 import io.github.d.lab2.kernel.App;
+import io.github.d.lab2.kernel.categories.datamining.DataMining;
+import io.github.d.lab2.kernel.categories.datamining.network.Network;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.*;
 import io.github.d.lab2.kernel.categories.preprocessing.Preprocessing;
 import io.github.d.lab2.kernel.categories.selection.Selection;
 import io.github.d.lab2.kernel.categories.selection.Source;
@@ -156,7 +159,24 @@ public class ModelBuilder extends NotebookmlBaseListener {
 
     @Override
     public void enterData_mining(NotebookmlParser.Data_miningContext ctx) {
+        theApp.setDataMining(new DataMining());
+    }
 
+    @Override
+    public void enterSequential(NotebookmlParser.SequentialContext ctx) {
+        Sequential sequential = new Sequential();
+        List<SequentialLayer> sequentialLayers = new ArrayList<>();
+        ctx.linear().forEach(linearContext -> {
+            sequentialLayers.add(new LinearLayer(Integer.parseInt(linearContext.linear_in.getText()), Integer.parseInt(linearContext.linear_out.getText())));
+        });
+        ctx.tanh().forEach(tanhContext -> {
+            sequentialLayers.add(new TanhLayer());
+        });
+        ctx.softmax().forEach(softmaxContext -> {
+            sequentialLayers.add(new SoftmaxLayer());
+        });
+        sequential.setSequentialLayers(sequentialLayers);
+        //TODO add to theApp
     }
 
     @Override
