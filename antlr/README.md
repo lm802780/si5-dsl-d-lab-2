@@ -46,7 +46,6 @@
 <NL> ::= "\n"+
 <TAB> ::= "\t"
 <TAB2> ::= <TAB> <TAB>
-<TAB3> ::= <TAB> <TAB>
 ```
 
 ### Ressource
