@@ -14,8 +14,4 @@ public class LinearLayer extends SequentialLayer {
     private int inFeatures;
     private int outFeatures;
 
-    @Override
-    public void accept(IElementVisitor visitor) {
-
-    }
 }

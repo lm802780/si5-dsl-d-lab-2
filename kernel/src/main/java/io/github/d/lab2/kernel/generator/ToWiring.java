@@ -29,7 +29,7 @@ public class ToWiring extends AbstractStepVisitor {
     public void visit(App app) {
         // Initialize global variablescontext.put("pass", Pass.ONE);
         setFramework(app.getFramework().getFramework());
-        setFrameworkStrategy(new StrategyFactory().createStrategy(app.getFramework().toString().toLowerCase(), notebook));
+        setFrameworkStrategy(new StrategyFactory().createStrategy(app.getFramework().getFramework().toString().toLowerCase(), notebook));
 
         app.getDescription().accept(this);
         app.getSelection().accept(this);
@@ -132,7 +132,7 @@ public class ToWiring extends AbstractStepVisitor {
         }
 
         dataMining.getElements().forEach(e -> e.accept(this));
-
+        dataMining.getTraining().accept(this);
     }
 
     @Override

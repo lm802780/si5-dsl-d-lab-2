@@ -41,43 +41,17 @@ public class DefaultStrategy implements IFrameworkStrategy {
     }
 
     @Override
-    public void visit(DenseLayer denseLayer) {
-
-    }
-
-    @Override
-    public void visit(DropoutLayer dropoutLayer) {
-
-    }
-
-    @Override
-    public void visit(LinearLayer linearLayer) {
-
-    }
-
-    @Override
-    public void visit(TanhLayer tanhLayer) {
-
-    }
-
-    @Override
-    public void visit(SoftmaxLayer softmaxLayer) {
-
-    }
-
-    @Override
     public void visit(Training training) {
-
+        System.out.println("Training default");
     }
 
     @Override
     public void visit(Sequential sequential) {
-
     }
 
     @Override
     public void visit(PytorchPredict pytorchPredict) {
-
+        System.out.println("Default pytorch predict");
     }
 
     @Override

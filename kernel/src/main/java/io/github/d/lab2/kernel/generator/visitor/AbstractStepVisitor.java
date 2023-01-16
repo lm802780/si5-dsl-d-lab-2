@@ -19,7 +19,7 @@ public abstract class AbstractStepVisitor implements IStepVisitor {
 
     protected Notebook notebook;
     @Delegate
-    @Setter(AccessLevel.PROTECTED)
+    @Setter
     protected IFrameworkStrategy frameworkStrategy;
 
     protected AbstractStepVisitor(Notebook notebook) {

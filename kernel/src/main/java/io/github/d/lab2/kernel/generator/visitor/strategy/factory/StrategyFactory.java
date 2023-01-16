@@ -10,6 +10,7 @@ public class StrategyFactory implements IStrategyFactory {
 
     @Override
     public IFrameworkStrategy createStrategy(String strategyName, Notebook notebook) {
+        System.out.println("Strategy name"+strategyName);
         switch (strategyName) {
             case "pytorch":
                 return new PyTorchStrategy(notebook);

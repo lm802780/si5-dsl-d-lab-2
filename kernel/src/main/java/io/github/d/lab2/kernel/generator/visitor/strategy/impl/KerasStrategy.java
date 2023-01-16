@@ -3,6 +3,8 @@ package io.github.d.lab2.kernel.generator.visitor.strategy.impl;
 import io.github.d.lab2.kernel.categories.datamining.network.Network;
 import io.github.d.lab2.kernel.categories.datamining.network.layer.keras.DenseLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.layer.keras.DropoutLayer;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.Sequential;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.TanhLayer;
 import io.github.d.lab2.kernel.categories.datamining.training.Training;
 import io.github.d.lab2.notebook.Notebook;
 
@@ -17,7 +19,7 @@ public class KerasStrategy extends DefaultStrategy {
         notebook.addCellCode("## define network\n");
         notebook.appendCode("def Network(nbIn, nbOut):\n");
         notebook.appendCode("  model = Sequential()\n");
-        network.getLayers().forEach(layer -> layer.accept(this));
+//        network.getLayers().forEach(layer -> layer.accept(this));
         notebook.appendCode("  return model\n");
 
         notebook.addCellCode("## create network\n");
@@ -27,13 +29,23 @@ public class KerasStrategy extends DefaultStrategy {
         notebook.appendCode("neuralNetwork.summary()\n");
     }
 
+//    @Override
+//    public void visit(DenseLayer denseLayer){
+//        notebook.appendCode("  model.add(Dense(units=" + denseLayer.getUnits() + ", activation='" + denseLayer.getActivation() + "'))\n");
+//    }
+//    @Override
+//    public void visit(DropoutLayer dropoutLayer){
+//        notebook.appendCode("  model.add(Dropout(" + dropoutLayer.getRate() + "))\n");
+//    }
+//
+//    @Override
+//    public void visit(TanhLayer tanhLayer){
+//        notebook.appendCode("  model.add(Tanh())\n");
+//    }
+
     @Override
-    public void visit(DenseLayer denseLayer){
-        notebook.appendCode("  model.add(Dense(units=" + denseLayer.getUnits() + ", activation='" + denseLayer.getActivation() + "'))\n");
-    }
-    @Override
-    public void visit(DropoutLayer dropoutLayer){
-        notebook.appendCode("  model.add(Dropout(" + dropoutLayer.getRate() + "))\n");
+    public void visit(Sequential sequential) {
+
     }
 
     @Override

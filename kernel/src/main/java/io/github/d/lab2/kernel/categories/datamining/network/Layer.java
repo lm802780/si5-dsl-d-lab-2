@@ -5,6 +5,6 @@ import lombok.NoArgsConstructor;
 
 
 @NoArgsConstructor
-public abstract class Layer implements ElementVisitable {
+public abstract class Layer {
 
 }

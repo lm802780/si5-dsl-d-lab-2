@@ -2,6 +2,7 @@ package io.github.d.lab2.kernel.generator.visitor.strategy.impl;
 
 import io.github.d.lab2.kernel.categories.datamining.network.Network;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.LinearLayer;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.Sequential;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.SoftmaxLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.TanhLayer;
 import io.github.d.lab2.kernel.categories.datamining.training.Training;
@@ -20,7 +21,9 @@ public class PyTorchStrategy extends DefaultStrategy {
         notebook.appendCode("  def __init__(self, nbIn, nbOut):");
         notebook.appendCode("    super(Network, self).__init__()");
         notebook.appendCode("    self.network = nn.Sequential(");
-        network.getLayers().forEach(layer -> layer.accept(this));
+        network.getLayers().forEach(layer -> {
+
+        });
         notebook.appendCode("    )");
         notebook.appendCode("  def forward(self, x):");
         notebook.appendCode("    return self.network(x)");
@@ -32,19 +35,25 @@ public class PyTorchStrategy extends DefaultStrategy {
         notebook.appendCode("neuralNetwork");
     }
 
-    @Override
-    public void visit(LinearLayer linearLayer){
-        notebook.appendCode("    nn.Linear("+linearLayer.getInFeatures()+","+linearLayer.getOutFeatures()+",\n");
-    }
-    @Override
-    public void visit(TanhLayer tanhLayer){
-        notebook.appendCode("    nn.Tanh(),\n");
-    }
+//    @Override
+//    public void visit(LinearLayer linearLayer){
+//        notebook.appendCode("    nn.Linear("+linearLayer.getInFeatures()+","+linearLayer.getOutFeatures()+",\n");
+//    }
 
     @Override
-    public void visit(SoftmaxLayer softmaxLayer){
-        notebook.appendCode("    nn.Softmax(),\n");
+    public void visit(Sequential sequential) {
+
     }
+
+//    @Override
+//    public void visit(TanhLayer tanhLayer){
+//        notebook.appendCode("    nn.Tanh(),\n");
+//    }
+//
+//    @Override
+//    public void visit(SoftmaxLayer softmaxLayer){
+//        notebook.appendCode("    nn.Softmax(),\n");
+//    }
 
     @Override
     public void visit(Training training){
