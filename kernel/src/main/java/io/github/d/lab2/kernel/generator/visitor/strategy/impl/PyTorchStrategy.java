@@ -110,13 +110,12 @@ public class PyTorchStrategy extends DefaultStrategy {
 
     @Override
     public void visit(Prediction prediction) {
-        int size = prediction.getSize();
 
         notebook.addCellCode();
         notebook.appendCode("# Prediction\n");
         notebook.appendCode("ax = plt.gca()\n");
-        notebook.appendCode(String.format("plt.plot(np.arange(y_train.values[:%d].size), y_train.values[:%d], '-', label='True data', color='b')%n", size, size));
-        notebook.appendCode(String.format("plt.plot(np.arange(output.detach().numpy()[:%d].size), output.detach().numpy()[:%d], '--', label='Predictions', color='r')%n", size, size));
+        notebook.appendCode("plt.plot(np.arange(y_train.values.size), y_train.values, '-', label='True data', color='b')\n");
+        notebook.appendCode("plt.plot(np.arange(output.detach().numpy().size), output.detach().numpy()[:%d], '--', label='Predictions', color='r')\n");
         notebook.appendCode("plt.gcf().autofmt_xdate()\n");
         notebook.appendCode("plt.show()");
     }

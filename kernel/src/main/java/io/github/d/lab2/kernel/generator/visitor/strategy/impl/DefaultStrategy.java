@@ -9,6 +9,8 @@ import io.github.d.lab2.kernel.categories.transformation.Normalization;
 import io.github.d.lab2.kernel.categories.transformation.Reshape;
 import io.github.d.lab2.kernel.categories.validation.diagrams.LossEpochEvolution;
 import io.github.d.lab2.kernel.categories.validation.diagrams.Prediction;
+import io.github.d.lab2.kernel.categories.validation.functions.MSEFunction;
+import io.github.d.lab2.kernel.categories.validation.functions.R2Function;
 import io.github.d.lab2.kernel.generator.visitor.strategy.IFrameworkStrategy;
 import io.github.d.lab2.notebook.Notebook;
 
@@ -41,6 +43,16 @@ public class DefaultStrategy implements IFrameworkStrategy {
 
     @Override
     public void visit(Sequential sequential) {
+    }
+
+    @Override
+    public void visit(MSEFunction mseFunction) {
+
+    }
+
+    @Override
+    public void visit(R2Function r2Function) {
+
     }
 
     @Override

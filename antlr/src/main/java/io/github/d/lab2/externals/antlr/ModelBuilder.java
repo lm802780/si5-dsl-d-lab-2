@@ -231,8 +231,7 @@ public class ModelBuilder extends NotebookmlBaseListener {
         DiagramEnum diagram = DiagramEnum.valueOf(diagramName);
         switch (diagram) {
             case LOSS_EPOCH_EVOLUTION -> validationElements.add(new LossEpochEvolution());
-            case PREDICTION ->
-                    validationElements.add(new Prediction(Integer.parseInt(ctx.diagram_size().NUMBER().getText())));
+            case PREDICTION -> validationElements.add(new Prediction());
         }
         theApp.getValidation().getValidationElement().addAll(validationElements);
     }

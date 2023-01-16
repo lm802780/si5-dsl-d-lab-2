@@ -37,9 +37,9 @@ workflow: selection (preProcessing?) transformation data_mining validation;
             learningRate: 'learningRate:' learningRate_nb=DOUBLE;
             nbEpochs: 'nbEpochs:' nbEpochs_nb=NUMBER;
             batchSize: 'batchSize:' batchSize_nb=NUMBER;
-    validation       :   'validation:' diagram+;
-        diagram: 'diagram:' diagram_name=DIAGRAMS diagram_size?;
-            diagram_size: 'size:' NUMBER;
+    validation       :   'validation:' (diagram|score)+;
+        diagram: 'diagram:' diagram_name=DIAGRAMS;
+        score: score_type=SCORE_TYPE;
 
 /*****************
  ** Lexer rules **
@@ -51,6 +51,7 @@ OPTIMIZERS  : ('ADAM');
 DIAGRAMS  : ('loss_epoch_evolution'|'prediction');
 FRAMEWORK   : 'PYTORCH' | 'TENSORFLOW';
 TYPE        : 'TRAIN' | 'TEST' | 'VALIDATION';
+SCORE_TYPE  : 'R2' | 'MSE';
 STRINGS      :   'description:' ~( '\r' | '\n' )*;
 NUMBER      :   [0-9]+;
 DOUBLE      :   [0-9.]+;
