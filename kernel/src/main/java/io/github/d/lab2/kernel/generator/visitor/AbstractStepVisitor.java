@@ -3,14 +3,10 @@ package io.github.d.lab2.kernel.generator.visitor;
 import io.github.d.lab2.kernel.enums.FrameworkEnum;
 import io.github.d.lab2.kernel.generator.visitor.strategy.IFrameworkStrategy;
 import io.github.d.lab2.kernel.generator.visitor.strategy.factory.StrategyFactory;
-import io.github.d.lab2.kernel.generator.visitor.strategy.impl.DefaultStrategy;
 import io.github.d.lab2.notebook.Notebook;
 import lombok.AccessLevel;
 import lombok.Setter;
 import lombok.experimental.Delegate;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public abstract class AbstractStepVisitor implements IStepVisitor {
 
