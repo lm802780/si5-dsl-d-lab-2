@@ -92,8 +92,9 @@ public class DefaultStrategy implements IFrameworkStrategy {
 
     @Override
     public void visit(Normalization normalization) {
-        notebook.appendCode("X_train = X_train / 255" );
-        notebook.appendCode("X_test = X_test / 255" );
+        notebook.addCellCode();
+        notebook.appendCode("X_train = X_train / 255\n" );
+        notebook.appendCode("X_test = X_test / 255\n" );
     }
 
     @Override
