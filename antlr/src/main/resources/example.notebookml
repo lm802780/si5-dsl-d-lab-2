@@ -26,8 +26,8 @@ data_mining:
             linear: 1 1
             softmax
     params:
-        loss: mse
-        optimizers: adam
+        loss: MSE
+        optimizers: ADAM
         learningRate: 0.003
         nbEpochs: 100
         batchSize: 128
