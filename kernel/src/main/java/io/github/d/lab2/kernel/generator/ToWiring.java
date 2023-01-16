@@ -94,7 +94,8 @@ public class ToWiring extends AbstractStepVisitor {
 
     @Override
     public void visit(Transformation transformation) {
-        notebook.addCellCode("## Transformation step");
+        notebook.addCellMarkdown();
+        notebook.appendMarkdown("## Transformation step");
 
         transformation.getElements().forEach(element -> element.accept(this));
         switch (this.framework) {
@@ -116,7 +117,7 @@ public class ToWiring extends AbstractStepVisitor {
     @Override
     public void visit(DataMining dataMining) {
         notebook.addCellMarkdown();
-        notebook.appendMarkdown("# Data Mining step\n");
+        notebook.appendMarkdown("# Data Mining step");
         notebook.addCellCode();
         switch (this.framework) {
             case PYTORCH -> {
@@ -127,8 +128,6 @@ public class ToWiring extends AbstractStepVisitor {
             case KERAS -> {
                 notebook.appendCode("import keras.models as km\n");
                 notebook.appendCode("import keras.layers as kl\n");
-            }
-            default -> {
             }
         }
 
