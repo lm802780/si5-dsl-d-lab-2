@@ -46,8 +46,8 @@ workflow: selection (preProcessing?) transformation data_mining validation;
  *****************/
 
 PROCESSING  : ('int' | 'str' | 'drop');
-LOSS  : ('mse');
-OPTIMIZERS  : ('adam');
+LOSS  : ('MSE');
+OPTIMIZERS  : ('ADAM');
 DIAGRAMS  : ('loss_epoch_evolution'|'prediction');
 FRAMEWORK   : 'PYTORCH' | 'TENSORFLOW';
 TYPE        : 'TRAIN' | 'TEST' | 'VALIDATION';

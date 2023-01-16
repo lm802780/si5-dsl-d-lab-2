@@ -38,12 +38,10 @@ public class ToWiring extends AbstractStepVisitor {
 
         app.getTransformation().accept(this);
         app.getDataMining().accept(this);
-        app.getValidation().accept(this);
+        //app.getValidation().accept(this);
         //app.getKnowledge().accept(this);
 
         // Generate the code.
-
-
         notebook.save("result.ipynb");
     }
 

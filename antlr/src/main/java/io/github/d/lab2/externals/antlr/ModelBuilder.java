@@ -15,6 +15,8 @@ import io.github.d.lab2.kernel.categories.transformation.Normalization;
 import io.github.d.lab2.kernel.categories.transformation.Reshape;
 import io.github.d.lab2.kernel.categories.transformation.Transformation;
 import io.github.d.lab2.kernel.categories.transformation.TransformationElement;
+import io.github.d.lab2.kernel.categories.validation.Validation;
+import io.github.d.lab2.kernel.categories.validation.ValidationElement;
 import io.github.d.lab2.kernel.enums.FrameworkEnum;
 import io.github.d.lab2.kernel.enums.ProcessingEnum;
 import io.github.d.lab2.kernel.enums.TypeEnum;
@@ -184,11 +186,25 @@ public class ModelBuilder extends NotebookmlBaseListener {
     @Override
     public void enterParams(NotebookmlParser.ParamsContext ctx) {
         Training training = new Training();
-        training.setLoss(LossEnum.valueOf(ctx.loss().getText()));
-        training.setOptimizer(OptimizerEnum.valueOf(ctx.optimizers().getText()));
-        training.setLearningRate(Double.parseDouble(ctx.learningRate().getText()));
-        training.setEpochs(Integer.parseInt(ctx.nbEpochs().getText()));
-        training.setBatchSize(Integer.parseInt(ctx.batchSize().getText()));
+        training.setLoss(LossEnum.valueOf(ctx.loss().loss_type.getText()));
+        training.setOptimizer(OptimizerEnum.valueOf(ctx.optimizers().optimizers_type.getText()));
+        training.setLearningRate(Double.parseDouble(ctx.learningRate().learningRate_nb.getText()));
+        training.setEpochs(Integer.parseInt(ctx.nbEpochs().nbEpochs_nb.getText()));
+        training.setBatchSize(Integer.parseInt(ctx.batchSize().batchSize_nb.getText()));
+        theApp.getDataMining().setTraining(training);
+    }
+
+    @Override
+    public void enterValidation(NotebookmlParser.ValidationContext ctx) {
+        Validation validation = new Validation();
+        theApp.setValidation(validation);
+    }
+
+    @Override
+    public void enterDiagram(NotebookmlParser.DiagramContext ctx) {
+        List<ValidationElement> validationElements = new ArrayList<>();
+        //validationElements.add();
+        //theApp.getValidation().getValidationElement().addAll(validationElements);
     }
 
     @Override
