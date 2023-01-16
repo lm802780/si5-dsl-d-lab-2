@@ -15,7 +15,6 @@ public abstract class AbstractStepVisitor implements IStepVisitor {
      ***********************/
     @Setter
     protected FrameworkEnum framework;
-//    protected Map<String, Object> context = new HashMap<>();
 
     protected Notebook notebook;
     @Delegate
@@ -24,7 +23,6 @@ public abstract class AbstractStepVisitor implements IStepVisitor {
 
     protected AbstractStepVisitor(Notebook notebook) {
         this.notebook = notebook;
-        this.frameworkStrategy = new StrategyFactory().createStrategy("default", notebook);
     }
 
     public Notebook getNotebook() {

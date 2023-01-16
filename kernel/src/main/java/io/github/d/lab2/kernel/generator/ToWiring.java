@@ -7,7 +7,6 @@ import io.github.d.lab2.kernel.categories.preprocessing.Preprocessing;
 import io.github.d.lab2.kernel.categories.selection.Selection;
 import io.github.d.lab2.kernel.categories.transformation.Transformation;
 import io.github.d.lab2.kernel.categories.validation.Validation;
-import io.github.d.lab2.kernel.categories.validation.ValidationElement;
 import io.github.d.lab2.kernel.enums.TypeEnum;
 import io.github.d.lab2.kernel.generator.visitor.AbstractStepVisitor;
 import io.github.d.lab2.kernel.generator.visitor.strategy.factory.StrategyFactory;
@@ -25,11 +24,18 @@ public class ToWiring extends AbstractStepVisitor {
         super(new Notebook());
     }
 
+    private void initStrategy(App app) {
+        setFramework(app.getFramework().getFramework());
+        if (app.getFramework() == null || app.getFramework().getFramework() == null) {
+            setFrameworkStrategy(new StrategyFactory().createStrategy(null, notebook));
+        } else {
+            setFrameworkStrategy(new StrategyFactory().createStrategy(app.getFramework().getFramework(), notebook));
+        }
+    }
+
     @Override
     public void visit(App app) {
-        // Initialize global variablescontext.put("pass", Pass.ONE);
-        setFramework(app.getFramework().getFramework());
-        setFrameworkStrategy(new StrategyFactory().createStrategy(app.getFramework().toString().toLowerCase(), notebook));
+        initStrategy(app);
 
         app.getDescription().accept(this);
         app.getSelection().accept(this);
@@ -38,7 +44,7 @@ public class ToWiring extends AbstractStepVisitor {
 
         app.getTransformation().accept(this);
         app.getDataMining().accept(this);
-        //app.getValidation().accept(this);
+        app.getValidation().accept(this);
         //app.getKnowledge().accept(this);
 
         // Generate the code.
@@ -138,35 +144,7 @@ public class ToWiring extends AbstractStepVisitor {
         notebook.addCellMarkdown();
         notebook.appendMarkdown("## Validation step");
 
-        for (ValidationElement validationElement : validation.getValidationElement()) {
-            // TODO: design pattern?
-            switch (validationElement.getDiagramName()) {
-                case "loss_epoch_evolution" -> {
-                    notebook.addCellCode();
-                    notebook.appendCode("fig, ax = plt.subplots()");
-                    String items = switch (this.framework) {
-                        case PYTORCH -> "items";
-                        case KERAS -> "history.history['loss']";
-                    };
-                    notebook.appendCode("x = np.arange(len(" + items + "))\n");
-                    notebook.appendCode("ax.plot(x, " + items + ")\n");
-                    notebook.appendCode("ax.set(xlabel='number of epochs', ylabel='loss', title='Evolution')\n");
-                    notebook.appendCode("plt.show()");
-                }
-                case "prediction" -> {
-                    int size = validationElement.getSize();
-
-                    notebook.addCellCode();
-                    notebook.appendCode("ax = plt.gca()\n");
-                    notebook.appendCode(String.format("plt.plot(np.arange(y_train.values[:%d].size), " +
-                            "y_train.values[:%d], '-', label='True data', color='b')%n", size, size));
-                    notebook.appendCode(String.format("np.arange(output.detach().numpy()[:%d].size), " +
-                            "output.detach().numpy()[:%d], '--', label='Predictions', color='r')%n", size, size));
-                    notebook.appendCode("plt.gcf().autofmt_xdate()");
-                    notebook.appendCode("plt.show()");
-                }
-            }
-        }
+        validation.getValidationElement().forEach(e -> e.accept(this));
     }
 
     @Override
@@ -174,6 +152,5 @@ public class ToWiring extends AbstractStepVisitor {
         notebook.addCellCode("## Knowledge step");
 
         notebook.appendCode(String.format("# nKnowledge: %s", knowledge.toString()));
-
     }
 }

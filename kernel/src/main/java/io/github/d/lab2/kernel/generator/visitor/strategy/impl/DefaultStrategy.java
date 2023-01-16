@@ -12,10 +12,8 @@ import io.github.d.lab2.kernel.categories.preprocessing.DropNa;
 import io.github.d.lab2.kernel.categories.preprocessing.ReplaceBy;
 import io.github.d.lab2.kernel.categories.transformation.Normalization;
 import io.github.d.lab2.kernel.categories.transformation.Reshape;
-import io.github.d.lab2.kernel.categories.validation.MSEFunction;
-import io.github.d.lab2.kernel.categories.validation.R2Function;
-import io.github.d.lab2.kernel.categories.validation.predict.KerasPredict;
-import io.github.d.lab2.kernel.categories.validation.predict.PytorchPredict;
+import io.github.d.lab2.kernel.categories.validation.diagrams.LossEpochEvolution;
+import io.github.d.lab2.kernel.categories.validation.diagrams.Prediction;
 import io.github.d.lab2.kernel.generator.visitor.strategy.IFrameworkStrategy;
 import io.github.d.lab2.notebook.Notebook;
 
@@ -77,16 +75,6 @@ public class DefaultStrategy implements IFrameworkStrategy {
     }
 
     @Override
-    public void visit(PytorchPredict pytorchPredict) {
-
-    }
-
-    @Override
-    public void visit(KerasPredict kerasPredict) {
-
-    }
-
-    @Override
     public void visit(Reshape reshape) {
 
     }
@@ -99,12 +87,12 @@ public class DefaultStrategy implements IFrameworkStrategy {
     }
 
     @Override
-    public void visit(MSEFunction mseFunction) {
+    public void visit(LossEpochEvolution lossEpochEvolution) {
 
     }
 
     @Override
-    public void visit(R2Function r2Function) {
+    public void visit(Prediction prediction) {
 
     }
 }

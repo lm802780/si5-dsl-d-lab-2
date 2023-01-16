@@ -4,6 +4,8 @@ import io.github.d.lab2.kernel.categories.datamining.network.Network;
 import io.github.d.lab2.kernel.categories.datamining.network.layer.keras.DenseLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.layer.keras.DropoutLayer;
 import io.github.d.lab2.kernel.categories.datamining.training.Training;
+import io.github.d.lab2.kernel.categories.validation.diagrams.LossEpochEvolution;
+import io.github.d.lab2.kernel.categories.validation.diagrams.Prediction;
 import io.github.d.lab2.notebook.Notebook;
 
 public class KerasStrategy extends DefaultStrategy {
@@ -73,5 +75,29 @@ public class KerasStrategy extends DefaultStrategy {
                                             verbose=1)""");
     }
 
+    @Override
+    public void visit(LossEpochEvolution lossEpochEvolution) {
+        notebook.addCellCode();
+        notebook.appendCode("# Loss epoch evolution\n");
+        notebook.appendCode("fig, ax = plt.subplots()\n");
+        notebook.appendCode("x = np.arange(len(history.history['loss']))\n");
+        notebook.appendCode("ax.plot(x, history.history['loss'])\n");
+        notebook.appendCode("ax.set(xlabel='number of epochs', ylabel='loss', title='Evolution')\n");
+        notebook.appendCode("plt.show()");
+    }
+
+    @Override
+    public void visit(Prediction prediction) {
+        int size = prediction.getSize();
+
+        notebook.addCellCode();
+        notebook.appendCode("# Prediction\n");
+        notebook.appendCode("ax = plt.gca()\n");
+        notebook.appendCode(String.format("output = neuralNetwork.predict(X_train.values[:%d])%n", size));
+        notebook.appendCode(String.format("plt.plot(np.arange(y_train.values[:%d].size), y_train.values[:%d], '-', label='True data', color='b')%n", size, size));
+        notebook.appendCode(String.format("plt.plot(np.arange(output[:%d].size), output, '--', label='Predictions', color='r')%n", size));
+        notebook.appendCode("plt.gcf().autofmt_xdate()\n");
+        notebook.appendCode("plt.show()");
+    }
 
 }

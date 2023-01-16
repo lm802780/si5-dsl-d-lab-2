@@ -15,12 +15,19 @@
     </properties>
 
     <dependencies>
+        <!-- Helper -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.24</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version>
+        </dependency>
+
 
         <!-- Used to save the Jupyter Notebook -->
         <dependency>
@@ -44,6 +51,7 @@
                 <configuration>
                     <source>17</source>
                     <target>17</target>
+                    <compilerArgs>--enable-preview</compilerArgs>
                 </configuration>
             </plugin>
         </plugins>

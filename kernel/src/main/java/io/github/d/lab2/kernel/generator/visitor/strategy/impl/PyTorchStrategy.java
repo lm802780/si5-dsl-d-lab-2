@@ -5,6 +5,8 @@ import io.github.d.lab2.kernel.categories.datamining.network.sequential.LinearLa
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.SoftmaxLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.TanhLayer;
 import io.github.d.lab2.kernel.categories.datamining.training.Training;
+import io.github.d.lab2.kernel.categories.validation.diagrams.LossEpochEvolution;
+import io.github.d.lab2.kernel.categories.validation.diagrams.Prediction;
 import io.github.d.lab2.notebook.Notebook;
 
 public class PyTorchStrategy extends DefaultStrategy {
@@ -89,5 +91,29 @@ public class PyTorchStrategy extends DefaultStrategy {
                         print(id_batch, loss.item())
                         items.append(loss.item())
                 """);
+    }
+
+    @Override
+    public void visit(LossEpochEvolution lossEpochEvolution) {
+        notebook.addCellCode();
+        notebook.appendCode("# Loss epoch evolution\n");
+        notebook.appendCode("fig, ax = plt.subplots()\n");
+        notebook.appendCode("x = np.arange(len(items))\n");
+        notebook.appendCode("ax.plot(x, items)\n");
+        notebook.appendCode("ax.set(xlabel='number of epochs', ylabel='loss', title='Evolution')\n");
+        notebook.appendCode("plt.show()");
+    }
+
+    @Override
+    public void visit(Prediction prediction) {
+        int size = prediction.getSize();
+
+        notebook.addCellCode();
+        notebook.appendCode("# Prediction\n");
+        notebook.appendCode("ax = plt.gca()\n");
+        notebook.appendCode(String.format("plt.plot(np.arange(y_train.values[:%d].size), y_train.values[:%d], '-', label='True data', color='b')%n", size, size));
+        notebook.appendCode(String.format("plt.plot(np.arange(output.detach().numpy()[:%d].size), output.detach().numpy()[:%d], '--', label='Predictions', color='r')%n", size, size));
+        notebook.appendCode("plt.gcf().autofmt_xdate()\n");
+        notebook.appendCode("plt.show()");
     }
 }
