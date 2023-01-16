@@ -1,12 +1,7 @@
 package io.github.d.lab2.kernel.generator.visitor.strategy.impl;
 
 import io.github.d.lab2.kernel.categories.datamining.network.Network;
-import io.github.d.lab2.kernel.categories.datamining.network.layer.keras.DenseLayer;
-import io.github.d.lab2.kernel.categories.datamining.network.layer.keras.DropoutLayer;
-import io.github.d.lab2.kernel.categories.datamining.network.sequential.LinearLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.Sequential;
-import io.github.d.lab2.kernel.categories.datamining.network.sequential.SoftmaxLayer;
-import io.github.d.lab2.kernel.categories.datamining.network.sequential.TanhLayer;
 import io.github.d.lab2.kernel.categories.datamining.training.Training;
 import io.github.d.lab2.kernel.categories.preprocessing.DropNa;
 import io.github.d.lab2.kernel.categories.preprocessing.ReplaceBy;
@@ -22,9 +17,11 @@ import io.github.d.lab2.notebook.Notebook;
 public class DefaultStrategy implements IFrameworkStrategy {
 
     protected Notebook notebook;
+
     public DefaultStrategy(Notebook notebook) {
         this.notebook = notebook;
     }
+
     @Override
     public void visit(DropNa dropNa) {
 
@@ -35,8 +32,9 @@ public class DefaultStrategy implements IFrameworkStrategy {
     public void visit(ReplaceBy replaceBy) {
 
     }
+
     @Override
-    public void visit(Network network){
+    public void visit(Network network) {
 
     }
 
@@ -67,8 +65,8 @@ public class DefaultStrategy implements IFrameworkStrategy {
     @Override
     public void visit(Normalization normalization) {
         notebook.addCellCode();
-        notebook.appendCode("X_train = X_train / 255\n" );
-        notebook.appendCode("X_test = X_test / 255\n" );
+        notebook.appendCode("X_train = X_train / 255\n");
+        notebook.appendCode("X_test = X_test / 255\n");
     }
 
     @Override

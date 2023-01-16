@@ -1,10 +1,7 @@
 package io.github.d.lab2.kernel.generator.visitor.strategy.impl;
 
 import io.github.d.lab2.kernel.categories.datamining.network.Network;
-import io.github.d.lab2.kernel.categories.datamining.network.layer.keras.DenseLayer;
-import io.github.d.lab2.kernel.categories.datamining.network.layer.keras.DropoutLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.Sequential;
-import io.github.d.lab2.kernel.categories.datamining.network.sequential.TanhLayer;
 import io.github.d.lab2.kernel.categories.datamining.training.Training;
 import io.github.d.lab2.notebook.Notebook;
 
@@ -15,7 +12,7 @@ public class KerasStrategy extends DefaultStrategy {
     }
 
     @Override
-    public void visit(Network network){
+    public void visit(Network network) {
         notebook.addCellCode("## define network\n");
         notebook.appendCode("def Network(nbIn, nbOut):\n");
         notebook.appendCode("  model = Sequential()\n");
@@ -49,7 +46,7 @@ public class KerasStrategy extends DefaultStrategy {
     }
 
     @Override
-    public void visit(Training training){
+    public void visit(Training training) {
         notebook.addCellMarkdown();
         notebook.appendMarkdown("#### Loss/optimizers catalog\n");
         notebook.addCellCode();
@@ -64,11 +61,11 @@ public class KerasStrategy extends DefaultStrategy {
             default -> throw new IllegalStateException("Unexpected value: " + training.getOptimizer());
         };
         //Hyper parameters
-        notebook.appendCode("selected_loss_function =" + loss+"\n");
-        notebook.appendCode("selected_optimizer =" + optimizer+"\n");
-        notebook.appendCode("learning_rate = "+training.getLearningRate()+"\n");
-        notebook.appendCode("nbEpochs = "+training.getEpochs()+"\n");
-        notebook.appendCode("batch_size = "+training.getBatchSize()+"\n");
+        notebook.appendCode("selected_loss_function =" + loss + "\n");
+        notebook.appendCode("selected_optimizer =" + optimizer + "\n");
+        notebook.appendCode("learning_rate = " + training.getLearningRate() + "\n");
+        notebook.appendCode("nbEpochs = " + training.getEpochs() + "\n");
+        notebook.appendCode("batch_size = " + training.getBatchSize() + "\n");
 
         notebook.addCellCode();
         notebook.appendCode("""
