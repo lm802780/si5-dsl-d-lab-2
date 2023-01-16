@@ -4,8 +4,10 @@ import io.github.d.lab2.externals.antlr.grammar.NotebookmlBaseListener;
 import io.github.d.lab2.externals.antlr.grammar.NotebookmlParser;
 import io.github.d.lab2.kernel.App;
 import io.github.d.lab2.kernel.categories.datamining.DataMining;
-import io.github.d.lab2.kernel.categories.datamining.network.Network;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.*;
+import io.github.d.lab2.kernel.categories.datamining.training.LossEnum;
+import io.github.d.lab2.kernel.categories.datamining.training.OptimizerEnum;
+import io.github.d.lab2.kernel.categories.datamining.training.Training;
 import io.github.d.lab2.kernel.categories.preprocessing.Preprocessing;
 import io.github.d.lab2.kernel.categories.selection.Selection;
 import io.github.d.lab2.kernel.categories.selection.Source;
@@ -176,7 +178,17 @@ public class ModelBuilder extends NotebookmlBaseListener {
             sequentialLayers.add(new SoftmaxLayer());
         });
         sequential.setSequentialLayers(sequentialLayers);
-        //TODO add to theApp
+        theApp.getDataMining().getElements().add(sequential);
+    }
+
+    @Override
+    public void enterParams(NotebookmlParser.ParamsContext ctx) {
+        Training training = new Training();
+        training.setLoss(LossEnum.valueOf(ctx.loss().getText()));
+        training.setOptimizer(OptimizerEnum.valueOf(ctx.optimizers().getText()));
+        training.setLearningRate(Double.parseDouble(ctx.learningRate().getText()));
+        training.setEpochs(Integer.parseInt(ctx.nbEpochs().getText()));
+        training.setBatchSize(Integer.parseInt(ctx.batchSize().getText()));
     }
 
     @Override
