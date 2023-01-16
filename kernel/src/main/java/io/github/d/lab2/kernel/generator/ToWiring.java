@@ -88,8 +88,6 @@ public class ToWiring extends AbstractStepVisitor {
         notebook.addCellCode("## Preprocessing step");
 
         preprocessing.getElements().forEach(element -> element.accept(this));
-        notebook.appendCode("# TODO: Preprocessing");
-
     }
 
     @Override

@@ -13,12 +13,12 @@ public class KerasStrategy extends DefaultStrategy {
     }
 
     @Override
-    public void visit(Network network){
+    public void visit(Network network) {
         notebook.addCellCode("## define network\n");
         notebook.appendCode("def Network(nbIn, nbOut):\n");
-        notebook.appendCode("  model = Sequential()\n");
+        notebook.appendCode(1, "model = Sequential()\n");
         network.getLayers().forEach(layer -> layer.accept(this));
-        notebook.appendCode("  return model\n");
+        notebook.appendCode(1, "return model\n");
 
         notebook.addCellCode("## create network\n");
         notebook.appendCode("nbIn = X_train.shape[1]\n");
@@ -28,16 +28,17 @@ public class KerasStrategy extends DefaultStrategy {
     }
 
     @Override
-    public void visit(DenseLayer denseLayer){
-        notebook.appendCode("  model.add(Dense(units=" + denseLayer.getUnits() + ", activation='" + denseLayer.getActivation() + "'))\n");
-    }
-    @Override
-    public void visit(DropoutLayer dropoutLayer){
-        notebook.appendCode("  model.add(Dropout(" + dropoutLayer.getRate() + "))\n");
+    public void visit(DenseLayer denseLayer) {
+        notebook.appendCode(1, "model.add(Dense(units=" + denseLayer.getUnits() + ", activation='" + denseLayer.getActivation() + "'))\n");
     }
 
     @Override
-    public void visit(Training training){
+    public void visit(DropoutLayer dropoutLayer) {
+        notebook.appendCode(1, "model.add(Dropout(" + dropoutLayer.getRate() + "))\n");
+    }
+
+    @Override
+    public void visit(Training training) {
         notebook.addCellMarkdown();
         notebook.appendMarkdown("#### Loss/optimizers catalog\n");
         notebook.addCellCode();
@@ -52,11 +53,11 @@ public class KerasStrategy extends DefaultStrategy {
             default -> throw new IllegalStateException("Unexpected value: " + training.getOptimizer());
         };
         //Hyper parameters
-        notebook.appendCode("selected_loss_function =" + loss+"\n");
-        notebook.appendCode("selected_optimizer =" + optimizer+"\n");
-        notebook.appendCode("learning_rate = "+training.getLearningRate()+"\n");
-        notebook.appendCode("nbEpochs = "+training.getEpochs()+"\n");
-        notebook.appendCode("batch_size = "+training.getBatchSize()+"\n");
+        notebook.appendCode("selected_loss_function =" + loss + "\n");
+        notebook.appendCode("selected_optimizer =" + optimizer + "\n");
+        notebook.appendCode("learning_rate = " + training.getLearningRate() + "\n");
+        notebook.appendCode("nbEpochs = " + training.getEpochs() + "\n");
+        notebook.appendCode("batch_size = " + training.getBatchSize() + "\n");
 
         notebook.addCellCode();
         notebook.appendCode("""

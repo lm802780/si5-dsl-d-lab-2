@@ -22,21 +22,22 @@ import io.github.d.lab2.notebook.Notebook;
 public class DefaultStrategy implements IFrameworkStrategy {
 
     protected Notebook notebook;
+
     public DefaultStrategy(Notebook notebook) {
         this.notebook = notebook;
     }
+
     @Override
     public void visit(DropNa dropNa) {
-
-
     }
 
     @Override
     public void visit(ReplaceBy replaceBy) {
 
     }
+
     @Override
-    public void visit(Network network){
+    public void visit(Network network) {
 
     }
 
@@ -93,8 +94,8 @@ public class DefaultStrategy implements IFrameworkStrategy {
     @Override
     public void visit(Normalization normalization) {
         notebook.addCellCode();
-        notebook.appendCode("X_train = X_train / 255\n" );
-        notebook.appendCode("X_test = X_test / 255\n" );
+        notebook.appendCode("X_train = X_train / 255\n");
+        notebook.appendCode("X_test = X_test / 255\n");
     }
 
     @Override
