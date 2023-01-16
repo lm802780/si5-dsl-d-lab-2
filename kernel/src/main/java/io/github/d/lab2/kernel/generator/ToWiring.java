@@ -110,11 +110,6 @@ public class ToWiring extends AbstractStepVisitor {
                 notebook.appendCode("input_data = torch.FloatTensor(X_train.select_dtypes(include=['int', 'float']).values)\n");
                 notebook.appendCode("target = torch.FloatTensor(y_train.values).view(-1,1)");
             }
-            case KERAS -> {
-                notebook.addCellCode();
-                notebook.appendCode("X_train = X_train / 255.\n");
-                notebook.appendCode("X_test = X_test / 255.");
-            }
         }
     }
 

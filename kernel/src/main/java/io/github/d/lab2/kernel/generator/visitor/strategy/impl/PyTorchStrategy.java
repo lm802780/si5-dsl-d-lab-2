@@ -18,15 +18,15 @@ public class PyTorchStrategy extends DefaultStrategy {
     public void visit(Sequential sequential){
         notebook.addCellCode("#### define network\n");
         notebook.appendCode("class Network(nn.Module):\n");
-        notebook.appendCode("  def __init__(self, nbIn, nbOut):\n");
-        notebook.appendCode("    super(Network, self).__init__()\n");
-        notebook.appendCode("    self.network = nn.Sequential(\n");
+        notebook.appendCode(1,"def __init__(self, nbIn, nbOut):\n");
+        notebook.appendCode(2,"super(Network, self).__init__()\n");
+        notebook.appendCode(2,"self.network = nn.Sequential(\n");
         sequential.getLayers().forEach(layer -> {
             layer.accept(this);
         });
-        notebook.appendCode("    )\n");
-        notebook.appendCode("  def forward(self, x):\n");
-        notebook.appendCode("    return self.network(x)");
+        notebook.appendCode(2,")\n");
+        notebook.appendCode(1,"def forward(self, x):\n");
+        notebook.appendCode(2,"return self.network(x)");
 
         notebook.addCellCode("#### create network\n");
         notebook.appendCode("nbIn = X_train.shape[1]\n");
@@ -37,7 +37,7 @@ public class PyTorchStrategy extends DefaultStrategy {
 
     @Override
     public void visit(LinearLayer linearLayer){
-        notebook.appendCode("       nn.Linear("+linearLayer.getInFeatures()+","+linearLayer.getOutFeatures()+"),\n");
+        notebook.appendCode(3,"nn.Linear("+linearLayer.getInFeatures()+","+linearLayer.getOutFeatures()+"),\n");
     }
 
 //    @Override
@@ -47,12 +47,12 @@ public class PyTorchStrategy extends DefaultStrategy {
 
     @Override
     public void visit(TanhLayer tanhLayer){
-        notebook.appendCode("       nn.Tanh(),\n");
+        notebook.appendCode(3,"nn.Tanh(),\n");
     }
 
     @Override
     public void visit(SoftmaxLayer softmaxLayer){
-        notebook.appendCode("       nn.Softmax(),\n");
+        notebook.appendCode(3,"nn.Softmax(),\n");
     }
 
     @Override

@@ -49,7 +49,7 @@ PROCESSING  : ('int' | 'str' | 'drop');
 LOSS  : ('MSE');
 OPTIMIZERS  : ('ADAM');
 DIAGRAMS  : ('loss_epoch_evolution'|'prediction');
-FRAMEWORK   : 'PYTORCH' | 'TENSORFLOW';
+FRAMEWORK   : 'PYTORCH' | 'KERAS';
 TYPE        : 'TRAIN' | 'TEST' | 'VALIDATION';
 SCORE_TYPE  : 'R2' | 'MSE';
 STRINGS      :   'description:' ~( '\r' | '\n' )*;
