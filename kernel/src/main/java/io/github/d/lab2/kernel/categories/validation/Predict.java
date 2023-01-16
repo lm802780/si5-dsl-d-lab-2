@@ -1,13 +1,12 @@
-package io.github.d.lab2.kernel.categories.validation.predict;
+package io.github.d.lab2.kernel.categories.validation;
 
 import io.github.d.lab2.kernel.generator.visitor.IElementVisitor;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class KerasPredict extends Predict {
-
+public class Predict extends Diagram {
     @Override
     public void accept(IElementVisitor visitor) {
-        visitor.visit(this);
+
     }
 }

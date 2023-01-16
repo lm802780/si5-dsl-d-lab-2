@@ -1,13 +1,12 @@
-package io.github.d.lab2.kernel.categories.validation.predict;
+package io.github.d.lab2.kernel.categories.validation;
 
 import io.github.d.lab2.kernel.generator.visitor.IElementVisitor;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class PytorchPredict extends Predict {
+public class Epoch extends Diagram {
     @Override
     public void accept(IElementVisitor visitor) {
-        visitor.visit(this);
+
     }
 }
-

@@ -10,7 +10,5 @@ import lombok.Setter;
 @Setter
 public abstract class ValidationElement implements ElementVisitable {
     private String diagramName;
-    private int size;
-
 }
 

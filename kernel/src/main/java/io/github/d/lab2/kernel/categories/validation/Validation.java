@@ -1,7 +1,6 @@
 package io.github.d.lab2.kernel.categories.validation;
 
 import io.github.d.lab2.kernel.categories.Step;
-import io.github.d.lab2.kernel.categories.validation.predict.Predict;
 import io.github.d.lab2.kernel.generator.visitor.IStepVisitor;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +12,7 @@ import java.util.List;
 
 public class Validation extends Step {
 
-    private Predict predict;
+    private Diagram predict;
 
     private List<ValidationElement> validationElement;
 

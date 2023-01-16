@@ -4,7 +4,7 @@ import io.github.d.lab2.kernel.generator.visitor.IElementVisitor;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class MSEFunction extends ValidationElement {
+public class MSEFunction extends Score {
 
     @Override
     public void accept(IElementVisitor visitor) {
