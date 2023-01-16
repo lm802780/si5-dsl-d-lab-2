@@ -31,7 +31,7 @@ workflow: selection (preProcessing?) transformation data_mining validation;
                 linear: 'linear:' linear_in=NUMBER linear_out=NUMBER;
                 tanh: 'tanh';
                 softmax: 'softmax';
-        params: 'params:' (loss|optimizers|learningRate|nbEpochs|batchSize)+;
+        params: 'params:' loss optimizers learningRate nbEpochs batchSize;
             loss: 'loss:' loss_type=LOSS;
             optimizers: 'optimizers:' optimizers_type=OPTIMIZERS;
             learningRate: 'learningRate:' learningRate_nb=DOUBLE;
