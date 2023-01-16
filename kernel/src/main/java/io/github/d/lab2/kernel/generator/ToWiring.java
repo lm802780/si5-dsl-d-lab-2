@@ -97,25 +97,34 @@ public class ToWiring extends AbstractStepVisitor {
         notebook.addCellCode("## Transformation step");
 
         transformation.getElements().forEach(element -> element.accept(this));
-        notebook.appendCode("# TODO: Transformation");
+        switch (this.framework) {
+            case PYTORCH -> {
+                notebook.addCellCode();
+                notebook.appendCode("""
+                        import torch
+                        # converting data (to pytorch tensor)
+                        input_data = torch.FloatTensor(X_train.select_dtypes(include=['int', 'float']).values)
+                        target = torch.FloatTensor(y_train.values).view(-1,1)
+                        """);
+            }
 
-
+        }
     }
 
     @Override
     public void visit(DataMining dataMining) {
         notebook.addCellMarkdown();
-        notebook.appendMarkdown("# Data Mining step");
+        notebook.appendMarkdown("# Data Mining step\n");
         notebook.addCellCode();
         switch (this.framework) {
             case PYTORCH -> {
-                notebook.appendCode("import torch");
-                notebook.appendCode("import torch.nn as nn");
-                notebook.appendCode("from torch.utils.data import DataLoader, TensorDataset");
+                notebook.appendCode("import torch\n");
+                notebook.appendCode("import torch.nn as nn\n");
+                notebook.appendCode("from torch.utils.data import DataLoader, TensorDataset\n");
             }
             case KERAS -> {
-                notebook.appendCode("import keras.models as km");
-                notebook.appendCode("import keras.layers as kl");
+                notebook.appendCode("import keras.models as km\n");
+                notebook.appendCode("import keras.layers as kl\n");
             }
             default -> {
             }
