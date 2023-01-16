@@ -1,7 +1,10 @@
 package io.github.d.lab2.kernel.generator.visitor.strategy.impl;
 
 import io.github.d.lab2.kernel.categories.datamining.network.Network;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.LinearLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.Sequential;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.SoftmaxLayer;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.TanhLayer;
 import io.github.d.lab2.kernel.categories.datamining.training.Training;
 import io.github.d.lab2.kernel.categories.preprocessing.DropNa;
 import io.github.d.lab2.kernel.categories.preprocessing.ReplaceBy;
@@ -30,13 +33,9 @@ public class DefaultStrategy implements IFrameworkStrategy {
 
     @Override
     public void visit(ReplaceBy replaceBy) {
-
+        System.out.println("replaceBy default");
     }
 
-    @Override
-    public void visit(Network network) {
-
-    }
 
     @Override
     public void visit(Training training) {
@@ -45,6 +44,22 @@ public class DefaultStrategy implements IFrameworkStrategy {
 
     @Override
     public void visit(Sequential sequential) {
+        System.out.println("Sequential default");
+    }
+
+    @Override
+    public void visit(LinearLayer linearLayer) {
+        System.out.println("LinearLayer default");
+    }
+
+    @Override
+    public void visit(SoftmaxLayer softmaxLayer) {
+        System.out.println("SoftmaxLayer default");
+    }
+
+    @Override
+    public void visit(TanhLayer tanhLayer) {
+        System.out.println("TanhLayer default");
     }
 
     @Override
@@ -66,7 +81,7 @@ public class DefaultStrategy implements IFrameworkStrategy {
     public void visit(Normalization normalization) {
         notebook.addCellCode();
         notebook.appendCode("X_train = X_train / 255\n");
-        notebook.appendCode("X_test = X_test / 255\n");
+        notebook.appendCode("X_test = X_test / 255");
     }
 
     @Override

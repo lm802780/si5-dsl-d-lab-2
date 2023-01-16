@@ -1,6 +1,7 @@
 package io.github.d.lab2.kernel.categories.datamining;
 
 import io.github.d.lab2.kernel.categories.Step;
+import io.github.d.lab2.kernel.categories.datamining.network.Network;
 import io.github.d.lab2.kernel.categories.datamining.training.Training;
 import io.github.d.lab2.kernel.generator.visitor.IStepVisitor;
 import lombok.Getter;
@@ -13,11 +14,10 @@ import java.util.List;
 @Setter
 public class DataMining extends Step {
     private Training training;
-    private List<DataMiningElement> elements;
+    private Network network;
 
     public DataMining() {
         super("Data Mining");
-        elements = new ArrayList<>();
     }
 
     @Override

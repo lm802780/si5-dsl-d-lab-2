@@ -4,7 +4,7 @@ import io.github.d.lab2.kernel.generator.visitor.ElementVisitable;
 import lombok.NoArgsConstructor;
 
 
-@NoArgsConstructor
-public abstract class Layer {
+public interface Layer extends ElementVisitable {
+
 
 }

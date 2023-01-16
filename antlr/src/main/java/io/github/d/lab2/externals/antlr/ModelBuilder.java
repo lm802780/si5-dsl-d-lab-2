@@ -216,7 +216,7 @@ public class ModelBuilder extends NotebookmlBaseListener {
     @Override
     public void exitRoot(NotebookmlParser.RootContext ctx) {
         // Resolving states in transitions
-        theApp.getDataMining().getElements().add(network);
+        theApp.getDataMining().setNetwork(network);
         this.built = true;
     }
 }

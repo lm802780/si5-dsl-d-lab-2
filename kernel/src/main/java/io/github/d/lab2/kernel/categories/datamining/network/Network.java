@@ -18,8 +18,4 @@ public abstract class Network extends DataMiningElement {
         layers = new LinkedList<>();
     }
 
-    @Override
-    public void accept(IElementVisitor visitor) {
-        visitor.visit(this);
-    }
 }

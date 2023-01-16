@@ -15,45 +15,45 @@ public class PyTorchStrategy extends DefaultStrategy {
     }
 
     @Override
-    public void visit(Network network){
-        notebook.addCellCode("## define network");
-        notebook.appendCode("class Network(nn.Module):");
-        notebook.appendCode("  def __init__(self, nbIn, nbOut):");
-        notebook.appendCode("    super(Network, self).__init__()");
-        notebook.appendCode("    self.network = nn.Sequential(");
-        network.getLayers().forEach(layer -> {
-
+    public void visit(Sequential sequential){
+        notebook.addCellCode("#### define network\n");
+        notebook.appendCode("class Network(nn.Module):\n");
+        notebook.appendCode("  def __init__(self, nbIn, nbOut):\n");
+        notebook.appendCode("    super(Network, self).__init__()\n");
+        notebook.appendCode("    self.network = nn.Sequential(\n");
+        sequential.getLayers().forEach(layer -> {
+            layer.accept(this);
         });
-        notebook.appendCode("    )");
-        notebook.appendCode("  def forward(self, x):");
+        notebook.appendCode("    )\n");
+        notebook.appendCode("  def forward(self, x):\n");
         notebook.appendCode("    return self.network(x)");
 
-        notebook.addCellCode("## create network");
-        notebook.appendCode("nbIn = X_train.shape[1]");
-        notebook.appendCode("nbOut = 1");
-        notebook.appendCode("model = Network(nbIn, nbOut)");
+        notebook.addCellCode("#### create network\n");
+        notebook.appendCode("nbIn = X_train.shape[1]\n");
+        notebook.appendCode("nbOut = 1\n");
+        notebook.appendCode("model = Network(nbIn, nbOut)\n");
         notebook.appendCode("neuralNetwork");
     }
 
-//    @Override
-//    public void visit(LinearLayer linearLayer){
-//        notebook.appendCode("    nn.Linear("+linearLayer.getInFeatures()+","+linearLayer.getOutFeatures()+",\n");
-//    }
-
     @Override
-    public void visit(Sequential sequential) {
-
+    public void visit(LinearLayer linearLayer){
+        notebook.appendCode("       nn.Linear("+linearLayer.getInFeatures()+","+linearLayer.getOutFeatures()+"),\n");
     }
 
 //    @Override
-//    public void visit(TanhLayer tanhLayer){
-//        notebook.appendCode("    nn.Tanh(),\n");
-//    }
+//    public void visit(Sequential sequential) {
 //
-//    @Override
-//    public void visit(SoftmaxLayer softmaxLayer){
-//        notebook.appendCode("    nn.Softmax(),\n");
 //    }
+
+    @Override
+    public void visit(TanhLayer tanhLayer){
+        notebook.appendCode("       nn.Tanh(),\n");
+    }
+
+    @Override
+    public void visit(SoftmaxLayer softmaxLayer){
+        notebook.appendCode("       nn.Softmax(),\n");
+    }
 
     @Override
     public void visit(Training training){
@@ -77,7 +77,7 @@ public class PyTorchStrategy extends DefaultStrategy {
         notebook.appendCode("nbEpochs = "+training.getEpochs()+"\n");
         notebook.appendCode("batch_size = "+training.getBatchSize()+"\n");
         notebook.appendCode("criterion = selected_loss_function()\n");
-        notebook.appendCode("optimizer = selected_optimizer(neuralNetwork.parameters(), lr=learning_rate)\n");
+        notebook.appendCode("optimizer = selected_optimizer(neuralNetwork.parameters(), lr=learning_rate)");
 
         notebook.addCellCode();
         notebook.appendCode("""
@@ -85,7 +85,7 @@ public class PyTorchStrategy extends DefaultStrategy {
                 dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=False)
                 items = []
                 """);
-        notebook.addCellCode("# launching iterations\n");
+        notebook.addCellCode("#### launching iterations\n");
         notebook.appendCode("""
                 for epoch in range(nbEpochs):
                     for id_batch, (batch_X_train, batch_y_train) in enumerate(dataloader):

@@ -123,15 +123,15 @@ public class ToWiring extends AbstractStepVisitor {
             case PYTORCH -> {
                 notebook.appendCode("import torch\n");
                 notebook.appendCode("import torch.nn as nn\n");
-                notebook.appendCode("from torch.utils.data import DataLoader, TensorDataset\n");
+                notebook.appendCode("from torch.utils.data import DataLoader, TensorDataset");
             }
             case KERAS -> {
                 notebook.appendCode("import keras.models as km\n");
-                notebook.appendCode("import keras.layers as kl\n");
+                notebook.appendCode("import keras.layers as kl");
             }
         }
 
-        dataMining.getElements().forEach(e -> e.accept(this));
+        dataMining.getNetwork().accept(this);
         dataMining.getTraining().accept(this);
     }
 

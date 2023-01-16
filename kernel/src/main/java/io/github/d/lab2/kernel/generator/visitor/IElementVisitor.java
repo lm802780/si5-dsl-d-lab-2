@@ -1,7 +1,10 @@
 package io.github.d.lab2.kernel.generator.visitor;
 
 import io.github.d.lab2.kernel.categories.datamining.network.Network;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.LinearLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.Sequential;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.SoftmaxLayer;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.TanhLayer;
 import io.github.d.lab2.kernel.categories.datamining.training.Training;
 import io.github.d.lab2.kernel.categories.preprocessing.DropNa;
 import io.github.d.lab2.kernel.categories.preprocessing.ReplaceBy;
@@ -31,9 +34,15 @@ public interface IElementVisitor {
 
     void visit(R2Function r2Function);
 
-    void visit(Network network);
+//    void visit(Network network);
 
     void visit(Training training);
 
     void visit(Sequential sequential);
+
+    void visit(LinearLayer linearLayer);
+
+    void visit(SoftmaxLayer softmaxLayer);
+
+    void visit(TanhLayer tanhLayer);
 }

@@ -1,9 +1,12 @@
 package io.github.d.lab2.kernel.generator.visitor.strategy.impl;
 
 import io.github.d.lab2.kernel.categories.datamining.network.Network;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.LinearLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.Sequential;
 import io.github.d.lab2.kernel.categories.datamining.training.Training;
 import io.github.d.lab2.notebook.Notebook;
+
+import java.util.LinkedList;
 
 public class KerasStrategy extends DefaultStrategy {
 
@@ -12,14 +15,46 @@ public class KerasStrategy extends DefaultStrategy {
     }
 
     @Override
-    public void visit(Network network) {
-        notebook.addCellCode("## define network\n");
+    public void visit(Sequential sequential) {
+        notebook.addCellCode("#### define network\n");
         notebook.appendCode("def Network(nbIn, nbOut):\n");
-        notebook.appendCode("  model = Sequential()\n");
-//        network.getLayers().forEach(layer -> layer.accept(this));
+        notebook.appendCode("  model = km.Sequential()\n");
+        var layers = new LinkedList<>(sequential.getLayers());
+        while (!layers.isEmpty()) {
+            if(!(layers.get(0)  instanceof LinearLayer)){
+                throw new RuntimeException("Wrong network model");
+            }
+            if(layers.size() == 1){
+                notebook.appendCode("  model.add(kl.Dense("+((LinearLayer) layers.get(0)).getOutFeatures()+
+                        ",input_shape=("+((LinearLayer) layers.get(0)).getInFeatures()+",))\n");
+                layers.removeFirst();
+            }
+            switch (layers.get(1).getClass().getSimpleName()){
+                case "TanhLayer":
+                        notebook.appendCode("  model.add(kl.Dense("+((LinearLayer) layers.get(0)).getOutFeatures()+
+                                ", activation='tanh', input_shape=("+((LinearLayer) layers.get(0)).getInFeatures()+",))\n");
+                        layers.removeFirst();
+                        layers.removeFirst();
+                        break;
+                case "SoftmaxLayer":
+                        notebook.appendCode("  model.add(kl.Dense("+((LinearLayer) layers.get(0)).getOutFeatures()+
+                                ", activation='softmax', input_shape=("+((LinearLayer) layers.get(0)).getInFeatures()+",))\n");
+                        layers.removeFirst();
+                        layers.removeFirst();
+                        break;
+                case "LinearLayer":
+                        notebook.appendCode("  model.add(kl.Dense("+((LinearLayer) layers.get(0)).getOutFeatures()+
+                                ",input_shape=("+((LinearLayer) layers.get(0)).getInFeatures()+",))\n");
+                    layers.removeFirst();
+                    break;
+                default:
+                        throw new RuntimeException("Unknown layer");
+            }
+
+        }
         notebook.appendCode("  return model\n");
 
-        notebook.addCellCode("## create network\n");
+        notebook.addCellCode("#### create network\n");
         notebook.appendCode("nbIn = X_train.shape[1]\n");
         notebook.appendCode("nbOut = 1\n");
         notebook.appendCode("model = Network(nbIn, nbOut)\n");
@@ -40,10 +75,6 @@ public class KerasStrategy extends DefaultStrategy {
 //        notebook.appendCode("  model.add(Tanh())\n");
 //    }
 
-    @Override
-    public void visit(Sequential sequential) {
-
-    }
 
     @Override
     public void visit(Training training) {
