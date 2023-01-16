@@ -10,7 +10,8 @@ import java.util.List;
 
 @Getter
 @Setter
-public class Network extends DataMiningElement {
+public abstract class Network extends DataMiningElement {
+
     private List<Layer> layers;
 
     public Network() {

@@ -11,6 +11,7 @@ public class StrategyFactory implements IStrategyFactory {
 
     @Override
     public IFrameworkStrategy createStrategy(FrameworkEnum strategyName, Notebook notebook) {
+        System.out.println("Strategy name: " + strategyName);
         switch (strategyName) {
             case PYTORCH -> {
                 return new PyTorchStrategy(notebook);

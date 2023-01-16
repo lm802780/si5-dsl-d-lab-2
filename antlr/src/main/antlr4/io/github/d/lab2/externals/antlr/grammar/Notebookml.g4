@@ -26,7 +26,7 @@ workflow: selection (preProcessing?) transformation data_mining validation;
                 normalization_elem: type=TYPE size=NUMBER;
 
     data_mining       :   'data_mining' ':' network params;
-        network: 'network:' sequential+;
+        network: 'network:' sequential;
             sequential: 'sequential:' (linear|tanh|softmax)+;
                 linear: 'linear:' linear_in=NUMBER linear_out=NUMBER;
                 tanh: 'tanh';

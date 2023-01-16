@@ -1,12 +1,7 @@
 package io.github.d.lab2.kernel.generator.visitor.strategy.impl;
 
 import io.github.d.lab2.kernel.categories.datamining.network.Network;
-import io.github.d.lab2.kernel.categories.datamining.network.layer.keras.DenseLayer;
-import io.github.d.lab2.kernel.categories.datamining.network.layer.keras.DropoutLayer;
-import io.github.d.lab2.kernel.categories.datamining.network.sequential.LinearLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.Sequential;
-import io.github.d.lab2.kernel.categories.datamining.network.sequential.SoftmaxLayer;
-import io.github.d.lab2.kernel.categories.datamining.network.sequential.TanhLayer;
 import io.github.d.lab2.kernel.categories.datamining.training.Training;
 import io.github.d.lab2.kernel.categories.preprocessing.DropNa;
 import io.github.d.lab2.kernel.categories.preprocessing.ReplaceBy;
@@ -40,38 +35,12 @@ public class DefaultStrategy implements IFrameworkStrategy {
     }
 
     @Override
-    public void visit(DenseLayer denseLayer) {
-
-    }
-
-    @Override
-    public void visit(DropoutLayer dropoutLayer) {
-
-    }
-
-    @Override
-    public void visit(LinearLayer linearLayer) {
-
-    }
-
-    @Override
-    public void visit(TanhLayer tanhLayer) {
-
-    }
-
-    @Override
-    public void visit(SoftmaxLayer softmaxLayer) {
-
-    }
-
-    @Override
     public void visit(Training training) {
-
+        System.out.println("Training default");
     }
 
     @Override
     public void visit(Sequential sequential) {
-
     }
 
     @Override

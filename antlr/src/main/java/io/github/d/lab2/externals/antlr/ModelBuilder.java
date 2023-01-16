@@ -4,9 +4,9 @@ import io.github.d.lab2.externals.antlr.grammar.NotebookmlBaseListener;
 import io.github.d.lab2.externals.antlr.grammar.NotebookmlParser;
 import io.github.d.lab2.kernel.App;
 import io.github.d.lab2.kernel.categories.datamining.DataMining;
+import io.github.d.lab2.kernel.categories.datamining.network.Network;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.LinearLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.Sequential;
-import io.github.d.lab2.kernel.categories.datamining.network.sequential.SequentialLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.SoftmaxLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.TanhLayer;
 import io.github.d.lab2.kernel.categories.datamining.training.LossEnum;
@@ -57,6 +57,8 @@ public class ModelBuilder extends NotebookmlBaseListener {
      ** Symbol tables **
      *******************/
     // TODO: to complete
+
+    Network network;
 
     /**************************
      ** Listening mechanisms **
@@ -176,20 +178,23 @@ public class ModelBuilder extends NotebookmlBaseListener {
     }
 
     @Override
+    public void enterLinear(NotebookmlParser.LinearContext ctx) {
+        network.getLayers().add(new LinearLayer(Integer.parseInt(ctx.linear_in.getText()), Integer.parseInt(ctx.linear_out.getText())));
+    }
+
+    @Override
+    public void enterTanh(NotebookmlParser.TanhContext ctx) {
+        network.getLayers().add(new TanhLayer());
+    }
+
+    @Override
+    public void enterSoftmax(NotebookmlParser.SoftmaxContext ctx) {
+        network.getLayers().add(new SoftmaxLayer());
+    }
+
+    @Override
     public void enterSequential(NotebookmlParser.SequentialContext ctx) {
-        Sequential sequential = new Sequential();
-        List<SequentialLayer> sequentialLayers = new ArrayList<>();
-        ctx.linear().forEach(linearContext -> {
-            sequentialLayers.add(new LinearLayer(Integer.parseInt(linearContext.linear_in.getText()), Integer.parseInt(linearContext.linear_out.getText())));
-        });
-        ctx.tanh().forEach(tanhContext -> {
-            sequentialLayers.add(new TanhLayer());
-        });
-        ctx.softmax().forEach(softmaxContext -> {
-            sequentialLayers.add(new SoftmaxLayer());
-        });
-        sequential.setSequentialLayers(sequentialLayers);
-        theApp.getDataMining().getElements().add(sequential);
+        network = new Sequential();
     }
 
     @Override
@@ -235,7 +240,7 @@ public class ModelBuilder extends NotebookmlBaseListener {
     @Override
     public void exitRoot(NotebookmlParser.RootContext ctx) {
         // Resolving states in transitions
-        // TODO: to complete
+        theApp.getDataMining().getElements().add(network);
         this.built = true;
     }
 }

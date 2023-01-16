@@ -136,7 +136,7 @@ public class ToWiring extends AbstractStepVisitor {
         }
 
         dataMining.getElements().forEach(e -> e.accept(this));
-
+        dataMining.getTraining().accept(this);
     }
 
     @Override
