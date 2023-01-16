@@ -4,6 +4,8 @@ import io.github.d.lab2.kernel.categories.datamining.network.Network;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.LinearLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.Sequential;
 import io.github.d.lab2.kernel.categories.datamining.training.Training;
+import io.github.d.lab2.kernel.categories.validation.diagrams.LossEpochEvolution;
+import io.github.d.lab2.kernel.categories.validation.diagrams.Prediction;
 import io.github.d.lab2.notebook.Notebook;
 
 import java.util.LinkedList;
@@ -54,6 +56,9 @@ public class KerasStrategy extends DefaultStrategy {
         }
         notebook.appendCode("  return model\n");
 
+        notebook.appendCode(1, "model = Sequential()\n");
+//        network.getLayers().forEach(layer -> layer.accept(this));
+        notebook.appendCode(1, "return model\n");
         notebook.addCellCode("#### create network\n");
         notebook.appendCode("nbIn = X_train.shape[1]\n");
         notebook.appendCode("nbOut = 1\n");
@@ -112,5 +117,27 @@ public class KerasStrategy extends DefaultStrategy {
                                             verbose=1)""");
     }
 
+    @Override
+    public void visit(LossEpochEvolution lossEpochEvolution) {
+        notebook.addCellCode();
+        notebook.appendCode("# Loss epoch evolution\n");
+        notebook.appendCode("fig, ax = plt.subplots()\n");
+        notebook.appendCode("x = np.arange(len(history.history['loss']))\n");
+        notebook.appendCode("ax.plot(x, history.history['loss'])\n");
+        notebook.appendCode("ax.set(xlabel='number of epochs', ylabel='loss', title='Evolution')\n");
+        notebook.appendCode("plt.show()");
+    }
+
+    @Override
+    public void visit(Prediction prediction) {
+        notebook.addCellCode();
+        notebook.appendCode("# Prediction\n");
+        notebook.appendCode("ax = plt.gca()\n");
+        notebook.appendCode("output = neuralNetwork.predict(X_train.values[:%d])\n");
+        notebook.appendCode("plt.plot(np.arange(y_train.values.size), y_train.values[:%d], '-', label='True data', color='b')\n");
+        notebook.appendCode("plt.plot(np.arange(output.size), output, '--', label='Predictions', color='r')\n");
+        notebook.appendCode("plt.gcf().autofmt_xdate()\n");
+        notebook.appendCode("plt.show()");
+    }
 
 }

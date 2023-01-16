@@ -1,6 +1,5 @@
 package io.github.d.lab2.kernel.categories.datamining.training;
 
-import io.github.d.lab2.kernel.categories.datamining.DataMiningElement;
 import io.github.d.lab2.kernel.generator.visitor.ElementVisitable;
 import io.github.d.lab2.kernel.generator.visitor.IElementVisitor;
 import lombok.Getter;

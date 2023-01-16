@@ -49,6 +49,10 @@ public class Notebook {
         append(CellTypeEnum.CODE, string);
     }
 
+    public void appendCode(int tab, String string) {
+        appendCode("\t".repeat(tab) + string);
+    }
+
     public void appendMarkdown(String string) {
         append(CellTypeEnum.MARKDOWN, string);
     }

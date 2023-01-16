@@ -10,10 +10,10 @@ import io.github.d.lab2.kernel.categories.preprocessing.DropNa;
 import io.github.d.lab2.kernel.categories.preprocessing.ReplaceBy;
 import io.github.d.lab2.kernel.categories.transformation.Normalization;
 import io.github.d.lab2.kernel.categories.transformation.Reshape;
-import io.github.d.lab2.kernel.categories.validation.MSEFunction;
-import io.github.d.lab2.kernel.categories.validation.R2Function;
-import io.github.d.lab2.kernel.categories.validation.predict.KerasPredict;
-import io.github.d.lab2.kernel.categories.validation.predict.PytorchPredict;
+import io.github.d.lab2.kernel.categories.validation.diagrams.LossEpochEvolution;
+import io.github.d.lab2.kernel.categories.validation.diagrams.Prediction;
+import io.github.d.lab2.kernel.categories.validation.functions.MSEFunction;
+import io.github.d.lab2.kernel.categories.validation.functions.R2Function;
 
 public interface IElementVisitor {
 
@@ -21,18 +21,13 @@ public interface IElementVisitor {
 
     void visit(ReplaceBy replaceBy);
 
-    void visit(PytorchPredict pytorchPredict);
-
-    void visit(KerasPredict kerasPredict);
-
-
     void visit(Reshape reshape);
 
     void visit(Normalization normalization);
 
-    void visit(MSEFunction mseFunction);
+    void visit(LossEpochEvolution lossEpochEvolution);
 
-    void visit(R2Function r2Function);
+    void visit(Prediction prediction);
 
 //    void visit(Network network);
 
@@ -40,9 +35,15 @@ public interface IElementVisitor {
 
     void visit(Sequential sequential);
 
+
     void visit(LinearLayer linearLayer);
 
     void visit(SoftmaxLayer softmaxLayer);
 
     void visit(TanhLayer tanhLayer);
+
+    void visit(MSEFunction mseFunction);
+
+    void visit(R2Function r2Function);
+
 }

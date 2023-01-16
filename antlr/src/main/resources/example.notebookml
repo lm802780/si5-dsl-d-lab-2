@@ -35,4 +35,3 @@ data_mining:
 validation:
     diagram: loss_epoch_evolution
     diagram: prediction
-        size: 50

@@ -5,7 +5,10 @@ import io.github.d.lab2.externals.antlr.grammar.NotebookmlParser;
 import io.github.d.lab2.kernel.App;
 import io.github.d.lab2.kernel.categories.datamining.DataMining;
 import io.github.d.lab2.kernel.categories.datamining.network.Network;
-import io.github.d.lab2.kernel.categories.datamining.network.sequential.*;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.LinearLayer;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.Sequential;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.SoftmaxLayer;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.TanhLayer;
 import io.github.d.lab2.kernel.categories.datamining.training.LossEnum;
 import io.github.d.lab2.kernel.categories.datamining.training.OptimizerEnum;
 import io.github.d.lab2.kernel.categories.datamining.training.Training;
@@ -16,17 +19,23 @@ import io.github.d.lab2.kernel.categories.transformation.Normalization;
 import io.github.d.lab2.kernel.categories.transformation.Reshape;
 import io.github.d.lab2.kernel.categories.transformation.Transformation;
 import io.github.d.lab2.kernel.categories.transformation.TransformationElement;
+import io.github.d.lab2.kernel.categories.validation.DiagramEnum;
 import io.github.d.lab2.kernel.categories.validation.Validation;
 import io.github.d.lab2.kernel.categories.validation.ValidationElement;
+import io.github.d.lab2.kernel.categories.validation.diagrams.LossEpochEvolution;
+import io.github.d.lab2.kernel.categories.validation.diagrams.Prediction;
 import io.github.d.lab2.kernel.enums.FrameworkEnum;
 import io.github.d.lab2.kernel.enums.ProcessingEnum;
 import io.github.d.lab2.kernel.enums.TypeEnum;
 import io.github.d.lab2.kernel.mandatory.Description;
 import io.github.d.lab2.kernel.mandatory.Framework;
+import org.apache.commons.lang3.EnumUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
+import java.util.Locale;
 
 public class ModelBuilder extends NotebookmlBaseListener {
 
@@ -130,7 +139,6 @@ public class ModelBuilder extends NotebookmlBaseListener {
     }
 
 
-
     /**************************
      ** transformation **
      **************************/
@@ -209,8 +217,23 @@ public class ModelBuilder extends NotebookmlBaseListener {
     @Override
     public void enterDiagram(NotebookmlParser.DiagramContext ctx) {
         List<ValidationElement> validationElements = new ArrayList<>();
-        //validationElements.add();
-        //theApp.getValidation().getValidationElement().addAll(validationElements);
+        String diagramName = ctx.diagram_name.getText().toUpperCase(Locale.ENGLISH);
+        if (!EnumUtils.isValidEnum(DiagramEnum.class, diagramName)) {
+            String message = String.format("Invalid diagram name: '%s'%nShould be (select one item): %s", ctx.diagram_name.getText(),
+                    Arrays.toString(
+                            Arrays.stream(DiagramEnum.values())
+                                    .map(element -> element.name().toLowerCase(Locale.ENGLISH))
+                                    .toArray()
+                    )
+            );
+            ExceptionHandler.exit(message);
+        }
+        DiagramEnum diagram = DiagramEnum.valueOf(diagramName);
+        switch (diagram) {
+            case LOSS_EPOCH_EVOLUTION -> validationElements.add(new LossEpochEvolution());
+            case PREDICTION -> validationElements.add(new Prediction());
+        }
+        theApp.getValidation().getValidationElement().addAll(validationElements);
     }
 
     @Override
