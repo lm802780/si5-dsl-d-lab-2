@@ -85,9 +85,12 @@ public class ModelBuilder extends NotebookmlBaseListener {
      **************************/
 
     @Override
-    public void enterFramework(NotebookmlParser.FrameworkContext ctx) {
+    public void enterFrameworks(NotebookmlParser.FrameworksContext ctx) {
         Framework framework = new Framework();
-        framework.setFramework(FrameworkEnum.valueOf(ctx.frameworkType.getText()));
+        //TODO: add multiple frameworks inside theApp
+        ctx.framework().forEach(frameworkContext -> {
+            framework.setFramework(FrameworkEnum.valueOf(frameworkContext.frameworkType.getText()));
+        });
         theApp.setFramework(framework);
     }
 

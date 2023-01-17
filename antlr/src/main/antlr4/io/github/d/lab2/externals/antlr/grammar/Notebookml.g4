@@ -5,11 +5,12 @@ grammar Notebookml;
  ** Parser rules **
  ******************/
 
-root            :   description framework workflow EOF;
+root            :   description frameworks workflow EOF;
 
 description     :   detail=STRINGS;
 
-framework     :   'framework' ':' frameworkType=FRAMEWORK;
+frameworks     :   'framework' ':' framework* (',' framework)*;
+    framework : frameworkType=FRAMEWORK ;
 
 workflow: selection (preProcessing?) transformation data_mining validation;
     selection       :   'selection' ':' source split;

@@ -1,6 +1,6 @@
 description: Ce notebook a pour vocation de
 
-framework: PYTORCH
+framework: PYTORCH, KERAS
 
 selection:
     source: mydataset
