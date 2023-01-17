@@ -9,22 +9,28 @@ import io.github.d.lab2.notebook.Notebook;
 
 public class StrategyFactory implements IStrategyFactory {
 
-    @Override
+    private IFrameworkStrategy getDefaultStrategy(FrameworkEnum strategyName, Notebook notebook) {
+        System.out.println("Unknown strategy: " + strategyName);
+        return new DefaultStrategy(notebook);
+    }
 
+    @Override
     public IFrameworkStrategy createStrategy(FrameworkEnum strategyName, Notebook notebook) {
-        System.out.println("Strategy name: " + strategyName);
+        if (strategyName == null) {
+            return getDefaultStrategy(strategyName, notebook);
+        }
 
         switch (strategyName) {
             case PYTORCH -> {
+                System.out.println("Strategy name: " + strategyName);
                 return new PyTorchStrategy(notebook);
             }
             case KERAS -> {
+                System.out.println("Strategy name: " + strategyName);
                 return new KerasStrategy(notebook);
             }
-            case null, default -> {
-                System.out.println("Unknown strategy: " + strategyName);
-                return new DefaultStrategy(notebook);
-            }
         }
+
+        return getDefaultStrategy(strategyName, notebook);
     }
 }
