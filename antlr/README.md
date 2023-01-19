@@ -9,20 +9,20 @@
 
 <description> ::= "description: " <STRING> <NL>
 
-<framework> ::= "framework: " ("PYTORCH" | "TENSORFLOW") <NL>
+<framework> ::= "framework: " <FRAMEWORK> (", " <FRAMEWORK>)* <NL>
 
 <selection> ::= "selection:" <NL> <source> <split>
 <source> ::= <TAB> "source: " <STRING> <NL>
-<split> ::= <TAB> "split:" <NL> (<split_detail>)+ <NL>
+<split> ::= <TAB> "split:" <NL> (<split_detail>)+
 <split_detail> ::= <TAB2> <STEP> " is " <FLOAT> <NL>
 
 <pre_processing> ::= "pre_processing:" <NL> <processing_function>*
-<processing_function> ::= <TAB> <FUNCTION> <DATA_TYPE> <NL>
+<processing_function> ::= <TAB> <FUNCTION> " " <DATA_TYPE> <NL>
 
 <transformation> ::= "transformation:" <NL> <reshape> <normalization>
-<reshape> ::= <TAB> "TRAIN" "[" <INT> "," <INT> "]" <NL>
-<normalization> ::= "normalization: " <NL> <normalization_step>
-<normalization_step> ::= <TAB2> <STEP> <INT> <NL>
+<reshape> ::= <TAB> "reshape TRAIN [" <INT> ", " <INT> "]" <NL>
+<normalization> ::= <TAB> "normalization:" <NL> <normalization_step>+
+<normalization_step> ::= <TAB2> <STEP> " " <INT> <NL>
 
 <data_mining> ::= "data_mining:" <NL> <network> <params>
 <network> ::= <TAB> "network:" <NL> <network_type>
@@ -32,19 +32,18 @@
 <params> ::= <TAB> "params:" <NL>
 
 <validation> ::= "validation:" <NL> <diagrams>*
-<diagrams> ::= <TAB> "diagram: " (<loss_epoch_evolution> | <prediction>)
-<loss_epoch_evolution> ::= "loss_epoch_evolution"
-<prediction> ::= "prediction" <NL> <TAB2> "size: " <INT>
+<diagrams> ::= <TAB> "diagram: " ("loss_epoch_evolution" | "prediction") <NL>
 
 /* Basic rules and constants  */
 <STRING> ::= ([0-9] | [a-z] | [A-Z])+
 <STEP> ::= ("TRAIN" | "TEST" | "VALIDATION")
+<FRAMEWORK> ::= ("PYTORCH" | "KERAS")
 <FUNCTION> ::= ("nan")
 <DATA_TYPE> ::= ("int")
 <INT> ::= ("0" |  [1-9] [0-9]*)
 <FLOAT> ::= ("0" |  [1-9] [0-9]*) ("." [0-9]+ )?
 <NL> ::= "\n"+
-<TAB> ::= "\t"
+<TAB> ::= ("\t" | "    ")
 <TAB2> ::= <TAB> <TAB>
 ```
 
