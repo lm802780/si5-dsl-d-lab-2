@@ -13,11 +13,13 @@ import io.github.d.lab2.kernel.mandatory.Framework;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class App implements StepVisitable {
 
-    private Framework framework;
+    private List<Framework> frameworks;
     private Description description;
     private Selection selection;
     private Preprocessing preprocessing;

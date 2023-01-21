@@ -11,6 +11,7 @@ import io.github.d.lab2.kernel.enums.TypeEnum;
 import io.github.d.lab2.kernel.generator.visitor.AbstractStepVisitor;
 import io.github.d.lab2.kernel.generator.visitor.strategy.factory.StrategyFactory;
 import io.github.d.lab2.kernel.mandatory.Description;
+import io.github.d.lab2.kernel.mandatory.Framework;
 import io.github.d.lab2.notebook.Notebook;
 
 import java.util.Locale;
@@ -24,29 +25,22 @@ public class ToWiring extends AbstractStepVisitor {
         super(new Notebook());
     }
 
-    private void initStrategy(App app) {
-        setFramework(app.getFramework().getFramework());
-        if (app.getFramework() == null || app.getFramework().getFramework() == null) {
-            setFrameworkStrategy(new StrategyFactory().createStrategy(null, notebook));
-        } else {
-            setFrameworkStrategy(new StrategyFactory().createStrategy(app.getFramework().getFramework(), notebook));
-        }
-    }
-
     @Override
     public void visit(App app) {
-        initStrategy(app);
-
-        app.getDescription().accept(this);
-        app.getSelection().accept(this);
-
-        app.getPreprocessing().accept(this);
-
-        app.getTransformation().accept(this);
-        app.getDataMining().accept(this);
-        app.getValidation().accept(this);
-        //app.getKnowledge().accept(this);
-
+        var strategyFactory = new StrategyFactory();
+        app.getFrameworks().stream()
+            .map(Framework::getFramework)
+            .forEach((f) -> {
+                setFramework(f);
+                setFrameworkStrategy(strategyFactory.createStrategy(f, notebook));
+                app.getDescription().accept(this);
+                app.getSelection().accept(this);
+                app.getPreprocessing().accept(this);
+                app.getTransformation().accept(this);
+                app.getDataMining().accept(this);
+                app.getValidation().accept(this);
+                //app.getKnowledge().accept(this);
+            });
         // Generate the code.
         notebook.save("results/notebook.ipynb");
     }
@@ -87,6 +81,10 @@ public class ToWiring extends AbstractStepVisitor {
         notebook.addCellCode();
         notebook.appendCode("data.head()");
 
+        notebook.addCellCode();
+        // TODO: customize the label name (put it in the Selection object).
+        notebook.appendCode("X, y = data.drop(['label'], axis = 1), data['label']\n");
+        notebook.appendCode("X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = split_train / 100, test_size = split_test / 100, random_state=42)");
     }
 
     @Override

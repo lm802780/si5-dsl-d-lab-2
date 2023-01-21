@@ -36,6 +36,7 @@ import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 public class ModelBuilder extends NotebookmlBaseListener {
 
@@ -86,12 +87,10 @@ public class ModelBuilder extends NotebookmlBaseListener {
 
     @Override
     public void enterFrameworks(NotebookmlParser.FrameworksContext ctx) {
-        Framework framework = new Framework();
-        //TODO: add multiple frameworks inside theApp
-        ctx.framework().forEach(frameworkContext -> {
-            framework.setFramework(FrameworkEnum.valueOf(frameworkContext.frameworkType.getText()));
-        });
-        theApp.setFramework(framework);
+        theApp.setFrameworks(ctx.framework().stream()
+                .map((f) -> new Framework(FrameworkEnum.valueOf(f.frameworkType.getText())))
+                .collect(Collectors.toList())
+        );
     }
 
     /**************************
