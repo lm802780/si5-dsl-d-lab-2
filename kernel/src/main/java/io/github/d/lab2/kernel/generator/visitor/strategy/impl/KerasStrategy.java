@@ -1,6 +1,5 @@
 package io.github.d.lab2.kernel.generator.visitor.strategy.impl;
 
-import io.github.d.lab2.kernel.categories.datamining.network.Network;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.LinearLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.Sequential;
 import io.github.d.lab2.kernel.categories.datamining.training.Training;
@@ -19,7 +18,7 @@ public class KerasStrategy extends DefaultStrategy {
     @Override
     public void visit(Sequential sequential) {
         notebook.addCellCode("#### define network\n");
-        notebook.appendCode("def Network(nbIn, nbOut):\n");
+        notebook.appendCode("def KerasNetwork(nbIn, nbOut):\n");
         notebook.appendCode(1,"model = km.Sequential()\n");
         var layers = new LinkedList<>(sequential.getLayers());
         while (!layers.isEmpty()) {
@@ -60,8 +59,8 @@ public class KerasStrategy extends DefaultStrategy {
         notebook.addCellCode("#### create network\n");
         notebook.appendCode("nbIn = X_train.shape[1]\n");
         notebook.appendCode("nbOut = 1\n");
-        notebook.appendCode("model = Network(nbIn, nbOut)\n");
-        notebook.appendCode("model.summary()\n");
+        notebook.appendCode("model_keras = KerasNetwork(nbIn, nbOut)\n");
+        notebook.appendCode("model_keras.summary()\n");
     }
 
 //    @Override
@@ -95,22 +94,22 @@ public class KerasStrategy extends DefaultStrategy {
             default -> throw new IllegalStateException("Unexpected value: " + training.getOptimizer());
         };
         //Hyper parameters
-        notebook.appendCode("selected_loss_function =" + loss + "\n");
-        notebook.appendCode("selected_optimizer =" + optimizer + "\n");
+        notebook.appendCode("selected_loss_function_keras =" + loss + "\n");
+        notebook.appendCode("selected_optimizer_keras =" + optimizer + "\n");
         notebook.appendCode("learning_rate = " + training.getLearningRate() + "\n");
         notebook.appendCode("nbEpochs = " + training.getEpochs() + "\n");
         notebook.appendCode("batch_size = " + training.getBatchSize() + "\n");
 
         notebook.addCellCode();
         notebook.appendCode("""
-                model.compile(
-                    loss=selected_loss_function,
-                    optimizer=selected_optimizer,
+                model_keras.compile(
+                    loss=selected_loss_function_keras,
+                    optimizer=selected_optimizer_keras,
                     metrics=['accuracy']
                 )
                 """);
         notebook.appendCode("""
-                history = model.fit(X_train, y_train,
+                history_keras = model_keras.fit(X_train, y_train,
                                             batch_size=batch_size,
                                             epochs=nbEpochs,
                                             verbose=1)""");
@@ -121,8 +120,8 @@ public class KerasStrategy extends DefaultStrategy {
         notebook.addCellCode();
         notebook.appendCode("# Loss epoch evolution\n");
         notebook.appendCode("fig, ax = plt.subplots()\n");
-        notebook.appendCode("x = np.arange(len(history.history['loss']))\n");
-        notebook.appendCode("ax.plot(x, history.history['loss'])\n");
+        notebook.appendCode("x = np.arange(len(history_keras.history['loss']))\n");
+        notebook.appendCode("ax.plot(x, history_keras.history['loss'])\n");
         notebook.appendCode("ax.set(xlabel='number of epochs', ylabel='loss', title='Evolution')\n");
         notebook.appendCode("plt.show()");
     }
@@ -132,9 +131,9 @@ public class KerasStrategy extends DefaultStrategy {
         notebook.addCellCode();
         notebook.appendCode("# Prediction\n");
         notebook.appendCode("ax = plt.gca()\n");
-        notebook.appendCode("output = model.predict(X_train.values[:%d])\n");
-        notebook.appendCode("plt.plot(np.arange(y_train.values.size), y_train.values[:%d], '-', label='True data', color='b')\n");
-        notebook.appendCode("plt.plot(np.arange(output.size), output, '--', label='Predictions', color='r')\n");
+        notebook.appendCode("output_keras = model_keras.predict(X_train.values)\n");
+        notebook.appendCode("plt.plot(np.arange(y_train.values.size), y_train.values, '-', label='True data', color='b')\n");
+        notebook.appendCode("plt.plot(np.arange(output_keras.size), output, '--', label='Predictions', color='r')\n");
         notebook.appendCode("plt.gcf().autofmt_xdate()\n");
         notebook.appendCode("plt.show()");
     }
