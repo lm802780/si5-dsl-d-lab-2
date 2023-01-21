@@ -13,8 +13,9 @@ frameworks     :   'framework' ':' framework* (',' framework)*;
     framework : frameworkType=FRAMEWORK ;
 
 workflow: selection (preProcessing?) transformation data_mining validation;
-    selection       :   'selection' ':' source split;
+    selection       :   'selection' ':' source label? split;
         source      :   'source' ':'    sourceId=(VALID_CSV|VALID_URL);
+        label       :   'label_name' 'is'     label_name=NAME;
         split       :   'split' ':'     (split_list)+;
             split_list: type=TYPE 'is' percentage=NUMBER;
     preProcessing   :   'pre_processing' ':' nan;
@@ -54,13 +55,14 @@ workflow: selection (preProcessing?) transformation data_mining validation;
 PROCESSING  : ('int' | 'str' | 'drop');
 LOSS  : ('MSE');
 OPTIMIZERS  : ('ADAM');
-DIAGRAMS  : ('loss_epoch_evolution'|'prediction');
+DIAGRAMS  : ('confusion'|'loss_epoch_evolution'|'prediction');
 FRAMEWORK   : 'PYTORCH' | 'KERAS';
 TYPE        : 'TRAIN' | 'TEST' | 'VALIDATION';
 SCORE_TYPE  : 'R2' | 'MSE';
 STRINGS      :   'description:' ~( '\r' | '\n' )*;
 NUMBER      :   [0-9]+;
 DOUBLE      :   [0-9.]+;
+NAME      :   [a-zA-Z]+;
 VALID_CSV      :   [a-zA-Z_/][a-zA-Z0-9/_ ]*'.csv';
 VALID_URL      :   ([A-Za-z]+':')?'/'?('/'?[-_.A-Za-z0-9%]+)+;
 

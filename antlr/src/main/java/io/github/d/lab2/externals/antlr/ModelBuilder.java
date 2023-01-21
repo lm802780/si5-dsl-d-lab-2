@@ -27,6 +27,7 @@ import io.github.d.lab2.kernel.categories.transformation.TransformationElement;
 import io.github.d.lab2.kernel.categories.validation.DiagramEnum;
 import io.github.d.lab2.kernel.categories.validation.Validation;
 import io.github.d.lab2.kernel.categories.validation.ValidationElement;
+import io.github.d.lab2.kernel.categories.validation.diagrams.ConfusionMatrix;
 import io.github.d.lab2.kernel.categories.validation.diagrams.LossEpochEvolution;
 import io.github.d.lab2.kernel.categories.validation.diagrams.Prediction;
 import io.github.d.lab2.kernel.enums.FrameworkEnum;
@@ -114,6 +115,8 @@ public class ModelBuilder extends NotebookmlBaseListener {
         Source source = new Source();
         source.setSourceId(ctx.source().sourceId.getText());
         selection.setSource(source);
+
+        selection.setLabel(ctx.label() == null ? "label" : ctx.label().label_name.getText());
 
         EnumMap<TypeEnum, Double> splits = new EnumMap<>(TypeEnum.class);
 
@@ -265,6 +268,7 @@ public class ModelBuilder extends NotebookmlBaseListener {
         switch (diagram) {
             case LOSS_EPOCH_EVOLUTION -> validationElements.add(new LossEpochEvolution());
             case PREDICTION -> validationElements.add(new Prediction());
+            case CONFUSION -> validationElements.add(new ConfusionMatrix());
         }
         theApp.getValidation().getValidationElement().addAll(validationElements);
     }

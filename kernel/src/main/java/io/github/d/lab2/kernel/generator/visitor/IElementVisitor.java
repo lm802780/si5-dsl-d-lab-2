@@ -14,6 +14,7 @@ import io.github.d.lab2.kernel.categories.preprocessing.DropNa;
 import io.github.d.lab2.kernel.categories.preprocessing.ReplaceBy;
 import io.github.d.lab2.kernel.categories.transformation.Normalization;
 import io.github.d.lab2.kernel.categories.transformation.Reshape;
+import io.github.d.lab2.kernel.categories.validation.diagrams.ConfusionMatrix;
 import io.github.d.lab2.kernel.categories.validation.diagrams.LossEpochEvolution;
 import io.github.d.lab2.kernel.categories.validation.diagrams.Prediction;
 import io.github.d.lab2.kernel.categories.validation.functions.MSEFunction;
@@ -28,6 +29,8 @@ public interface IElementVisitor {
     void visit(Reshape reshape);
 
     void visit(Normalization normalization);
+
+    void visit(ConfusionMatrix confusionMatrix);
 
     void visit(LossEpochEvolution lossEpochEvolution);
 
