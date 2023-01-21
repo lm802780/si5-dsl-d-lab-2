@@ -76,8 +76,8 @@ public class ToWiring extends AbstractStepVisitor {
                 selection.getSplit().get(TypeEnum.TRAIN), selection.getSplit().get(TypeEnum.TEST),
                 selection.getSplit().get(TypeEnum.VALIDATION)));
 
-        // TODO: customize the label name (put it in the Selection object).
-        notebook.appendCode(String.format("label_colname = '%s'", "label"));
+
+        notebook.appendCode(String.format("label_colname = '%s'", selection.getLabel()));
 
         notebook.addCellCode();
         notebook.appendCode("data = pd.read_csv(source, encoding='utf_8', parse_dates=True)");
@@ -87,7 +87,7 @@ public class ToWiring extends AbstractStepVisitor {
 
         notebook.addCellCode();
         // TODO: customize the label name (put it in the Selection object).
-        notebook.appendCode("X, y = data.drop(['label'], axis = 1), data['label']\n");
+        notebook.appendCode(String.format("X, y = data.drop(['%s'], axis = 1), data['%s']\n", selection.getLabel(), selection.getLabel()));
         notebook.appendCode("X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = split_train / 100, test_size = split_test / 100, random_state=42)");
     }
 

@@ -13,6 +13,7 @@ import java.util.Map;
 @Setter
 public class Selection extends Step {
     private Source source;
+    private String label;
     private Map<TypeEnum, Double> split;
 
     public Selection(){

@@ -4,6 +4,7 @@ framework: PYTORCH, KERAS
 
 selection:
     source: mnist.csv
+    label_name is label
     split:
         TRAIN is 60
         TEST is 20

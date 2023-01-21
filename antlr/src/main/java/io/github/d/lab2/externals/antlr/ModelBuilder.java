@@ -112,6 +112,8 @@ public class ModelBuilder extends NotebookmlBaseListener {
         source.setSourceId(ctx.source().sourceId.getText());
         selection.setSource(source);
 
+        selection.setLabel(ctx.label() == null ? "label" : ctx.label().label_name.getText());
+
         EnumMap<TypeEnum, Double> splits = new EnumMap<>(TypeEnum.class);
 
         ctx.split().split_list().forEach(splitContext -> {
