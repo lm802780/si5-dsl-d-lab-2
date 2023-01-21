@@ -48,7 +48,7 @@ public class ToWiring extends AbstractStepVisitor {
         //app.getKnowledge().accept(this);
 
         // Generate the code.
-        notebook.save("result.ipynb");
+        notebook.save("results/notebook.ipynb");
     }
 
     @Override

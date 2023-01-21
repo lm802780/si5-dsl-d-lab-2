@@ -5,7 +5,6 @@ import io.github.d.lab2.externals.antlr.grammar.NotebookmlParser;
 import io.github.d.lab2.kernel.App;
 import io.github.d.lab2.kernel.generator.ToWiring;
 import io.github.d.lab2.kernel.generator.visitor.AbstractStepVisitor;
-import io.github.d.lab2.notebook.Notebook;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -56,7 +55,7 @@ public class Main {
     private static void exportToCode(App theApp) {
         AbstractStepVisitor codeGenerator = new ToWiring();
         theApp.accept(codeGenerator);
-        System.out.println("Notebook saved in 'notebooks/result.ipynb'");
+        System.out.println("Notebook saved in 'results/notebook.ipynb'");
     }
 
 }
