@@ -49,7 +49,7 @@ workflow: selection (preProcessing?) transformation data_mining validation;
 PROCESSING  : ('int' | 'str' | 'drop');
 LOSS  : ('MSE');
 OPTIMIZERS  : ('ADAM');
-DIAGRAMS  : ('loss_epoch_evolution'|'prediction');
+DIAGRAMS  : ('confusion'|'loss_epoch_evolution'|'prediction');
 FRAMEWORK   : 'PYTORCH' | 'KERAS';
 TYPE        : 'TRAIN' | 'TEST' | 'VALIDATION';
 SCORE_TYPE  : 'R2' | 'MSE';

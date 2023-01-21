@@ -3,6 +3,7 @@ package io.github.d.lab2.kernel.generator.visitor.strategy.impl;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.LinearLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.Sequential;
 import io.github.d.lab2.kernel.categories.datamining.training.Training;
+import io.github.d.lab2.kernel.categories.validation.diagrams.ConfusionMatrix;
 import io.github.d.lab2.kernel.categories.validation.diagrams.LossEpochEvolution;
 import io.github.d.lab2.kernel.categories.validation.diagrams.Prediction;
 import io.github.d.lab2.notebook.Notebook;
@@ -116,9 +117,34 @@ public class KerasStrategy extends DefaultStrategy {
     }
 
     @Override
+    public void visit(ConfusionMatrix confusionMatrix) {
+        notebook.addCellCode();
+        notebook.appendCode("# Confusion matrix\n");
+        notebook.appendCode("from sklearn.metrics import confusion_matrix\n");
+        notebook.appendCode("");
+        notebook.appendCode("""
+                cm = confusion_matrix(y_test, y_pred_keras)
+                plt.figure(figsize=(9,9))
+                plt.imshow(cm, interpolation='nearest', cmap='Pastel1')
+                plt.title('Confusion matrix', size = 15)
+                plt.colorbar()
+                plt.tight_layout()
+                plt.ylabel('Actual label', size = 15)
+                plt.xlabel('Predicted label', size = 15)
+                width, height = cm.shape
+                for x in range(width):
+                    for y in range(height):
+                        plt.annotate(str(cm[x][y]), xy=(y, x),
+                            horizontalalignment='center',
+                            verticalalignment='center'
+                        )
+                """);
+    }
+
+    @Override
     public void visit(LossEpochEvolution lossEpochEvolution) {
         notebook.addCellCode();
-        notebook.appendCode("# Loss epoch evolution\n");
+        notebook.appendCode("# Loss epoch evolution (Keras)\n");
         notebook.appendCode("fig, ax = plt.subplots()\n");
         notebook.appendCode("x = np.arange(len(history_keras.history['loss']))\n");
         notebook.appendCode("ax.plot(x, history_keras.history['loss'])\n");
@@ -129,13 +155,12 @@ public class KerasStrategy extends DefaultStrategy {
     @Override
     public void visit(Prediction prediction) {
         notebook.addCellCode();
-        notebook.appendCode("# Prediction\n");
+        notebook.appendCode("# Prediction (Keras)\n");
         notebook.appendCode("ax = plt.gca()\n");
-        notebook.appendCode("output_keras = model_keras.predict(X_train.values)\n");
-        notebook.appendCode("plt.plot(np.arange(y_train.values.size), y_train.values, '-', label='True data', color='b')\n");
-        notebook.appendCode("plt.plot(np.arange(output_keras.size), output, '--', label='Predictions', color='r')\n");
+        notebook.appendCode("y_pred_keras = np.argmax(model_keras.predict(X_test.values), axis=1)\n");
+        notebook.appendCode("plt.plot(np.arange(50), y_test.values[:50], '-', label='True data', color='b')\n");
+        notebook.appendCode("plt.plot(np.arange(50), y_pred_keras[:50], '--', label='Predictions', color='r')\n");
         notebook.appendCode("plt.gcf().autofmt_xdate()\n");
         notebook.appendCode("plt.show()");
     }
-
 }

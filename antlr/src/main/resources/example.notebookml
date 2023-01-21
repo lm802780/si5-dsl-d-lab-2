@@ -28,10 +28,11 @@ data_mining:
     params:
         loss: MSE
         optimizers: ADAM
-        learningRate: 0.003
-        nbEpochs: 100
+        learningRate: 0.05
+        nbEpochs: 10
         batchSize: 128
 
 validation:
     diagram: loss_epoch_evolution
     diagram: prediction
+    diagram: confusion

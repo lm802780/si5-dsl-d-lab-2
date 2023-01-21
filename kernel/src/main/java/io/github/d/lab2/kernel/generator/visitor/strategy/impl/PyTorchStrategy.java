@@ -5,6 +5,8 @@ import io.github.d.lab2.kernel.categories.datamining.network.sequential.Sequenti
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.SoftmaxLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.TanhLayer;
 import io.github.d.lab2.kernel.categories.datamining.training.Training;
+import io.github.d.lab2.kernel.categories.validation.diagrams.ConfusionMatrix;
+import io.github.d.lab2.kernel.categories.validation.diagrams.Prediction;
 import io.github.d.lab2.notebook.Notebook;
 
 public class PyTorchStrategy extends DefaultStrategy {
@@ -91,5 +93,43 @@ public class PyTorchStrategy extends DefaultStrategy {
                         print(id_batch, loss_torch.item())
                         items.append(loss_torch.item())
                 """);
+    }
+
+    @Override
+    public void visit(ConfusionMatrix confusionMatrix) {
+        notebook.addCellCode();
+        notebook.appendCode("# Confusion matrix (PyTorch)\n");
+        notebook.appendCode("from sklearn.metrics import confusion_matrix\n");
+        notebook.appendCode("");
+        notebook.appendCode("""
+                cm = confusion_matrix(y_test, y_pred_torch.detach().numpy())
+                plt.figure(figsize=(9,9))
+                plt.imshow(cm, interpolation='nearest', cmap='Pastel1')
+                plt.title('Confusion matrix', size = 15)
+                plt.colorbar()
+                plt.tight_layout()
+                plt.ylabel('Actual label', size = 15)
+                plt.xlabel('Predicted label', size = 15)
+                width, height = cm.shape
+                for x in range(width):
+                    for y in range(height):
+                        plt.annotate(str(cm[x][y]), xy=(y, x),
+                            horizontalalignment='center',
+                            verticalalignment='center'
+                        )
+                """);
+    }
+
+    @Override
+    public void visit(Prediction prediction) {
+        notebook.addCellCode();
+        notebook.appendCode("# Prediction (PyTorch)\n");
+        notebook.appendCode("X_test_torch = torch.FloatTensor(X_test.select_dtypes(include=['int', 'float']).values)\n");
+        notebook.appendCode("y_pred_torch = model_torch(X_test_torch)\n");
+        notebook.appendCode("ax = plt.gca()\n");
+        notebook.appendCode("plt.plot(np.arange(50), y_test.values[:50], '-', label='True data', color='b')\n");
+        notebook.appendCode("plt.plot(np.arange(50), y_pred_torch.detach().numpy()[:50], '--', label='Predictions', color='r')\n");
+        notebook.appendCode("plt.gcf().autofmt_xdate()\n");
+        notebook.appendCode("plt.show()");
     }
 }

@@ -1,6 +1,5 @@
 package io.github.d.lab2.kernel.generator.visitor;
 
-import io.github.d.lab2.kernel.categories.datamining.network.Network;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.LinearLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.Sequential;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.SoftmaxLayer;
@@ -10,6 +9,7 @@ import io.github.d.lab2.kernel.categories.preprocessing.DropNa;
 import io.github.d.lab2.kernel.categories.preprocessing.ReplaceBy;
 import io.github.d.lab2.kernel.categories.transformation.Normalization;
 import io.github.d.lab2.kernel.categories.transformation.Reshape;
+import io.github.d.lab2.kernel.categories.validation.diagrams.ConfusionMatrix;
 import io.github.d.lab2.kernel.categories.validation.diagrams.LossEpochEvolution;
 import io.github.d.lab2.kernel.categories.validation.diagrams.Prediction;
 import io.github.d.lab2.kernel.categories.validation.functions.MSEFunction;
@@ -24,6 +24,8 @@ public interface IElementVisitor {
     void visit(Reshape reshape);
 
     void visit(Normalization normalization);
+
+    void visit(ConfusionMatrix confusionMatrix);
 
     void visit(LossEpochEvolution lossEpochEvolution);
 
