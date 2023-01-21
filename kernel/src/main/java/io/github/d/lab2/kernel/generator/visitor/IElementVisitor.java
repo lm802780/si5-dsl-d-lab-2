@@ -1,8 +1,13 @@
 package io.github.d.lab2.kernel.generator.visitor;
 
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.EluLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.LinearLayer;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.SeluLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.Sequential;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.SigmoidLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.SoftmaxLayer;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.SoftplusLayer;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.SoftsignLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.TanhLayer;
 import io.github.d.lab2.kernel.categories.datamining.training.Training;
 import io.github.d.lab2.kernel.categories.preprocessing.DropNa;
@@ -28,12 +33,9 @@ public interface IElementVisitor {
 
     void visit(Prediction prediction);
 
-//    void visit(Network network);
-
     void visit(Training training);
 
     void visit(Sequential sequential);
-
 
     void visit(LinearLayer linearLayer);
 
@@ -45,4 +47,13 @@ public interface IElementVisitor {
 
     void visit(R2Function r2Function);
 
+    void visit(SigmoidLayer sigmoidLayer);
+
+    void visit(SoftplusLayer softplusLayer);
+
+    void visit(SoftsignLayer softsignLayer);
+
+    void visit(SeluLayer seluLayer);
+
+    void visit(EluLayer eluLayer);
 }

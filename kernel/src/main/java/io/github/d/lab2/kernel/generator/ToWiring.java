@@ -9,6 +9,7 @@ import io.github.d.lab2.kernel.categories.transformation.Transformation;
 import io.github.d.lab2.kernel.categories.validation.Validation;
 import io.github.d.lab2.kernel.enums.TypeEnum;
 import io.github.d.lab2.kernel.generator.visitor.AbstractStepVisitor;
+import io.github.d.lab2.kernel.generator.visitor.strategy.factory.IStrategyFactory;
 import io.github.d.lab2.kernel.generator.visitor.strategy.factory.StrategyFactory;
 import io.github.d.lab2.kernel.mandatory.Description;
 import io.github.d.lab2.kernel.mandatory.Framework;
@@ -27,7 +28,7 @@ public class ToWiring extends AbstractStepVisitor {
 
     @Override
     public void visit(App app) {
-        var strategyFactory = new StrategyFactory();
+        IStrategyFactory strategyFactory = new StrategyFactory();
         int passCounter = 0;
         for (Framework appFramework : app.getFrameworks()) {
             setFramework(appFramework.getFramework());

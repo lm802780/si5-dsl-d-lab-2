@@ -5,9 +5,14 @@ import io.github.d.lab2.externals.antlr.grammar.NotebookmlParser;
 import io.github.d.lab2.kernel.App;
 import io.github.d.lab2.kernel.categories.datamining.DataMining;
 import io.github.d.lab2.kernel.categories.datamining.network.Network;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.EluLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.LinearLayer;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.SeluLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.Sequential;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.SigmoidLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.SoftmaxLayer;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.SoftplusLayer;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.SoftsignLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.TanhLayer;
 import io.github.d.lab2.kernel.categories.datamining.training.LossEnum;
 import io.github.d.lab2.kernel.categories.datamining.training.OptimizerEnum;
@@ -36,7 +41,6 @@ import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 public class ModelBuilder extends NotebookmlBaseListener {
 
@@ -45,7 +49,7 @@ public class ModelBuilder extends NotebookmlBaseListener {
      ********************/
 
     private App theApp;
-    private boolean built = false;
+    private boolean built;
 
     public App retrieve() {
         if (built) {
@@ -88,8 +92,8 @@ public class ModelBuilder extends NotebookmlBaseListener {
     @Override
     public void enterFrameworks(NotebookmlParser.FrameworksContext ctx) {
         theApp.setFrameworks(ctx.framework().stream()
-                .map((f) -> new Framework(FrameworkEnum.valueOf(f.frameworkType.getText())))
-                .collect(Collectors.toList())
+                .map(f -> new Framework(FrameworkEnum.valueOf(f.frameworkType.getText())))
+                .toList()
         );
     }
 
@@ -181,7 +185,8 @@ public class ModelBuilder extends NotebookmlBaseListener {
 
     @Override
     public void enterLinear(NotebookmlParser.LinearContext ctx) {
-        network.getLayers().add(new LinearLayer(Integer.parseInt(ctx.linear_in.getText()), Integer.parseInt(ctx.linear_out.getText())));
+        network.getLayers().add(new LinearLayer(Integer.parseInt(ctx.linear_in.getText()),
+                Integer.parseInt(ctx.linear_out.getText())));
     }
 
     @Override
@@ -192,6 +197,31 @@ public class ModelBuilder extends NotebookmlBaseListener {
     @Override
     public void enterSoftmax(NotebookmlParser.SoftmaxContext ctx) {
         network.getLayers().add(new SoftmaxLayer());
+    }
+
+    @Override
+    public void enterElu(NotebookmlParser.EluContext ctx) {
+        network.getLayers().add(new EluLayer());
+    }
+
+    @Override
+    public void enterSelu(NotebookmlParser.SeluContext ctx) {
+        network.getLayers().add(new SeluLayer());
+    }
+
+    @Override
+    public void enterSigmoid(NotebookmlParser.SigmoidContext ctx) {
+        network.getLayers().add(new SigmoidLayer());
+    }
+
+    @Override
+    public void enterSoftplus(NotebookmlParser.SoftplusContext ctx) {
+        network.getLayers().add(new SoftplusLayer());
+    }
+
+    @Override
+    public void enterSoftsign(NotebookmlParser.SoftsignContext ctx) {
+        network.getLayers().add(new SoftsignLayer());
     }
 
     @Override
@@ -221,7 +251,8 @@ public class ModelBuilder extends NotebookmlBaseListener {
         List<ValidationElement> validationElements = new ArrayList<>();
         String diagramName = ctx.diagram_name.getText().toUpperCase(Locale.ENGLISH);
         if (!EnumUtils.isValidEnum(DiagramEnum.class, diagramName)) {
-            String message = String.format("Invalid diagram name: '%s'%nShould be (select one item): %s", ctx.diagram_name.getText(),
+            String message = String.format("Invalid diagram name: '%s'%nShould be (select one item): %s",
+                    ctx.diagram_name.getText(),
                     Arrays.toString(
                             Arrays.stream(DiagramEnum.values())
                                     .map(element -> element.name().toLowerCase(Locale.ENGLISH))

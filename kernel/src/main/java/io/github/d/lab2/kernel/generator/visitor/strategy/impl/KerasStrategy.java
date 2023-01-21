@@ -1,5 +1,6 @@
 package io.github.d.lab2.kernel.generator.visitor.strategy.impl;
 
+import io.github.d.lab2.kernel.categories.datamining.network.Layer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.LinearLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.Sequential;
 import io.github.d.lab2.kernel.categories.datamining.training.Training;
@@ -15,67 +16,73 @@ public class KerasStrategy extends DefaultStrategy {
         super(notebook);
     }
 
+    private void writeLayer(LinkedList<Layer> layers) {
+        LinearLayer linearLayer = (LinearLayer) layers.get(0);
+        notebook.appendCode(1, String.format("model.add(kl.Dense(%d,input_shape=(%d,)))%n",
+                linearLayer.getOutFeatures(), linearLayer.getInFeatures()));
+
+        layers.removeFirst();
+    }
+
+    private void writeLayer(String activation, LinkedList<Layer> layers) {
+        LinearLayer linearLayer = (LinearLayer) layers.get(0);
+        notebook.appendCode(1, String.format("model.add(kl.Dense(%d, activation='%s', input_shape=(%d,)))%n",
+                linearLayer.getOutFeatures(), activation, linearLayer.getInFeatures()));
+
+        layers.removeFirst();
+        layers.removeFirst();
+    }
+
     @Override
     public void visit(Sequential sequential) {
         notebook.addCellCode("#### define network\n");
         notebook.appendCode("def Network(nbIn, nbOut):\n");
-        notebook.appendCode(1,"model = km.Sequential()\n");
-        var layers = new LinkedList<>(sequential.getLayers());
+        notebook.appendCode(1, "model = km.Sequential()\n");
+        LinkedList<Layer> layers = new LinkedList<>(sequential.getLayers());
         while (!layers.isEmpty()) {
-            if(!(layers.get(0)  instanceof LinearLayer)){
+            if (!(layers.get(0) instanceof LinearLayer)) {
                 throw new RuntimeException("Wrong network model");
             }
-            if(layers.size() == 1){
-                notebook.appendCode(1,"model.add(kl.Dense("+((LinearLayer) layers.get(0)).getOutFeatures()+
-                        ",input_shape=("+((LinearLayer) layers.get(0)).getInFeatures()+",)))\n");
-                layers.removeFirst();
+            if (layers.size() == 1) {
+                writeLayer(layers);
             }
-            switch (layers.get(1).getClass().getSimpleName()){
+            switch (layers.get(1).getClass().getSimpleName()) {
                 case "TanhLayer":
-                        notebook.appendCode(1,"model.add(kl.Dense("+((LinearLayer) layers.get(0)).getOutFeatures()+
-                                ", activation='tanh', input_shape=("+((LinearLayer) layers.get(0)).getInFeatures()+",)))\n");
-                        layers.removeFirst();
-                        layers.removeFirst();
-                        break;
+                    writeLayer("tanh", layers);
+                    break;
                 case "SoftmaxLayer":
-                        notebook.appendCode(1,"model.add(kl.Dense("+((LinearLayer) layers.get(0)).getOutFeatures()+
-                                ", activation='softmax', input_shape=("+((LinearLayer) layers.get(0)).getInFeatures()+",)))\n");
-                        layers.removeFirst();
-                        layers.removeFirst();
-                        break;
+                    writeLayer("softmax", layers);
+                    break;
+                case "SigmoidLayer":
+                    writeLayer("sigmoid", layers);
+                    break;
+                case "SoftplusLayer":
+                    writeLayer("softplus", layers);
+                    break;
+                case "SoftsignLayer":
+                    writeLayer("softsign", layers);
+                    break;
+                case "SeluLayer":
+                    writeLayer("selu", layers);
+                    break;
+                case "EluLayer":
+                    writeLayer("elu", layers);
+                    break;
                 case "LinearLayer":
-                        notebook.appendCode(1,"model.add(kl.Dense("+((LinearLayer) layers.get(0)).getOutFeatures()+
-                                ",input_shape=("+((LinearLayer) layers.get(0)).getInFeatures()+",)))\n");
-                    layers.removeFirst();
+                    writeLayer(layers);
                     break;
                 default:
-                        throw new RuntimeException("Unknown layer");
+                    throw new RuntimeException("Unknown layer");
             }
-
         }
-        notebook.appendCode(1,"return model\n");
 
-
+        notebook.appendCode(1, "return model\n");
         notebook.addCellCode("#### create network\n");
         notebook.appendCode("nbIn = X_train.shape[1]\n");
         notebook.appendCode("nbOut = 1\n");
         notebook.appendCode("model = Network(nbIn, nbOut)\n");
         notebook.appendCode("model.summary()\n");
     }
-
-//    @Override
-//    public void visit(DenseLayer denseLayer){
-//        notebook.appendCode("  model.add(Dense(units=" + denseLayer.getUnits() + ", activation='" + denseLayer.getActivation() + "'))\n");
-//    }
-//    @Override
-//    public void visit(DropoutLayer dropoutLayer){
-//        notebook.appendCode("  model.add(Dropout(" + dropoutLayer.getRate() + "))\n");
-//    }
-//
-//    @Override
-//    public void visit(TanhLayer tanhLayer){
-//        notebook.appendCode("  model.add(Tanh())\n");
-//    }
 
 
     @Override
@@ -132,7 +139,8 @@ public class KerasStrategy extends DefaultStrategy {
         notebook.appendCode("# Prediction\n");
         notebook.appendCode("ax = plt.gca()\n");
         notebook.appendCode("output = model.predict(X_train.values[:%d])\n");
-        notebook.appendCode("plt.plot(np.arange(y_train.values.size), y_train.values[:%d], '-', label='True data', color='b')\n");
+        notebook.appendCode("plt.plot(np.arange(y_train.values.size), y_train.values[:%d], '-', label='True data', " +
+                "color='b')\n");
         notebook.appendCode("plt.plot(np.arange(output.size), output, '--', label='Predictions', color='r')\n");
         notebook.appendCode("plt.gcf().autofmt_xdate()\n");
         notebook.appendCode("plt.show()");

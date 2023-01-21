@@ -28,10 +28,15 @@ workflow: selection (preProcessing?) transformation data_mining validation;
 
     data_mining       :   'data_mining' ':' network params;
         network: 'network:' sequential;
-            sequential: 'sequential:' (linear|tanh|softmax)+;
+            sequential: 'sequential:' (linear|tanh|softmax|elu|selu|sigmoid|softplus|softsign)+;
                 linear: 'linear:' linear_in=NUMBER linear_out=NUMBER;
                 tanh: 'tanh';
                 softmax: 'softmax';
+                elu: 'elu';
+                selu: 'selu';
+                sigmoid: 'sigmoid';
+                softplus: 'softplus';
+                softsign: 'softsign';
         params: 'params:' loss optimizers learningRate nbEpochs batchSize;
             loss: 'loss:' loss_type=LOSS;
             optimizers: 'optimizers:' optimizers_type=OPTIMIZERS;

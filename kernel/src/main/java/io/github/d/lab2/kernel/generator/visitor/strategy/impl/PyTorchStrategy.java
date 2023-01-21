@@ -1,8 +1,13 @@
 package io.github.d.lab2.kernel.generator.visitor.strategy.impl;
 
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.EluLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.LinearLayer;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.SeluLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.Sequential;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.SigmoidLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.SoftmaxLayer;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.SoftplusLayer;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.SoftsignLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.TanhLayer;
 import io.github.d.lab2.kernel.categories.datamining.training.Training;
 import io.github.d.lab2.notebook.Notebook;
@@ -34,14 +39,9 @@ public class PyTorchStrategy extends DefaultStrategy {
 
     @Override
     public void visit(LinearLayer linearLayer) {
-        notebook.appendCode(3, "nn.Linear(" + linearLayer.getInFeatures() + "," + linearLayer.getOutFeatures() + ")," +
-                "\n");
+        notebook.appendCode(3, String.format("nn.Linear(%d, %d),%n", linearLayer.getInFeatures(),
+                linearLayer.getOutFeatures()));
     }
-
-//    @Override
-//    public void visit(Sequential sequential) {
-//
-//    }
 
     @Override
     public void visit(TanhLayer tanhLayer) {
@@ -51,6 +51,31 @@ public class PyTorchStrategy extends DefaultStrategy {
     @Override
     public void visit(SoftmaxLayer softmaxLayer) {
         notebook.appendCode(3, "nn.Softmax(),\n");
+    }
+
+    @Override
+    public void visit(SigmoidLayer sigmoidLayer) {
+        notebook.appendCode(3, "nn.Sigmoid(),\n");
+    }
+
+    @Override
+    public void visit(SoftplusLayer softplusLayer) {
+        notebook.appendCode(3, "nn.Softplus(),\n");
+    }
+
+    @Override
+    public void visit(SoftsignLayer softsignLayer) {
+        notebook.appendCode(3, "nn.Softsign(),\n");
+    }
+
+    @Override
+    public void visit(SeluLayer seluLayer) {
+        notebook.appendCode(3, "nn.SELU(),\n");
+    }
+
+    @Override
+    public void visit(EluLayer eluLayer) {
+        notebook.appendCode(3, "nn.ELU(),\n");
     }
 
     @Override

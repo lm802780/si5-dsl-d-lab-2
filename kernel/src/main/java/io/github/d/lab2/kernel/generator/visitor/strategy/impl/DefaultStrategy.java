@@ -1,8 +1,13 @@
 package io.github.d.lab2.kernel.generator.visitor.strategy.impl;
 
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.EluLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.LinearLayer;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.SeluLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.Sequential;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.SigmoidLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.SoftmaxLayer;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.SoftplusLayer;
+import io.github.d.lab2.kernel.categories.datamining.network.sequential.SoftsignLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.TanhLayer;
 import io.github.d.lab2.kernel.categories.datamining.training.Training;
 import io.github.d.lab2.kernel.categories.preprocessing.DropNa;
@@ -66,6 +71,31 @@ public class DefaultStrategy implements IFrameworkStrategy {
 
     @Override
     public void visit(R2Function r2Function) {
+
+    }
+
+    @Override
+    public void visit(SigmoidLayer sigmoidLayer) {
+
+    }
+
+    @Override
+    public void visit(SoftplusLayer softplusLayer) {
+
+    }
+
+    @Override
+    public void visit(SoftsignLayer softsignLayer) {
+
+    }
+
+    @Override
+    public void visit(SeluLayer seluLayer) {
+
+    }
+
+    @Override
+    public void visit(EluLayer eluLayer) {
 
     }
 
