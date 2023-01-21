@@ -1,6 +1,5 @@
 package io.github.d.lab2.kernel.generator.visitor.strategy.impl;
 
-import io.github.d.lab2.kernel.categories.datamining.network.Network;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.LinearLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.Sequential;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.SoftmaxLayer;
@@ -15,18 +14,16 @@ public class PyTorchStrategy extends DefaultStrategy {
     }
 
     @Override
-    public void visit(Sequential sequential){
+    public void visit(Sequential sequential) {
         notebook.addCellCode("#### define network\n");
         notebook.appendCode("class Network(nn.Module):\n");
-        notebook.appendCode(1,"def __init__(self, nbIn, nbOut):\n");
-        notebook.appendCode(2,"super(Network, self).__init__()\n");
-        notebook.appendCode(2,"self.network = nn.Sequential(\n");
-        sequential.getLayers().forEach(layer -> {
-            layer.accept(this);
-        });
-        notebook.appendCode(2,")\n");
-        notebook.appendCode(1,"def forward(self, x):\n");
-        notebook.appendCode(2,"return self.network(x)");
+        notebook.appendCode(1, "def __init__(self, nbIn, nbOut):\n");
+        notebook.appendCode(2, "super(Network, self).__init__()\n");
+        notebook.appendCode(2, "self.network = nn.Sequential(\n");
+        sequential.getLayers().forEach(layer -> layer.accept(this));
+        notebook.appendCode(2, ")\n");
+        notebook.appendCode(1, "def forward(self, x):\n");
+        notebook.appendCode(2, "return self.network(x)");
 
         notebook.addCellCode("#### create network\n");
         notebook.appendCode("nbIn = input_data.shape[1]\n");
@@ -36,8 +33,9 @@ public class PyTorchStrategy extends DefaultStrategy {
     }
 
     @Override
-    public void visit(LinearLayer linearLayer){
-        notebook.appendCode(3,"nn.Linear("+linearLayer.getInFeatures()+","+linearLayer.getOutFeatures()+"),\n");
+    public void visit(LinearLayer linearLayer) {
+        notebook.appendCode(3, "nn.Linear(" + linearLayer.getInFeatures() + "," + linearLayer.getOutFeatures() + ")," +
+                "\n");
     }
 
 //    @Override
@@ -46,17 +44,17 @@ public class PyTorchStrategy extends DefaultStrategy {
 //    }
 
     @Override
-    public void visit(TanhLayer tanhLayer){
-        notebook.appendCode(3,"nn.Tanh(),\n");
+    public void visit(TanhLayer tanhLayer) {
+        notebook.appendCode(3, "nn.Tanh(),\n");
     }
 
     @Override
-    public void visit(SoftmaxLayer softmaxLayer){
-        notebook.appendCode(3,"nn.Softmax(),\n");
+    public void visit(SoftmaxLayer softmaxLayer) {
+        notebook.appendCode(3, "nn.Softmax(),\n");
     }
 
     @Override
-    public void visit(Training training){
+    public void visit(Training training) {
         notebook.addCellMarkdown();
         notebook.appendMarkdown("#### Loss/optimizers catalog\n");
         notebook.addCellCode();
@@ -71,11 +69,11 @@ public class PyTorchStrategy extends DefaultStrategy {
             default -> throw new IllegalStateException("Unexpected value: " + training.getOptimizer());
         };
         //Hyper parameters
-        notebook.appendCode("selected_loss_function =" + loss+"\n");
-        notebook.appendCode("selected_optimizer =" + optimizer+"\n");
-        notebook.appendCode("learning_rate = "+training.getLearningRate()+"\n");
-        notebook.appendCode("nbEpochs = "+training.getEpochs()+"\n");
-        notebook.appendCode("batch_size = "+training.getBatchSize()+"\n");
+        notebook.appendCode("selected_loss_function =" + loss + "\n");
+        notebook.appendCode("selected_optimizer =" + optimizer + "\n");
+        notebook.appendCode("learning_rate = " + training.getLearningRate() + "\n");
+        notebook.appendCode("nbEpochs = " + training.getEpochs() + "\n");
+        notebook.appendCode("batch_size = " + training.getBatchSize() + "\n");
         notebook.appendCode("criterion = selected_loss_function()\n");
         notebook.appendCode("optimizer = selected_optimizer(model.parameters(), lr=learning_rate)");
 

@@ -11,12 +11,14 @@ import io.github.d.lab2.kernel.categories.validation.Validation;
 import io.github.d.lab2.kernel.categories.transformation.Transformation;
 import io.github.d.lab2.kernel.mandatory.Framework;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class App implements StepVisitable {
 
     private List<Framework> frameworks;

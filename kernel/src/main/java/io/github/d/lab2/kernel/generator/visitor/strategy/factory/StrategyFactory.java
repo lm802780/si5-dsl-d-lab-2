@@ -9,7 +9,7 @@ import io.github.d.lab2.notebook.Notebook;
 
 public class StrategyFactory implements IStrategyFactory {
 
-    private IFrameworkStrategy getDefaultStrategy(FrameworkEnum strategyName, Notebook notebook) {
+    private static IFrameworkStrategy getDefaultStrategy(FrameworkEnum strategyName, Notebook notebook) {
         System.out.println("Unknown strategy: " + strategyName);
         return new DefaultStrategy(notebook);
     }
@@ -17,7 +17,7 @@ public class StrategyFactory implements IStrategyFactory {
     @Override
     public IFrameworkStrategy createStrategy(FrameworkEnum strategyName, Notebook notebook) {
         if (strategyName == null) {
-            return getDefaultStrategy(strategyName, notebook);
+            return getDefaultStrategy(null, notebook);
         }
 
         switch (strategyName) {

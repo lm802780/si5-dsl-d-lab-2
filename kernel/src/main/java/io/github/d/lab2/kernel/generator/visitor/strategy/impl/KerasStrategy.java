@@ -1,6 +1,5 @@
 package io.github.d.lab2.kernel.generator.visitor.strategy.impl;
 
-import io.github.d.lab2.kernel.categories.datamining.network.Network;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.LinearLayer;
 import io.github.d.lab2.kernel.categories.datamining.network.sequential.Sequential;
 import io.github.d.lab2.kernel.categories.datamining.training.Training;
