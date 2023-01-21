@@ -48,16 +48,14 @@ public class ToWiring extends AbstractStepVisitor {
             app.getValidation().accept(this);
             // TODO: app.getKnowledge().accept(this);
         }
-        // Generate the code.
-        notebook.save("results/notebook.ipynb");
+        // Generate the code
+        notebook.save("notebooks/notebook.ipynb");
     }
 
     @Override
     public void visit(Description description) {
-
         notebook.addCellMarkdown();
         notebook.appendMarkdown(String.format("# %s", description.getDetail()));
-
     }
 
     @Override
@@ -69,7 +67,6 @@ public class ToWiring extends AbstractStepVisitor {
         notebook.appendCode("from sklearn.model_selection import train_test_split");
 
         notebook.addCellCode("## Selection step");
-
 
         notebook.appendCode("# setting\n");
         notebook.appendCode(String.format("source = '%s'%n", selection.getSource().getSourceId()));
@@ -97,7 +94,6 @@ public class ToWiring extends AbstractStepVisitor {
     @Override
     public void visit(Preprocessing preprocessing) {
         notebook.addCellCode("## Preprocessing step");
-
         preprocessing.getElements().forEach(element -> element.accept(this));
     }
 
@@ -105,7 +101,6 @@ public class ToWiring extends AbstractStepVisitor {
     public void visit(Transformation transformation) {
         notebook.addCellMarkdown();
         notebook.appendMarkdown("## Transformation step");
-
         transformation.getElements().forEach(element -> element.accept(this));
         switch (this.framework) {
             case PYTORCH -> {
@@ -134,7 +129,6 @@ public class ToWiring extends AbstractStepVisitor {
                 notebook.appendCode("import keras.layers as kl");
             }
         }
-
         dataMining.getNetwork().accept(this);
         dataMining.getTraining().accept(this);
     }
@@ -143,14 +137,12 @@ public class ToWiring extends AbstractStepVisitor {
     public void visit(Validation validation) {
         notebook.addCellMarkdown();
         notebook.appendMarkdown("## Validation step");
-
         validation.getValidationElement().forEach(e -> e.accept(this));
     }
 
     @Override
     public void visit(Knowledge knowledge) {
         notebook.addCellCode("## Knowledge step");
-
         notebook.appendCode(String.format("# nKnowledge: %s", knowledge.toString()));
     }
 }
