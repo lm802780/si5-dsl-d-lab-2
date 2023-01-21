@@ -28,19 +28,26 @@ public class ToWiring extends AbstractStepVisitor {
     @Override
     public void visit(App app) {
         var strategyFactory = new StrategyFactory();
-        app.getFrameworks().stream()
-            .map(Framework::getFramework)
-            .forEach((f) -> {
-                setFramework(f);
-                setFrameworkStrategy(strategyFactory.createStrategy(f, notebook));
+        int passCounter = 0;
+        for (Framework appFramework : app.getFrameworks()) {
+            setFramework(appFramework.getFramework());
+            setFrameworkStrategy(strategyFactory.createStrategy(appFramework.getFramework(), notebook));
+            if (passCounter == 0) {
+                // these steps are done only one time
                 app.getDescription().accept(this);
                 app.getSelection().accept(this);
                 app.getPreprocessing().accept(this);
-                app.getTransformation().accept(this);
-                app.getDataMining().accept(this);
-                app.getValidation().accept(this);
-                //app.getKnowledge().accept(this);
-            });
+            }
+            app.getTransformation().accept(this);
+            app.getDataMining().accept(this);
+            passCounter++;
+        }
+        for (Framework appFramework : app.getFrameworks()) {
+            setFramework(appFramework.getFramework());
+            setFrameworkStrategy(strategyFactory.createStrategy(appFramework.getFramework(), notebook));
+            app.getValidation().accept(this);
+            // TODO: app.getKnowledge().accept(this);
+        }
         // Generate the code.
         notebook.save("results/notebook.ipynb");
     }

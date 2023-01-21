@@ -28,25 +28,25 @@ public class KerasStrategy extends DefaultStrategy {
             }
             if(layers.size() == 1){
                 notebook.appendCode(1,"model.add(kl.Dense("+((LinearLayer) layers.get(0)).getOutFeatures()+
-                        ",input_shape=("+((LinearLayer) layers.get(0)).getInFeatures()+",))\n");
+                        ",input_shape=("+((LinearLayer) layers.get(0)).getInFeatures()+",)))\n");
                 layers.removeFirst();
             }
             switch (layers.get(1).getClass().getSimpleName()){
                 case "TanhLayer":
                         notebook.appendCode(1,"model.add(kl.Dense("+((LinearLayer) layers.get(0)).getOutFeatures()+
-                                ", activation='tanh', input_shape=("+((LinearLayer) layers.get(0)).getInFeatures()+",))\n");
+                                ", activation='tanh', input_shape=("+((LinearLayer) layers.get(0)).getInFeatures()+",)))\n");
                         layers.removeFirst();
                         layers.removeFirst();
                         break;
                 case "SoftmaxLayer":
                         notebook.appendCode(1,"model.add(kl.Dense("+((LinearLayer) layers.get(0)).getOutFeatures()+
-                                ", activation='softmax', input_shape=("+((LinearLayer) layers.get(0)).getInFeatures()+",))\n");
+                                ", activation='softmax', input_shape=("+((LinearLayer) layers.get(0)).getInFeatures()+",)))\n");
                         layers.removeFirst();
                         layers.removeFirst();
                         break;
                 case "LinearLayer":
                         notebook.appendCode(1,"model.add(kl.Dense("+((LinearLayer) layers.get(0)).getOutFeatures()+
-                                ",input_shape=("+((LinearLayer) layers.get(0)).getInFeatures()+",))\n");
+                                ",input_shape=("+((LinearLayer) layers.get(0)).getInFeatures()+",)))\n");
                     layers.removeFirst();
                     break;
                 default:
