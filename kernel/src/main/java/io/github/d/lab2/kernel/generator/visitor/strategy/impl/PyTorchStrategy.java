@@ -29,10 +29,10 @@ public class PyTorchStrategy extends DefaultStrategy {
         notebook.appendCode(2,"return self.network(x)");
 
         notebook.addCellCode("#### create network\n");
-        notebook.appendCode("nbIn = X_train.shape[1]\n");
+        notebook.appendCode("nbIn = input_data.shape[1]\n");
         notebook.appendCode("nbOut = 1\n");
         notebook.appendCode("model = Network(nbIn, nbOut)\n");
-        notebook.appendCode("neuralNetwork");
+        notebook.appendCode("model");
     }
 
     @Override
@@ -77,7 +77,7 @@ public class PyTorchStrategy extends DefaultStrategy {
         notebook.appendCode("nbEpochs = "+training.getEpochs()+"\n");
         notebook.appendCode("batch_size = "+training.getBatchSize()+"\n");
         notebook.appendCode("criterion = selected_loss_function()\n");
-        notebook.appendCode("optimizer = selected_optimizer(neuralNetwork.parameters(), lr=learning_rate)");
+        notebook.appendCode("optimizer = selected_optimizer(model.parameters(), lr=learning_rate)");
 
         notebook.addCellCode();
         notebook.appendCode("""
@@ -90,7 +90,7 @@ public class PyTorchStrategy extends DefaultStrategy {
                 for epoch in range(nbEpochs):
                     for id_batch, (batch_X_train, batch_y_train) in enumerate(dataloader):
                         optimizer.zero_grad()
-                        output = neuralNetwork(batch_X_train)
+                        output = model(batch_X_train)
                         loss = criterion(output, batch_y_train) # calcul de la fonction cout (moindres carrés)
                         loss.backward() # calcul du gradient (sens = droite vers gauche)
                         optimizer.step() # modification des parametres du réseau de neurones

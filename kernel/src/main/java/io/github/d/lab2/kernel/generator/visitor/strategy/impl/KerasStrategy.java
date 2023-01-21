@@ -61,7 +61,7 @@ public class KerasStrategy extends DefaultStrategy {
         notebook.appendCode("nbIn = X_train.shape[1]\n");
         notebook.appendCode("nbOut = 1\n");
         notebook.appendCode("model = Network(nbIn, nbOut)\n");
-        notebook.appendCode("neuralNetwork.summary()\n");
+        notebook.appendCode("model.summary()\n");
     }
 
 //    @Override
@@ -103,14 +103,14 @@ public class KerasStrategy extends DefaultStrategy {
 
         notebook.addCellCode();
         notebook.appendCode("""
-                neuralNetwork.compile(
+                model.compile(
                     loss=selected_loss_function,
                     optimizer=selected_optimizer,
                     metrics=['accuracy']
                 )
                 """);
         notebook.appendCode("""
-                history = neuralNetwork.fit(X_train, y_train,
+                history = model.fit(X_train, y_train,
                                             batch_size=batch_size,
                                             epochs=nbEpochs,
                                             verbose=1)""");
@@ -132,7 +132,7 @@ public class KerasStrategy extends DefaultStrategy {
         notebook.addCellCode();
         notebook.appendCode("# Prediction\n");
         notebook.appendCode("ax = plt.gca()\n");
-        notebook.appendCode("output = neuralNetwork.predict(X_train.values[:%d])\n");
+        notebook.appendCode("output = model.predict(X_train.values[:%d])\n");
         notebook.appendCode("plt.plot(np.arange(y_train.values.size), y_train.values[:%d], '-', label='True data', color='b')\n");
         notebook.appendCode("plt.plot(np.arange(output.size), output, '--', label='Predictions', color='r')\n");
         notebook.appendCode("plt.gcf().autofmt_xdate()\n");
