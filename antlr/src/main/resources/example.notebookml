@@ -3,7 +3,7 @@ description: Ce notebook a pour vocation de
 framework: PYTORCH, KERAS
 
 selection:
-    source: mydataset
+    source: mnist.csv
     split:
         TRAIN is 60
         TEST is 20
