@@ -3,7 +3,7 @@ description: Ce notebook a pour vocation de
 framework: PYTORCH, KERAS
 
 selection:
-    source: mnist.csv
+    source: ./mnist.csv
     label_name is label
     split:
         TRAIN is 60
@@ -11,7 +11,6 @@ selection:
         VALIDATION is 20
 
 pre_processing:
-    nan int
 
 transformation:
     reshape TRAIN [40, 48]
