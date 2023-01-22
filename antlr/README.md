@@ -11,10 +11,10 @@
 
 <framework> ::= "framework: " <FRAMEWORK> (", " <FRAMEWORK>)* <NL>
 
-<selection> ::= "selection:" <NL> <source> <label_name> <split>
+<selection> ::= "selection:" <NL> <source> <label_name>? <split>?
 <source> ::= <TAB> "source: " <STRING> <NL>
 <label_name> ::= <TAB> "label_name is " <STRING> <NL>
-<split> ::= <TAB> "split:" <NL> (<split_detail>)+
+<split> ::= <TAB> "split:" <NL> (<split_detail>)*
 <split_detail> ::= <TAB2> <STEP> " is " <FLOAT> <NL>
 
 <pre_processing> ::= "pre_processing:" <NL> <processing_function>*
