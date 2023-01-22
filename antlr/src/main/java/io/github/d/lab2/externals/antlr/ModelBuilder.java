@@ -117,13 +117,39 @@ public class ModelBuilder extends NotebookmlBaseListener {
 
         selection.setLabel(ctx.label() == null ? "label" : ctx.label().label_name.getText());
 
+        // Split
         EnumMap<TypeEnum, Double> splits = new EnumMap<>(TypeEnum.class);
 
-        ctx.split().split_list().forEach(splitContext -> {
-            TypeEnum type = TypeEnum.valueOf(splitContext.type.getText());
-            double percentage = Double.parseDouble(splitContext.percentage.getText());
-            splits.put(type, percentage);
-        });
+        if (ctx.split() == null || ctx.split().split_list().isEmpty()) {
+            // Select default train - validation - test percentage.
+            splits.put(TypeEnum.TRAIN, 40.0);
+            splits.put(TypeEnum.VALIDATION, 30.0);
+            splits.put(TypeEnum.TEST, 30.0);
+            System.out.println("No split information found. Default split set to TRAIN (40%), VALIDATION (30%) and " +
+                    "TEST (30%).");
+        } else {
+            ctx.split().split_list().forEach(splitContext -> {
+                TypeEnum type = TypeEnum.valueOf(splitContext.type.getText());
+                double percentage = Double.parseDouble(splitContext.percentage.getText());
+                splits.put(type, percentage);
+            });
+
+            if (splits.size() > 3) {
+                ExceptionHandler.exit("You should have at most 3 unique split directives (TRAIN, VALIDATION and TEST)" +
+                        ".");
+            } else if (splits.size() < 3) {
+                double currentTotal = splits.values().stream().reduce(0.0, Double::sum);
+                double remainingValue = 100 - currentTotal;
+                int remainingKey = TypeEnum.values().length - splits.size();
+                double valueToSet = remainingValue / remainingKey;
+                for (TypeEnum typeEnum : TypeEnum.values()) {
+                    splits.computeIfAbsent(typeEnum, type -> {
+                        System.out.printf("%s split absents, default value set to %.2f%n", type.name(), valueToSet);
+                        return valueToSet;
+                    });
+                }
+            }
+        }
 
         // Assert that all the percentages are equal to 100.
         if (splits.values().stream().reduce(0.0, Double::sum) != 100) {

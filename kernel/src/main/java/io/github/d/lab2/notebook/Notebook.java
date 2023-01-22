@@ -112,6 +112,7 @@ public class Notebook {
                                     StandardOpenOption.CREATE,
                                     StandardOpenOption.TRUNCATE_EXISTING),
                             root);
+            System.out.printf("Notebook saved in '%s'%n", filename);
         } catch (IOException e) {
             e.printStackTrace();
         }
