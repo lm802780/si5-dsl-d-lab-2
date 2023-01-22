@@ -118,7 +118,7 @@ public class ModelBuilder extends NotebookmlBaseListener {
         double sum = splits.values().stream().reduce(0.0, Double::sum);
 
         if ((sum != 100 && TypeEnum.values().length == splits.size()) || (sum >= 100 && splits.size() != TypeEnum.values().length)) {
-            String message = String.format("The total value of percentages should be equals to 100 (%s).", splits);
+            String message = String.format("The total value of percentages should be equal to 100 (%s).", splits);
             ExceptionHandler.exit(message);
         }
     }
