@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ReplaceBy extends PreprocessingElement {
+public class ReplaceBy implements PreprocessingElement {
     private String toReplace;
     private String value;
 

@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Reshape extends TransformationElement {
+public class Reshape implements TransformationElement {
     private TypeEnum type;
     private List<Double> reshapeValues;
     @Override

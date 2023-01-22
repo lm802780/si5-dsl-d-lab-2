@@ -5,7 +5,7 @@ import io.github.d.lab2.kernel.generator.visitor.IElementVisitor;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class ConfusionMatrix extends ValidationElement {
+public class ConfusionMatrix implements ValidationElement {
 
     @Override
     public void accept(IElementVisitor visitor) {

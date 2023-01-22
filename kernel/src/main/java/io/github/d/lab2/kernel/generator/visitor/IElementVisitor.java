@@ -17,8 +17,6 @@ import io.github.d.lab2.kernel.categories.transformation.Reshape;
 import io.github.d.lab2.kernel.categories.validation.diagrams.ConfusionMatrix;
 import io.github.d.lab2.kernel.categories.validation.diagrams.LossEpochEvolution;
 import io.github.d.lab2.kernel.categories.validation.diagrams.Prediction;
-import io.github.d.lab2.kernel.categories.validation.functions.MSEFunction;
-import io.github.d.lab2.kernel.categories.validation.functions.R2Function;
 
 public interface IElementVisitor {
 
@@ -45,10 +43,6 @@ public interface IElementVisitor {
     void visit(SoftmaxLayer softmaxLayer);
 
     void visit(TanhLayer tanhLayer);
-
-    void visit(MSEFunction mseFunction);
-
-    void visit(R2Function r2Function);
 
     void visit(SigmoidLayer sigmoidLayer);
 

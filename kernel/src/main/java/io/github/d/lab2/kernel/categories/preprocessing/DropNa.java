@@ -4,7 +4,7 @@ import io.github.d.lab2.kernel.generator.visitor.IElementVisitor;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class DropNa extends PreprocessingElement {
+public class DropNa implements PreprocessingElement {
 
     @Override
     public void accept(IElementVisitor visitor) {

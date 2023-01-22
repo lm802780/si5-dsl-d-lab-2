@@ -5,7 +5,7 @@ import io.github.d.lab2.kernel.generator.visitor.IElementVisitor;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class Prediction extends ValidationElement {
+public class Prediction implements ValidationElement {
 
     @Override
     public void accept(IElementVisitor visitor) {

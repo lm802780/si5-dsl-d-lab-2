@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class Network extends DataMiningElement {
+public abstract class Network implements DataMiningElement {
 
     private List<Layer> layers = new LinkedList<>();
 }

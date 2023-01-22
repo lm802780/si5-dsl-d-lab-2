@@ -17,8 +17,6 @@ import io.github.d.lab2.kernel.categories.transformation.Reshape;
 import io.github.d.lab2.kernel.categories.validation.diagrams.ConfusionMatrix;
 import io.github.d.lab2.kernel.categories.validation.diagrams.LossEpochEvolution;
 import io.github.d.lab2.kernel.categories.validation.diagrams.Prediction;
-import io.github.d.lab2.kernel.categories.validation.functions.MSEFunction;
-import io.github.d.lab2.kernel.categories.validation.functions.R2Function;
 import io.github.d.lab2.kernel.generator.visitor.strategy.IFrameworkStrategy;
 import io.github.d.lab2.notebook.Notebook;
 
@@ -63,16 +61,6 @@ public class DefaultStrategy implements IFrameworkStrategy {
     @Override
     public void visit(TanhLayer tanhLayer) {
         System.out.println("TanhLayer default");
-    }
-
-    @Override
-    public void visit(MSEFunction mseFunction) {
-
-    }
-
-    @Override
-    public void visit(R2Function r2Function) {
-
     }
 
     @Override

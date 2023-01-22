@@ -87,8 +87,7 @@ public class ToWiring extends AbstractStepVisitor {
         notebook.appendCode("data.head()");
 
         notebook.addCellCode();
-        // TODO: customize the label name (put it in the Selection object).
-        notebook.appendCode(String.format("X, y = data.drop(['%s'], axis = 1), data['%s']\n", selection.getLabel(), selection.getLabel()));
+        notebook.appendCode(String.format("X, y = data.drop(['%s'], axis = 1), data['%s']%n", selection.getLabel(), selection.getLabel()));
         notebook.appendCode("X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = split_train / 100, test_size = split_test / 100, random_state=42)");
     }
 

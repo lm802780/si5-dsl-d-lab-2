@@ -11,7 +11,7 @@ import java.util.Map;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Normalization extends TransformationElement {
+public class Normalization implements TransformationElement {
     private Map<TypeEnum, Double> normalizationElem;
     @Override
     public void accept(IElementVisitor visitor) {
