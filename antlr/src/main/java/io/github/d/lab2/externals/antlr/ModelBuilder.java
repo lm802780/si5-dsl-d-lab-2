@@ -91,13 +91,14 @@ public class ModelBuilder extends NotebookmlBaseListener {
 
     @Override
     public void enterFrameworks(NotebookmlParser.FrameworksContext ctx) {
-        if(!ctx.framework().isEmpty()) {
+        if (!ctx.framework().isEmpty()) {
             theApp.setFrameworks(ctx.framework().stream()
                     .map(f -> new Framework(FrameworkEnum.valueOf(f.frameworkType.getText())))
                     .toList()
             );
         } else {
             System.out.println("No framework has been defined, PYTORCH is used by default");
+            theApp.setFrameworks(List.of(new Framework(FrameworkEnum.PYTORCH)));
         }
     }
 
@@ -112,6 +113,16 @@ public class ModelBuilder extends NotebookmlBaseListener {
     /**************************
      ** selection **
      **************************/
+    private static void assertPercentage(EnumMap<TypeEnum, Double> splits) {
+        // Assert that all the percentages are equal to 100.
+        double sum = splits.values().stream().reduce(0.0, Double::sum);
+
+        if ((sum != 100 && TypeEnum.values().length == splits.size()) || (sum >= 100 && splits.size() != TypeEnum.values().length)) {
+            String message = String.format("The total value of percentages should be equals to 100 (%s).", splits);
+            ExceptionHandler.exit(message);
+        }
+    }
+
     @Override
     public void enterSelection(NotebookmlParser.SelectionContext ctx) {
         Selection selection = new Selection();
@@ -119,7 +130,7 @@ public class ModelBuilder extends NotebookmlBaseListener {
         source.setSourceId(ctx.source().sourceId.getText());
         selection.setSource(source);
 
-        if(ctx.label() != null) {
+        if (ctx.label() != null) {
             selection.setLabel(ctx.label().label_name.getText());
         }
 
@@ -144,6 +155,7 @@ public class ModelBuilder extends NotebookmlBaseListener {
                 ExceptionHandler.exit("You should have at most 3 unique split directives (TRAIN, VALIDATION and TEST)" +
                         ".");
             } else if (splits.size() < 3) {
+                assertPercentage(splits);
                 double currentTotal = splits.values().stream().reduce(0.0, Double::sum);
                 double remainingValue = 100 - currentTotal;
                 int remainingKey = TypeEnum.values().length - splits.size();
@@ -157,11 +169,7 @@ public class ModelBuilder extends NotebookmlBaseListener {
             }
         }
 
-        // Assert that all the percentages are equal to 100.
-        if (splits.values().stream().reduce(0.0, Double::sum) != 100) {
-            String message = String.format("The total value of percentages should be equals to 100 (%s).", splits);
-            ExceptionHandler.exit(message);
-        }
+        assertPercentage(splits);
 
         selection.setSplit(splits);
         theApp.setSelection(selection);

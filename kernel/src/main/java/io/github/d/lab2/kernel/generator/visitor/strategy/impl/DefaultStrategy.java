@@ -30,61 +30,68 @@ public class DefaultStrategy implements IFrameworkStrategy {
 
     @Override
     public void visit(DropNa dropNa) {
+        // Empty
     }
 
     @Override
     public void visit(ReplaceBy replaceBy) {
+        // Empty
     }
 
 
     @Override
     public void visit(Training training) {
+        // Empty
     }
 
     @Override
     public void visit(Sequential sequential) {
+        // Empty
     }
 
     @Override
     public void visit(LinearLayer linearLayer) {
+        // Empty
     }
 
     @Override
     public void visit(SoftmaxLayer softmaxLayer) {
+        // Empty
     }
 
     @Override
     public void visit(TanhLayer tanhLayer) {
+        // Empty
     }
 
     @Override
     public void visit(SigmoidLayer sigmoidLayer) {
-
+        // Empty
     }
 
     @Override
     public void visit(SoftplusLayer softplusLayer) {
-
+        // Empty
     }
 
     @Override
     public void visit(SoftsignLayer softsignLayer) {
-
+        // Empty
     }
 
     @Override
     public void visit(SeluLayer seluLayer) {
-
+        // Empty
     }
 
     @Override
     public void visit(EluLayer eluLayer) {
-
+        // Empty
     }
 
     @Override
     public void visit(Reshape reshape) {
-
+        // Empty
     }
 
     @Override
@@ -96,16 +103,16 @@ public class DefaultStrategy implements IFrameworkStrategy {
 
     @Override
     public void visit(ConfusionMatrix confusionMatrix) {
-
+        // Empty
     }
 
     @Override
     public void visit(LossEpochEvolution lossEpochEvolution) {
-
+        // Empty
     }
 
     @Override
     public void visit(Prediction prediction) {
-
+        // Empty
     }
 }
