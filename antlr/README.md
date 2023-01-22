@@ -5,7 +5,7 @@
 ### Grammaire
 
 ```
-<root> ::= <description> <framework> <selection> <pre_processing> <transformation> <data_mining> <validation>
+<root> ::= <description> <framework> <selection> <pre_processing>? <transformation> <data_mining> <validation>
 
 <description> ::= "description: " <STRING> <NL>
 
