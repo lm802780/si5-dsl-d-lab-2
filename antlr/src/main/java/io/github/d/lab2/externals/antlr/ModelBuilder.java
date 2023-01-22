@@ -181,9 +181,11 @@ public class ModelBuilder extends NotebookmlBaseListener {
 
     @Override
     public void enterPreProcessing(NotebookmlParser.PreProcessingContext ctx) {
-        Preprocessing preprocessing = new Preprocessing();
-        preprocessing.setProcessing(ProcessingEnum.valueOf(ctx.nan().nan_processing.getText().toUpperCase(Locale.US)));
-        theApp.setPreprocessing(preprocessing);
+        if (ctx.nan() != null) {
+            Preprocessing preprocessing = new Preprocessing();
+            preprocessing.setProcessing(ProcessingEnum.valueOf(ctx.nan().nan_processing.getText().toUpperCase(Locale.US)));
+            theApp.setPreprocessing(preprocessing);
+        }
     }
 
 

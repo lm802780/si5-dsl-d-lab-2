@@ -24,7 +24,7 @@ public class App implements StepVisitable {
     private List<Framework> frameworks;
     private Description description;
     private Selection selection;
-    private Preprocessing preprocessing;
+    private Preprocessing preprocessing = new Preprocessing();
     private Transformation transformation;
     private DataMining dataMining;
     private Validation validation;

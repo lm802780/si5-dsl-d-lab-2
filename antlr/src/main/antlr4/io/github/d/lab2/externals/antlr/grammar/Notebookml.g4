@@ -18,7 +18,7 @@ workflow: selection (preProcessing?) transformation data_mining validation;
         label       :   'label_name' 'is'     label_name=NAME;
         split       :   'split' ':'     (split_list)*;
             split_list: type=TYPE 'is' percentage=NUMBER;
-    preProcessing   :   'pre_processing' ':' nan;
+    preProcessing   :   'pre_processing' ':' nan?;
         nan         :    'nan' (nan_processing=PROCESSING);
 
     transformation  :    'transformation' ':' (reshape|normalization)*;
