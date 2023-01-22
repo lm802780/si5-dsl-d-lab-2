@@ -13,10 +13,10 @@ frameworks     :   'framework' ':' framework* (',' framework)*;
     framework : frameworkType=FRAMEWORK ;
 
 workflow: selection (preProcessing?) transformation data_mining validation;
-    selection       :   'selection' ':' source label? split;
+    selection       :   'selection' ':' source label? split?;
         source      :   'source' ':'    sourceId=(VALID_CSV|VALID_URL);
         label       :   'label_name' 'is'     label_name=NAME;
-        split       :   'split' ':'     (split_list)+;
+        split       :   'split' ':'     (split_list)*;
             split_list: type=TYPE 'is' percentage=NUMBER;
     preProcessing   :   'pre_processing' ':' nan;
         nan         :    'nan' (nan_processing=PROCESSING);
