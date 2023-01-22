@@ -47,8 +47,8 @@ public class ToWiring extends AbstractStepVisitor {
             setFramework(appFramework.getFramework());
             setFrameworkStrategy(strategyFactory.createStrategy(appFramework.getFramework(), notebook));
             app.getValidation().accept(this);
-            app.getKnowledge().accept(this);
         }
+        app.getKnowledge().accept(this);
         // Generate the code
         notebook.save("notebooks/notebook.ipynb");
     }
@@ -94,6 +94,11 @@ public class ToWiring extends AbstractStepVisitor {
     @Override
     public void visit(Preprocessing preprocessing) {
         notebook.addCellCode("## Preprocessing step");
+        notebook.appendCode("""
+                from sklearn.preprocessing import LabelEncoder
+                le = LabelEncoder()
+                y, y_train, y_test = le.fit_transform(y), le.fit_transform(y_train), le.fit_transform(y_test)
+                """);
         preprocessing.getElements().forEach(element -> element.accept(this));
     }
 
@@ -108,7 +113,7 @@ public class ToWiring extends AbstractStepVisitor {
                 notebook.appendCode("import torch\n");
                 notebook.appendCode("# converting data (to pytorch tensor)\n");
                 notebook.appendCode("input_data = torch.FloatTensor(X_train.select_dtypes(include=['int', 'float']).values)\n");
-                notebook.appendCode("target = torch.FloatTensor(y_train.values).view(-1,1)");
+                notebook.appendCode("target = torch.FloatTensor(y_train).view(-1,1)");
             }
         }
     }

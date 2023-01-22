@@ -1,0 +1,33 @@
+description: Breast cancer classification example
+
+framework: KERAS, PYTORCH
+
+selection:
+    source: https://raw.githubusercontent.com/Jean-njoroge/Breast-cancer-risk-prediction/master/data/clean-data.csv
+    label_name is diagnosis
+    split:
+        TRAIN is 70
+        TEST is 20
+        VALIDATION is 10
+
+pre_processing:
+    nan int
+
+transformation:
+
+data_mining:
+    network:
+        sequential:
+            linear: 31 15
+            tanh
+            linear: 15 1
+            softmax
+    params:
+        loss: MSE
+        optimizers: ADAM
+        learningRate: 0.05
+        nbEpochs: 100
+        batchSize: 20
+
+validation:
+    diagram: confusion

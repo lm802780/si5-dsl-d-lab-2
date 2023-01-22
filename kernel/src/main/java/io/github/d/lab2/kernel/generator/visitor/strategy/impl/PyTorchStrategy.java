@@ -134,7 +134,7 @@ public class PyTorchStrategy extends DefaultStrategy {
                 cm = confusion_matrix(y_test, y_pred_torch.detach().numpy())
                 plt.figure(figsize=(9,9))
                 plt.imshow(cm, interpolation='nearest', cmap='Pastel1')
-                plt.title('Confusion matrix', size = 15)
+                plt.title('Confusion matrix (PyTorch)', size = 15)
                 plt.colorbar()
                 plt.tight_layout()
                 plt.ylabel('Actual label', size = 15)
@@ -157,7 +157,7 @@ public class PyTorchStrategy extends DefaultStrategy {
                 "\n");
         notebook.appendCode("y_pred_torch = model_torch(X_test_torch)\n");
         notebook.appendCode("ax = plt.gca()\n");
-        notebook.appendCode("plt.plot(np.arange(50), y_test.values[:50], '-', label='True data', color='b')\n");
+        notebook.appendCode("plt.plot(np.arange(50), y_test[:50], '-', label='True data', color='b')\n");
         notebook.appendCode("plt.plot(np.arange(50), y_pred_torch.detach().numpy()[:50], '--', label='Predictions', " +
                 "color='r')\n");
         notebook.appendCode("plt.gcf().autofmt_xdate()\n");

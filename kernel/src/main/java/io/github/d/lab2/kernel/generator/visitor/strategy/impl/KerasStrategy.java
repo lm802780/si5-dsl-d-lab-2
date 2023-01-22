@@ -126,14 +126,14 @@ public class KerasStrategy extends DefaultStrategy {
     @Override
     public void visit(ConfusionMatrix confusionMatrix) {
         notebook.addCellCode();
-        notebook.appendCode("# Confusion matrix\n");
+        notebook.appendCode("# Confusion matrix (Keras)\n");
         notebook.appendCode("from sklearn.metrics import confusion_matrix\n");
         notebook.appendCode("");
         notebook.appendCode("""
                 cm = confusion_matrix(y_test, y_pred_keras)
                 plt.figure(figsize=(9,9))
                 plt.imshow(cm, interpolation='nearest', cmap='Pastel1')
-                plt.title('Confusion matrix', size = 15)
+                plt.title('Confusion matrix (Keras)', size = 15)
                 plt.colorbar()
                 plt.tight_layout()
                 plt.ylabel('Actual label', size = 15)
@@ -165,7 +165,7 @@ public class KerasStrategy extends DefaultStrategy {
         notebook.appendCode("# Prediction (Keras)\n");
         notebook.appendCode("ax = plt.gca()\n");
         notebook.appendCode("y_pred_keras = np.argmax(model_keras.predict(X_test.values), axis=1)\n");
-        notebook.appendCode("plt.plot(np.arange(50), y_test.values[:50], '-', label='True data', color='b')\n");
+        notebook.appendCode("plt.plot(np.arange(50), y_test[:50], '-', label='True data', color='b')\n");
         notebook.appendCode("plt.plot(np.arange(50), y_pred_keras[:50], '--', label='Predictions', color='r')\n");
         notebook.appendCode("plt.gcf().autofmt_xdate()\n");
         notebook.appendCode("plt.show()");
