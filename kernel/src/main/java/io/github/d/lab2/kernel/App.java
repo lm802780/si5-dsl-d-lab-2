@@ -1,6 +1,7 @@
 package io.github.d.lab2.kernel;
 
 import io.github.d.lab2.kernel.categories.datamining.DataMining;
+import io.github.d.lab2.kernel.enums.FrameworkEnum;
 import io.github.d.lab2.kernel.generator.visitor.IStepVisitor;
 import io.github.d.lab2.kernel.generator.visitor.StepVisitable;
 import io.github.d.lab2.kernel.mandatory.Description;
@@ -18,7 +19,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
 public class App implements StepVisitable {
 
     private List<Framework> frameworks;
@@ -29,6 +29,11 @@ public class App implements StepVisitable {
     private DataMining dataMining;
     private Validation validation;
     private Knowledge knowledge;
+
+
+    public App() {
+        this.frameworks = List.of(new Framework(FrameworkEnum.PYTORCH));
+    }
 
     @Override
     public void accept(IStepVisitor visitor) {

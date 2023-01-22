@@ -55,7 +55,7 @@ public class Main {
     private static void exportToCode(App theApp) {
         AbstractStepVisitor codeGenerator = new ToWiring();
         theApp.accept(codeGenerator);
-        System.out.println("Notebook saved in 'results/notebook.ipynb'");
+        System.out.println("Notebook saved in 'notebooks/notebook.ipynb'");
     }
 
 }

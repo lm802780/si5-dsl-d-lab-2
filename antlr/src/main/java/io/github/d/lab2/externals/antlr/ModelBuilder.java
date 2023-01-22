@@ -91,10 +91,14 @@ public class ModelBuilder extends NotebookmlBaseListener {
 
     @Override
     public void enterFrameworks(NotebookmlParser.FrameworksContext ctx) {
-        theApp.setFrameworks(ctx.framework().stream()
-                .map(f -> new Framework(FrameworkEnum.valueOf(f.frameworkType.getText())))
-                .toList()
-        );
+        if(!ctx.framework().isEmpty()) {
+            theApp.setFrameworks(ctx.framework().stream()
+                    .map(f -> new Framework(FrameworkEnum.valueOf(f.frameworkType.getText())))
+                    .toList()
+            );
+        } else {
+            System.out.println("No framework has been defined, PYTORCH is used by default");
+        }
     }
 
     /**************************
@@ -115,7 +119,9 @@ public class ModelBuilder extends NotebookmlBaseListener {
         source.setSourceId(ctx.source().sourceId.getText());
         selection.setSource(source);
 
-        selection.setLabel(ctx.label() == null ? "label" : ctx.label().label_name.getText());
+        if(ctx.label() != null) {
+            selection.setLabel(ctx.label().label_name.getText());
+        }
 
         EnumMap<TypeEnum, Double> splits = new EnumMap<>(TypeEnum.class);
 

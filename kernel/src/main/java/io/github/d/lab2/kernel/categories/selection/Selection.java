@@ -22,6 +22,7 @@ public class Selection extends Step {
         split.put(TypeEnum.TRAIN, 0.0);
         split.put(TypeEnum.TEST, 0.0);
         split.put(TypeEnum.VALIDATION, 0.0);
+        this.label = "label";
     }
 
     @Override

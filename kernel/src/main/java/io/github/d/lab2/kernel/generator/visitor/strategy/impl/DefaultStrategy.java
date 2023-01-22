@@ -34,33 +34,27 @@ public class DefaultStrategy implements IFrameworkStrategy {
 
     @Override
     public void visit(ReplaceBy replaceBy) {
-        System.out.println("replaceBy default");
     }
 
 
     @Override
     public void visit(Training training) {
-        System.out.println("Training default");
     }
 
     @Override
     public void visit(Sequential sequential) {
-        System.out.println("Sequential default");
     }
 
     @Override
     public void visit(LinearLayer linearLayer) {
-        System.out.println("LinearLayer default");
     }
 
     @Override
     public void visit(SoftmaxLayer softmaxLayer) {
-        System.out.println("SoftmaxLayer default");
     }
 
     @Override
     public void visit(TanhLayer tanhLayer) {
-        System.out.println("TanhLayer default");
     }
 
     @Override
