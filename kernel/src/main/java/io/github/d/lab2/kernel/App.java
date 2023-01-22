@@ -28,7 +28,7 @@ public class App implements StepVisitable {
     private Transformation transformation;
     private DataMining dataMining;
     private Validation validation;
-    private Knowledge knowledge;
+    private Knowledge knowledge = new Knowledge();
 
     @Override
     public void accept(IStepVisitor visitor) {

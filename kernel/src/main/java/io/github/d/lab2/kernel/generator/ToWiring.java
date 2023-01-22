@@ -47,7 +47,7 @@ public class ToWiring extends AbstractStepVisitor {
             setFramework(appFramework.getFramework());
             setFrameworkStrategy(strategyFactory.createStrategy(appFramework.getFramework(), notebook));
             app.getValidation().accept(this);
-            // TODO: app.getKnowledge().accept(this);
+            app.getKnowledge().accept(this);
         }
         // Generate the code
         notebook.save("notebooks/notebook.ipynb");
@@ -142,7 +142,10 @@ public class ToWiring extends AbstractStepVisitor {
 
     @Override
     public void visit(Knowledge knowledge) {
-        notebook.addCellCode("## Knowledge step");
-        notebook.appendCode(String.format("# nKnowledge: %s", knowledge.toString()));
+        notebook.addCellMarkdown();
+        notebook.appendMarkdown("## Knowledge step");
+
+        notebook.addCellMarkdown();
+        notebook.appendMarkdown("Your knowledge here...");
     }
 }
